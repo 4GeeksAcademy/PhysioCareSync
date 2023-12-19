@@ -5,7 +5,7 @@ const LogInBtn = () => {
   return (
     <div>
          <Link to={'/login'}>
-                <button type="button" className="btn btn-outline-primary">Ingresa con tu cuenta</button>
+                <button type="button" className="navLink">Inicia sesión</button>
             </Link>
 
     </div>

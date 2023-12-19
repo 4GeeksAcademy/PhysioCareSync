@@ -1,6 +1,7 @@
 import React from "react";
 import "../../styles/home.css";
 import LogInBtn from "../component/LogInBtn.jsx";
+import NewUserBtn from "../component/NewUserBtn.jsx";
 
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faUser, faSignInAlt, faInfoCircle } from "@fortawesome/free-solid-svg-icons";
@@ -34,11 +35,7 @@ export const Home = () => {
                 Su hogar para servicios profesionales de atención médica.
               </h3>
             </div>
-            <button className="ctaButton" onClick={handleLoginClick}>
-              <div className="textContainer2">
-                <b className="cta2">Iniciar una sesión</b>
-              </div>
-            </button>
+            <LogInBtn className="ctaButton"></LogInBtn>
           </div>
         </div>
         <img
@@ -105,6 +102,7 @@ export const Home = () => {
             <div className="copy">
               <h1 className="heading1">"¡Regístrate como Especialista Ahora!"</h1>
             </div>
+              <NewUserBtn></NewUserBtn>
             <button className="buttonCombo" onClick={handleSignUpClick}>
               <div className="button2">
                 <div className="textContainer">

@@ -91,6 +91,8 @@ const getState = ({ getStore, getActions, setStore }) => {
 
 				}catch(error){
 					console.error("There was an error with the login action", error)
+				}
+			},
 
 			createNewPatient: async (newPatient) => {
 				try {
@@ -192,8 +194,10 @@ const getState = ({ getStore, getActions, setStore }) => {
 				setStore({ demo: demo });
 			}
 		}
-	};
-};
+	}
+	}
+	
+
 
 export default getState;
 

@@ -1,6 +1,10 @@
 import React from "react";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faHeartbeat } from '@fortawesome/free-solid-svg-icons';
+import LogInBtn from "./LogInBtn.jsx";
+import NewUserBtn from "./NewUserBtn.jsx";
+import { Link } from "react-router-dom";
+
 
 export const Navbar = () => {
 
@@ -32,9 +36,11 @@ export const Navbar = () => {
     return (
         <div className="bubbleContainer">
             <div className="navLinks">
-                <button className="navLink" onClick={handleInicioClick}>
+                <Link to= '/'>
+                     <button className="navLink" onClick={handleInicioClick}>
                     <div className="navLabel">Inicio</div>
-                </button>
+                </button></Link>
+               
                 <button className="navLink" onClick={handleServiciosClick}>
                     <div className="navLabel">Servicios</div>
                 </button>
@@ -43,12 +49,9 @@ export const Navbar = () => {
                 </button>
             </div>
             <div className="navLinks1">
-                <button className="navLink" onClick={handleLoginClick}>
-                    <div className="navLabel">Iniciar Sesión</div>
-                </button>
-                <button className="navLink" onClick={handleRegisterClick}>
-                    <div className="navLabel">Registrarse</div>
-                </button>
+                    <LogInBtn onClick={handleLoginClick}></LogInBtn>
+                    <NewUserBtn onClick={handleRegisterClick} ></NewUserBtn>
+                
             </div>
             <div className="brand">
                 <FontAwesomeIcon icon={faHeartbeat} />
