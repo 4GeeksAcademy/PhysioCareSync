@@ -7,22 +7,22 @@ const PrivateSpecialist = () => {
     const { store, actions } = useContext(Context)
     const navigate = useNavigate();
 
-    // useEffect(() => {
+
     const checkAccess = async () => {
-        await actions.accessConfirmationPatient();
-        const token = sessionStorage.getItem('tokenPatient');
+        await actions.accessConfirmationSpecialist();
+        const token = sessionStorage.getItem('tokenSpecialist');
 
         if (!token) {
             alert("You do not have access to this page, please log in or create an account");
             navigate('/');
         }
     };
+
     checkAccess();
 
-    // }, [navigate, actions]);
 
-    const token = sessionStorage.getItem('tokenPatient');
 
+    const token = sessionStorage.getItem('tokenSpecialist');
 
     return (
         <div>

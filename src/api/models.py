@@ -42,7 +42,7 @@ class Specialist(db.Model):
     password = db.Column(db.String(80), unique=False, nullable=False)
     is_physiotherapist = db.Column(db.Boolean(), unique=False, nullable=False)
     is_nurse = db.Column(db.Boolean(), unique=False, nullable=False)
-    certificate = db.Column(db.String(120), unique=False, nullable=True)
+    certificate = db.Column(db.String(250), unique=False, nullable=True)
     description = db.Column(db.String(250), unique=False, nullable=True)
     language = db.Column(db.String(120), unique=False, nullable=True)
     img=db.Column(db.String(250),unique=False,nullable=True)
@@ -62,7 +62,6 @@ class Specialist(db.Model):
             "email": self.email,
             "is_physiotherapist": self.is_physiotherapist,
             "is_nurse": self.is_nurse,
-            "picture": self.picture,
             "certificate": self.certificate,
             "description": self.description,
             "language": self.language,

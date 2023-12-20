@@ -19,6 +19,7 @@ import SignUp from "./pages/SignUp.js";
 import NewPatient from "./pages/NewPatient.js";
 import NewSpecialist from "./pages/NewSpecialist.js";
 
+import PrivateSpecialist from "./pages/PrivateSpecialist.js";
 
 
 //create your first component
@@ -27,27 +28,26 @@ const Layout = () => {
     // you can set the basename on the .env file located at the root of this project, E.g: BASENAME=/react-hello-webapp/
     const basename = process.env.BASENAME || "";
 
-    if(!process.env.BACKEND_URL || process.env.BACKEND_URL == "") return <BackendURL/ >;
+    if (!process.env.BACKEND_URL || process.env.BACKEND_URL == "") return <BackendURL />;
 
     return (
         <div>
             <BrowserRouter basename={basename}>
                 <ScrollToTop>
-                <Navbar />
+                    <Navbar />
                     <Routes>
 
                         <Route element={<Home />} path="/" />
                         <Route element={<Demo />} path="/demo" />
 
                         <Route element={<LogIn />} path="/login" />
-                        <Route element={<LogInPatient/>} path="/login/loginPatient"/>
-                        <Route element={<LogInSpecialist/>} path="/login/loginSpecialist"/>
-                        <Route element={<PrivatePatient/>} path="/privatePatient"/>
-
+                        <Route element={<LogInPatient />} path="/login/loginPatient" />
+                        <Route element={<LogInSpecialist />} path="/login/loginSpecialist" />
+                        <Route element={<PrivatePatient />} path="/privatePatient" />
+                        <Route element={<PrivateSpecialist />} path="/privateSpecialist" />
                         <Route element={<SignUp />} path="/signup" />
                         <Route element={<NewPatient />} path="/signup/newPatient" />
                         <Route element={<NewSpecialist />} path="/signup/newSpecialist" />
-
                         <Route element={<Single />} path="/single/:theid" />
                         <Route element={<h1>Not found!</h1>} />
 

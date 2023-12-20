@@ -296,7 +296,7 @@ def update_specialist(specialist_id):
     new_language=request.json.get("language")
     new_phone_number=request.json.get("phone_number")
     country_origin=request.json.get("country_origin")
-    
+    new_certificate=request.json.get("certificate")
     specialist=Specialist.query.get(specialist_id)
     if specialist:
         specialist.first_name=new_first_name
@@ -307,6 +307,8 @@ def update_specialist(specialist_id):
         specialist.language=new_language
         specialist.phone_number=new_phone_number
         specialist.country_origin=country_origin
+        specialist.certificate=new_certificate
+        
 
         db.session.commit()
         

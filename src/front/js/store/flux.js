@@ -39,6 +39,7 @@ const getState = ({ getStore, getActions, setStore }) => {
 					console.log("Log In successful") //Eliminar
 					return data
 
+
 				} catch (error) {
 					console.error("There was an error with the login action", error)
 				}
@@ -69,8 +70,40 @@ const getState = ({ getStore, getActions, setStore }) => {
 				}
 
 			},
+
+			accessConfirmationSpecialist: async () => {
+				try {
+					const token = sessionStorage.getItem('tokenSpecialist')
+					const response = await fetch(API_URL + "/api/private_specialist", {
+						method: 'GET',
+						headers: {
+							'Authorization': `Bearer ${token}`,
+							'Content-Type': 'application/json'
+						}
+					})
+
+					if (!response.ok) {
+						getActions().deleteTokenSpecialist();
+						throw new Error("There was an error with the token confirmation in flux")
+					}
+
+					const data = await response.json();
+					console.log("Still have access this is the information you need from back end", data)
+
+
+				} catch (error) {
+					console.log("Authentication issue you do not have access", error)
+
+				}
+
+			},
+
 			deleteTokenPatient: async () => {
-				localStorage.removeItem('tokenPatient')
+				sessionStorage.removeItem('tokenPatient')
+			},
+
+			deleteTokenSpecialist: async () => {
+				sessionStorage.removeItem('tokenSpecialist')
 			},
 
 			loginSpecialist: async (specialist) => {
@@ -150,7 +183,7 @@ const getState = ({ getStore, getActions, setStore }) => {
 
 				if (confirm) {
 
-					localStorage.removeItem('token');
+					sessionStorage.removeItem('token');
 
 
 					setStore({ isAuthenticated: false });
