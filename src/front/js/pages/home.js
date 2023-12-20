@@ -6,7 +6,7 @@ import NewUserBtn from "../component/NewUserBtn.jsx";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faUser, faSignInAlt, faInfoCircle } from "@fortawesome/free-solid-svg-icons";
 
-
+import OpenChat from "../component/OpenChat.jsx"
 
 export const Home = () => {
 
@@ -103,6 +103,7 @@ export const Home = () => {
               <h1 className="heading1">"¡Regístrate como Especialista Ahora!"</h1>
             </div>
               <NewUserBtn></NewUserBtn>
+
             <button className="buttonCombo" onClick={handleSignUpClick}>
               <div className="button2">
                 <div className="textContainer">
