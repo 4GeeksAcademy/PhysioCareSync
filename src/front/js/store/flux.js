@@ -17,79 +17,79 @@ const getState = ({ getStore, getActions, setStore }) => {
 					initial: "white"
 				}
 			],
-        isAuthenticated: false, 
+			isAuthenticated: false,
 		},
 		actions: {
 			// Use getActions to call a function within a fuction
 
-			
+
 			loginPatient: async (patient) => {
-				try{
-					const response = await fetch(API_URL+"/api/token_patient", {
+				try {
+					const response = await fetch(API_URL + "/api/token_patient", {
 						method: 'POST',
 						body: JSON.stringify(patient),
 						headers: {
 							'Content-Type': 'application/json'
 						}
 					});
-					if(!response.ok){
+					if (!response.ok) {
 						throw new Error("An error occurred with the query")
 					}
 					const data = await response.json();
 					console.log("Log In successful") //Eliminar
 					return data
 
-				}catch(error){
+				} catch (error) {
 					console.error("There was an error with the login action", error)
 				}
 			},
 
 			accessConfirmationPatient: async () => {
-				try{
+				try {
 					const token = sessionStorage.getItem('tokenPatient')
-					const response = await fetch(API_URL+"/api/private_patient",{
+					const response = await fetch(API_URL + "/api/private_patient", {
 						method: 'GET',
 						headers: {
 							'Authorization': `Bearer ${token}`,
-							'Content-Type' : 'application/json'
+							'Content-Type': 'application/json'
 						}
 					})
 
-					if(!response.ok){
+					if (!response.ok) {
 						getActions().deleteTokenPatient();
 						throw new Error("There was an error with the token confirmation in flux")
 					}
 
 					const data = await response.json();
 					console.log("Still have access this is the information you need from back end", data)
-					
 
-				}catch(error){
+
+				} catch (error) {
 					console.log("Authentication issue you do not have access", error)
 				}
-				
+
 			},
 			deleteTokenPatient: async () => {
 				localStorage.removeItem('tokenPatient')
 			},
 
 			loginSpecialist: async (specialist) => {
-				try{
-					const response = await fetch(API_URL+"/api/token_specialist", {
+				try {
+					const response = await fetch(API_URL + "/api/token_specialist", {
 						method: 'POST',
 						body: JSON.stringify(specialist),
 						headers: {
 							'Content-Type': 'application/json'
 						}
 					});
-					if(!response.ok){
+					if (!response.ok) {
 						throw new Error("An error occurred with the query")
 					}
 					const data = await response.json();
 					console.log("Log In successful")
 					return data
 
-				}catch(error){
+				} catch (error) {
 					console.error("There was an error with the login action", error)
 				}
 			},
@@ -138,34 +138,34 @@ const getState = ({ getStore, getActions, setStore }) => {
 
 				}
 			},
-        
-         login: () => {
-	   setStore({ isAuthenticated: true });
-	  },
-   
-	  logout: () => {
-	  
-	   const confirm = window.confirm('¿Estás seguro de que quieres cerrar sesión?');
-   
-	   
-	   if (confirm) {
-		
-		localStorage.removeItem('token');
-   
-		
-		setStore({ isAuthenticated: false });
-   
-		
-		const history = useHistory();
-		history.push('/');
-	   }
-	  },
+
+			login: () => {
+				setStore({ isAuthenticated: true });
+			},
+
+			logout: () => {
+
+				const confirm = window.confirm('¿Estás seguro de que quieres cerrar sesión?');
+
+
+				if (confirm) {
+
+					localStorage.removeItem('token');
+
+
+					setStore({ isAuthenticated: false });
+
+
+					const history = useHistory();
+					history.push('/');
+				}
+			},
 
 
 			exampleFunction: () => {
 				getActions().changeColor(0, "green");
 			},
-        
+
 
 			getMessage: async () => {
 				try {
@@ -195,8 +195,8 @@ const getState = ({ getStore, getActions, setStore }) => {
 			}
 		}
 	}
-	}
-	
+}
+
 
 
 export default getState;
