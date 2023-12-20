@@ -32,61 +32,61 @@ const LogInSpecialist = () => {
     }
 
     const handlerLogInSpecialist = async () => {
-        try{
-            if(email == "" || password == ""){
-           alert("All fields are required")
-          return
-     }
+        try {
+            if (email == "" || password == "") {
+                alert("All fields are required")
+                return
+            }
 
-     let loginSpecialist = {
-           email: email,
-           password: password
-         }
+            let loginSpecialist = {
+                email: email,
+                password: password
+            }
 
-         const result = await actions.loginSpecialist(loginSpecialist)
-         console.log("This is the result:", result)
-         if(result && result.accessToken){
-           const token = result.accessToken;
-          // sessionStorage.setItem('tokenSpecialist', token)
-           navigate("/privateSpecialist")
-           console.log("This is your token specialist", token)
-         }else{
-           alert("email or password incorrect");
-         }
-       }catch(error){
-           console.error("There was an error with the query", error)
-       }
-      
+            const result = await actions.loginSpecialist(loginSpecialist)
+            console.log("This is the result:", result.specialist)
+            if (result && result.accessToken) {
+                const token = result.accessToken;
+                sessionStorage.setItem('tokenSpecialist', token)
+                navigate("/privateSpecialist")
+                //    console.log("This is your token specialist", token)
+            } else {
+                alert("email or password incorrect");
+            }
+        } catch (error) {
+            console.error("There was an error with the query", error)
+        }
+
     }
-  return (
-    <div>
-        
-        <div className='patientForm'>
-             <div className='title'>
-            <h1>Bienvenido especialista!</h1>
-            <p className='subTitle'>Por favor, introduce tus datos para ingresar a tu cuenta</p>
-            </div>
-          
-            <div className="mb-3">
-                <input onChange={(e) => setEmail(e.target.value)} onClick={handlerClickEmail} onBlur={handlerBlurEmail} type="email" className="form-control" id="exampleFormControlInput1" placeholder=" Correo electrónico" />
-                {clickedEmail && (<p className='errorMsg'>* El correo electrónico es obligatorio *</p>)}
+    return (
+        <div>
 
-            </div>
+            <div className='patientForm'>
+                <div className='title'>
+                    <h1>Bienvenido especialista!</h1>
+                    <p className='subTitle'>Por favor, introduce tus datos para ingresar a tu cuenta</p>
+                </div>
 
-            <input onChange={(e) => setPassword(e.target.value)} onClick={handlerClickPassword} onBlur={handlerBlurPassword} type="password" id="inputPassword5" className="form-control" aria-describedby="passwordHelpBlock" placeholder='Contraseña' />
-            {clickedPassword && (<p className='errorMsg'>* La contraseña es obligatoria *</p>)}
-            <br></br>
+                <div className="mb-3">
+                    <input onChange={(e) => setEmail(e.target.value)} onClick={handlerClickEmail} onBlur={handlerBlurEmail} type="email" className="form-control" id="exampleFormControlInput1" placeholder=" Correo electrónico" />
+                    {clickedEmail && (<p className='errorMsg'>* El correo electrónico es obligatorio *</p>)}
 
-            <div className='createNewBtn'>
-                <button onClick={handlerLogInSpecialist} type="button" className="btn btn-success saveBtn">Ingresar</button>
+                </div>
 
-                <Link to={'/login'}>
-                    <button  type="button" className="btn btn-outline-primary exitBtn">Salir</button>
-                </Link>
+                <input onChange={(e) => setPassword(e.target.value)} onClick={handlerClickPassword} onBlur={handlerBlurPassword} type="password" id="inputPassword5" className="form-control" aria-describedby="passwordHelpBlock" placeholder='Contraseña' />
+                {clickedPassword && (<p className='errorMsg'>* La contraseña es obligatoria *</p>)}
+                <br></br>
+
+                <div className='createNewBtn'>
+                    <button onClick={handlerLogInSpecialist} type="button" className="btn btn-success saveBtn">Ingresar</button>
+
+                    <Link to={'/login'}>
+                        <button type="button" className="btn btn-outline-primary exitBtn">Salir</button>
+                    </Link>
+                </div>
             </div>
-            </div>
-    </div>
-  )
+        </div>
+    )
 }
 
 export default LogInSpecialist

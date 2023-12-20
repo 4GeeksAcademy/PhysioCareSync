@@ -227,3 +227,95 @@ def delete_specialist_by_id(specialist_id):
         return jsonify({"message":"Specialist Deleted"})
     else:
         return jsonify({"error":"The Specialist does not exist"})
+
+
+@api.route("/get_information_patient/<int:patient_id>",methods=["GET"])
+def get_patient_by_id(patient_id):
+    patient=Patient.query.get(patient_id)
+    if patient_id:
+        patient_serialize=patient.serialize()
+        return jsonify({"patient":patient_serialize}),200
+    else:
+        return jsonify({"error":"The patient does not exist"}),400
+    
+
+
+@api.route("/get_information_specialist/<int:specialist_id>",methods=["GET"])
+def get_specialist_by_id(specialist_id):
+    specialist=Specialist.query.get(specialist_id)
+    if specialist:
+        specialist_serialize=specialist.serialize()
+
+        return jsonify({"specialist":specialist_serialize})
+    
+    else:
+        return jsonify({"error":"The specialist does not exist"})
+
+
+
+@api.route("/update_information_patient/<int:patient_id>",methods=["PUT"])
+def update_patient(patient_id):
+
+    new_first_name=request.json.get("first_name")
+    new_last_name=request.json.get("last_name")
+    new_email=request.json.get("email")
+    new_img=request.json.get("img")
+    new_phone_number=request.json.get("phone_number")
+    country_origin=request.json.get("country_origin")
+    language=request.json.get("language")
+
+    patient=Patient.query.get(patient_id)
+    if patient:
+        patient.first_name=new_first_name
+        patient.new_last_name=new_last_name
+        patient.email=new_email
+        patient.img=new_img
+        patient.phone_number=new_phone_number
+        patient.country_origin=country_origin
+        patient.language=language
+
+        db.session.commit()
+        return jsonify({
+            "message":"The information was uploaded succesfully",
+           "patient": patient.serialize()
+        }),200
+    
+    else:
+        return ({"error":"the patient does not exist"}),400 
+
+
+
+@api.route("/update_information_specialist/<int:specialist_id>",methods=["PUT"])
+def update_specialist(specialist_id):
+
+    new_first_name=request.json.get("first_name")
+    new_last_name=request.json.get("last_name")
+    new_email=request.json.get("email")
+    new_img=request.json.get("img")
+    new_description=request.json.get("description")
+    new_language=request.json.get("language")
+    new_phone_number=request.json.get("phone_number")
+    country_origin=request.json.get("country_origin")
+    new_certificate=request.json.get("certificate")
+    specialist=Specialist.query.get(specialist_id)
+    if specialist:
+        specialist.first_name=new_first_name
+        specialist.new_last_name=new_last_name
+        specialist.email=new_email
+        specialist.img=new_img
+        specialist.description=new_description
+        specialist.language=new_language
+        specialist.phone_number=new_phone_number
+        specialist.country_origin=country_origin
+        specialist.certificate=new_certificate
+        
+
+        db.session.commit()
+        
+        return jsonify({
+            "message":"The information was uploaded succesfully",
+           "patient": specialist.serialize()
+        }),200
+    
+    else:
+        return ({"error":"the patient does not exist"}),400 
