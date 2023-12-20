@@ -262,6 +262,7 @@ def update_patient(patient_id):
     new_img=request.json.get("img")
     new_phone_number=request.json.get("phone_number")
     country_origin=request.json.get("country_origin")
+    language=request.json.get("language")
 
     patient=Patient.query.get(patient_id)
     if patient:
@@ -271,6 +272,7 @@ def update_patient(patient_id):
         patient.img=new_img
         patient.phone_number=new_phone_number
         patient.country_origin=country_origin
+        patient.language=language
 
         db.session.commit()
         return jsonify({

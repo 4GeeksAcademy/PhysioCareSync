@@ -13,7 +13,7 @@ class Patient(db.Model):
     img=db.Column(db.String(250),unique=False,nullable=True)
     phone_number=db.Column(db.Integer,unique=False,nullable=True)
     country_origin=db.Column(db.String(120),unique=False,nullable=True)
-
+    language = db.Column(db.String(120), unique=False, nullable=True)
 
 
     def __repr__(self):
@@ -28,7 +28,8 @@ class Patient(db.Model):
             "email": self.email,
             "img":self.img,
             "phone_number":self.phone_number,
-            "country_origin":self.country_origin
+            "country_origin":self.country_origin,
+            "language":self.language
             # do not serialize the password, its a security breach
         }
     
