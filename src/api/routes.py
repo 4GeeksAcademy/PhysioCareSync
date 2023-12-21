@@ -13,6 +13,16 @@ from flask_jwt_extended import  JWTManager, create_access_token, jwt_required, g
 from flask_bcrypt import Bcrypt
 import logging
 
+from flask_mail import Message
+
+import random
+import string
+
+#SDK de Mercado Pago
+import mercadopago
+# Agrega credenciales
+sdk = mercadopago.SDK("TEST-3121285479794599-122021-59e32c2ffe15b65b99751e52e0999527-833328876")
+
 api = Blueprint('api', __name__)
 
 
@@ -319,3 +329,6 @@ def update_specialist(specialist_id):
     
     else:
         return ({"error":"the patient does not exist"}),400 
+
+
+        
