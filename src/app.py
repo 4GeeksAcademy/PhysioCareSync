@@ -10,19 +10,22 @@ from api.models import db,Patient,Specialist
 from api.routes import api
 from api.admin import setup_admin
 from api.commands import setup_commands, setup_commands_specialist
-
+import mercadopago
 
 # from app import app
 
 from flask_jwt_extended import  JWTManager, create_access_token, jwt_required, get_jwt_identity
 from flask_bcrypt import Bcrypt
 
+#sdk de mercadopago
+sdk = mercadopago.SDK("TEST-3121285479794599-122021-59e32c2ffe15b65b99751e52e0999527-833328876")
+
 
 app = Flask (__name__)
 app.config["JWT_SECRET_KEY"] = "value_variable"
 jwt=JWTManager(app)
 bcrypt=Bcrypt(app)
-
+app.sdk = sdk
 # from models import Person
 
 ENV = "development" if os.getenv("FLASK_DEBUG") == "1" else "production"

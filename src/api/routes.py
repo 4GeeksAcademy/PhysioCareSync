@@ -2,7 +2,7 @@
 This module takes care of starting the API Server, Loading the DB and Adding the endpoints
 """
 import secrets
-from flask import Flask, request, jsonify, url_for, Blueprint
+from flask import Flask, request, jsonify, url_for, Blueprint, current_app
 
 from api.models import db, Patient, Specialist
 
@@ -216,6 +216,35 @@ def get_private_specialist():
         return jsonify ({"error": "The token is invalid " + str (e)}), 400
 
 
+@app.route('/create_preference', methods=['POST'])
+def create_preference():
+   # try:
+    req_data = request.get_json()
+
+    preference_data = {
+        "items": [
+            {
+                "title": req_data["description"],
+                "unit_price": float(req_data["price"]),
+                "quantity": int(req_data["quantity"]),
+            }
+        ],
+        "back_urls": {
+            "success": "http://localhost:3000/",
+            "failure": "http://localhost:3000/",
+            "pending": "",
+        },
+        "auto_return": "approved",
+    }
+
+    preference_response = current_app.sdk.preference().create(preference_data)
+    preference_id = preference_response["response"] 
+
+    return jsonify({"id": preference_id})
+    
+    # except Exception as e:
+       # return jsonify({"error": str(e)}), 500
+
 
 @api.route("/delete_patient/<int:patient_id>",methods=['DELETE'])
 def delete_patient_by_id(patient_id):
@@ -331,4 +360,3 @@ def update_specialist(specialist_id):
         return ({"error":"the patient does not exist"}),400 
 
 
-        

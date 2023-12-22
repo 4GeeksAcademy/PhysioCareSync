@@ -1,10 +1,10 @@
-import React, { useContext, useState, useEffect } from 'react'
+import React, { useContext } from 'react'
 import { Context } from '../store/appContext'
 import { useNavigate } from 'react-router-dom';
-
+import Product from '../component/Product.jsx';
 
 const PrivateSpecialist = () => {
-    const { store, actions } = useContext(Context)
+    const { actions } = useContext(Context)
     const navigate = useNavigate();
 
 
@@ -27,6 +27,7 @@ const PrivateSpecialist = () => {
     return (
         <div>
             {token ? (<h1>Hola mundo</h1>) : (<h1>No tienes acceso</h1>)}
+            <Product/>
         </div>
     )
 }
