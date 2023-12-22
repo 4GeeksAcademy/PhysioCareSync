@@ -44,9 +44,11 @@ export const Navbar = () => {
                 <button className="navLink" onClick={handleServiciosClick}>
                     <div className="navLabel">Servicios</div>
                 </button>
+                <Link to="/ProfessionalView">
                 <button className="navLink" onClick={handleProfesionalesClick}>
                     <div className="navLabel">Profesionales</div>
                 </button>
+                </Link>
             </div>
             <div className="navLinks1">
                     <LogInBtn onClick={handleLoginClick}></LogInBtn>

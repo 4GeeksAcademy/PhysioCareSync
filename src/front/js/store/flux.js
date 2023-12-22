@@ -151,24 +151,20 @@ const getState = ({ getStore, getActions, setStore }) => {
 
 			createNewSpecialist: async (newSpecialist) => {
 				try {
+					console.log('URL:', API_URL + "/api/signup_specialist");
+					console.log('Data:', JSON.stringify(newSpecialist));
+			
 					const response = await fetch(API_URL + "/api/signup_specialist", {
 						method: "POST",
 						body: JSON.stringify(newSpecialist),
 						headers: {
 							"Content-Type": "application/json"
 						}
-
 					});
-					if (!response.ok) {
-						throw new Error("There was a problem with the funtion in flux")
-					}
-					const data = await response.json();
-					console.log("User created successfully", data)
-
-
+			
 				} catch (error) {
-					console.error("There was an error tryinig to create the Specialist", error)
-
+					console.error('Error in createNewSpecialist:', error);
+					throw error; // Asegúrate de relanzar el error para que se maneje en el componente.
 				}
 			},
 

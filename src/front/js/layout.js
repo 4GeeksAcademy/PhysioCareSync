@@ -18,6 +18,9 @@ import PrivatePatient from "./pages/PrivatePatient";
 import SignUp from "./pages/SignUp.js";
 import NewPatient from "./pages/NewPatient.js";
 import NewSpecialist from "./pages/NewSpecialist.js";
+import SpecialistForm from "./pages/SpecialistForm"; 
+import ProfessionalView from './pages/ProfessionalView';
+
 
 import PrivateSpecialist from "./pages/PrivateSpecialist.js";
 
@@ -50,6 +53,9 @@ const Layout = () => {
                         <Route element={<NewSpecialist />} path="/signup/newSpecialist" />
                         <Route element={<Single />} path="/single/:theid" />
                         <Route element={<h1>Not found!</h1>} />
+                        <Route element={<NewSpecialist />} path="/signup/newSpecialist" />
+                        <Route element={<SpecialistForm />} path="/specialistForm" />
+                        <Route element={<ProfessionalView />} path="/ProfessionalView" />
 
                     </Routes>
                 </ScrollToTop>
