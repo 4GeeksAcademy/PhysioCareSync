@@ -1,4 +1,4 @@
-import React, { useContext, useState } from 'react';
+import React, { useContext, useState, useEffect } from 'react';
 import { Context } from '../store/appContext';
 import { useNavigate, Link } from 'react-router-dom';
 import '../../styles/SpecialistForm.css'; 
@@ -20,16 +20,15 @@ const NewSpecialist = () => {
   const [phoneNumber, setPhoneNumber] = useState('');
   const [countryOrigin, setCountryOrigin] = useState('');
 
-  // Dinamizaciones de estados
   const [clickedFristName, setClickedFirstName] = useState(false);
   const [clickedLastName, setClickedLastName] = useState(false);
   const [clickedEmail, setClickedEmail] = useState(false);
   const [clickedPassword, setClickedPassword] = useState(false);
 
-  // Dinamización de inputs
   const handlerClickFirstName = () => {
     setClickedFirstName(false);
   };
+
   const handlerBlurFirstName = () => {
     if (!firstName.trim()) {
       setClickedFirstName(true);
@@ -39,6 +38,7 @@ const NewSpecialist = () => {
   const handlerClickLastName = () => {
     setClickedLastName(false);
   };
+
   const handlerBlurLastName = () => {
     if (!lastName.trim()) {
       setClickedLastName(true);
@@ -48,6 +48,7 @@ const NewSpecialist = () => {
   const handlerClickEmail = () => {
     setClickedEmail(false);
   };
+
   const handlerBlurEmail = () => {
     if (!email.trim()) {
       setClickedEmail(true);
@@ -57,13 +58,13 @@ const NewSpecialist = () => {
   const handlerClickPassword = () => {
     setClickedPassword(false);
   };
+
   const handlerBlurPassword = () => {
     if (!password.trim()) {
       setClickedPassword(true);
     }
   };
 
-  // Botones de dinamización
   const handlerPhysioChange = () => {
     setIsPhysio(true);
     setIsNurse(false);
@@ -97,23 +98,26 @@ const NewSpecialist = () => {
         certificate,
         description,
         language,
+        img,
         phone_number: phoneNumber,
         country_origin: countryOrigin,
       };
-  
-      navigate('/ProfessionalView', { state: { specialistData: newInputSpecialist } });
+       
+       await actions.createNewSpecialist(newInputSpecialist);
 
-      
-      
-      useEffect(() => {
-        actions.createNewSpecialist(newInputSpecialist);
-        navigate('/');
-      }, []);
-  
-    } catch (error) {
-      console.error('Hubo un error creando el usuario especialista', error);
-    }
-  };
+       
+       navigate('/ProfessionalView', { state: { specialistData: newInputSpecialist } });
+
+   } catch (error) {
+       console.error('Hubo un error creando el usuario especialista', error);
+       // Puedes manejar el error de alguna manera si es necesario
+   }
+};
+
+  // Llamada directa a useEffect
+  useEffect(() => {
+    // Lógica que deseas ejecutar después de cada renderizado
+  }, [/* Dependencias aquí si es necesario */]);
   
 
   return (

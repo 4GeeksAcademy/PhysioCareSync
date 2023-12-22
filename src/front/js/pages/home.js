@@ -115,16 +115,17 @@ export const Home = () => {
         </div>
       </section>
 
-      <div className="typesimpleSquare">
-        <section className="copyComponent">
-          <div className="headingText">
-            <h1 className="heading">Profesionales mejor calificados</h1>
-            <h3 className="subheading">
-            Navega a través de nuestros profesionales registrados.
-            </h3>
-          </div>
-        </section>
-        <section className="teamList">
+
+  <div className="typesimpleSquare">
+  <section className="copyComponent">
+    <div className="headingText">
+      <h1 className="heading">Profesionales mejor calificados</h1>
+      <h3 className="subheading">
+        Navega a través de nuestros profesionales registrados.
+      </h3>
+    </div>
+  </section>
+  <section className="teamList">
           <div className="teamMember">
             <img
               className="avatarAisplashavatarsIcon"
@@ -171,158 +172,205 @@ export const Home = () => {
           </div>
         </section>
       </div>
+
+<div className="property1defaultAlt">
+  <div className="copyComponent">
+    <div className="headingText">
+      <h1 className="heading">Membership Plans</h1>
+      <h3 className="subheading">Choose the best plan for you.</h3>
+    </div>
+  </div>
+  <section className="pricePlans">
+          <div className="plan">
+            <div className="heading1">
+              <img className="iconIcon" alt="" src="/icon--icon@2x.png" />
+              <h1 className="title">Basic</h1>
+              <div className="shortDescription">
+                For individual healthcare specialists
+              </div>
+            </div>
+            <div className="price">
+              <b className="b">$20</b>
+              <div className="detailsContainer">
+                <div className="perMonth">per month</div>
+                <div className="yearlySwitch">
+                  <div className="perMonth">yearly</div>
+                  <div className="switch">
+                    <div className="circle" />
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div className="featureList">
+              <div className="price">
+                <img
+                  className="checkcircleIcon"
+                  alt=""
+                  src="/checkcircle--icon@2x.png"
+                />
+                <div className="listItem">Profile Listing</div>
+              </div>
+              <div className="price">
+                <img
+                  className="checkcircleIcon"
+                  alt=""
+                  src="/checkcircle--icon@2x.png"
+                />
+                <div className="listItem">5 Client Limit</div>
+              </div>
+              <div className="price">
+                <img
+                  className="checkcircleIcon"
+                  alt=""
+                  src="/checkcircle--icon@2x.png"
+                />
+                <div className="listItem">Basic Support</div>
+              </div>
+              <div className="price">
+                <img
+                  className="checkcircleIcon"
+                  alt=""
+                  src="/checkcircle--icon@2x.png"
+                />
+                <div className="listItem">Community Access</div>
+              </div>
+            </div>
+            <button className="button">
+              <div className="textContainer">
+                <div className="cta">Join Now</div>
+              </div>
+            </button>
+          </div>
+          <div className="plan1">
+            <div className="heading2">
+              <img className="iconIcon" alt="" src="/icon--icon@2x.png" />
+              <h1 className="title">Pro</h1>
+              <div className="shortDescription">
+                For small healthcare businesses
+              </div>
+            </div>
+            <div className="price1">
+              <div className="price2">
+                <b className="b">$50</b>
+                <b className="b2">99</b>
+              </div>
+              <div className="detailsContainer">
+                <div className="perMonth">per month</div>
+                <div className="yearlySwitch1">
+                  <div className="perMonth">yearly</div>
+                  <div className="switch">
+                    <div className="circle" />
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div className="featureList1">
+              <div className="price">
+                <img
+                  className="checkcircleIcon"
+                  alt=""
+                  src="/checkcircle--icon@2x.png"
+                />
+                <div className="listItem">Unlimited Clients</div>
+              </div>
+              <div className="price">
+                <img
+                  className="checkcircleIcon"
+                  alt=""
+                  src="/checkcircle--icon@2x.png"
+                />
+                <div className="listItem">Unlimited Storage</div>
+              </div>
+              <div className="price">
+                <img
+                  className="checkcircleIcon"
+                  alt=""
+                  src="/checkcircle--icon@2x.png"
+                />
+                <div className="listItem">24/7 Dedicated Support</div>
+              </div>
+              <div className="price">
+                <img
+                  className="checkcircleIcon"
+                  alt=""
+                  src="/checkcircle--icon@2x.png"
+                />
+                <div className="listItem">Custom Integrations</div>
+              </div>
+            </div>
+            <div className="tag">
+              <div className="bestDeal">Best Deal</div>
+            </div>
+            <button className="button1">
+              <div className="textContainer">
+                <div className="cta1">Join Now</div>
+              </div>
+            </button>
+          </div>
+          <div className="plan">
+            <div className="heading1">
+              <img className="iconIcon" alt="" src="/icon@2x.png" />
+              <h1 className="title">Enterprise</h1>
+              <div className="shortDescription">
+                For large healthcare companies
+              </div>
+            </div>
+            <div className="price">
+              <b className="b">$100</b>
+              <div className="detailsContainer">
+                <div className="perMonth">per month</div>
+                <div className="yearlySwitch">
+                  <div className="perMonth">yearly</div>
+                  <div className="switch">
+                    <div className="circle" />
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div className="featureList">
+              <div className="price">
+                <img
+                  className="checkcircleIcon"
+                  alt=""
+                  src="/checkcircle--icon@2x.png"
+                />
+                <div className="listItem">Premium Listing</div>
+              </div>
+              <div className="price">
+                <img
+                  className="checkcircleIcon"
+                  alt=""
+                  src="/checkcircle--icon@2x.png"
+                />
+                <div className="listItem">Unlimited Clients</div>
+              </div>
+              <div className="price">
+                <img
+                  className="checkcircleIcon"
+                  alt=""
+                  src="/checkcircle--icon@2x.png"
+                />
+                <div className="listItem">Priority Support</div>
+              </div>
+              <div className="price">
+                <img
+                  className="checkcircleIcon"
+                  alt=""
+                  src="/checkcircle--icon@2x.png"
+                />
+                <div className="listItem">Community Access</div>
+              </div>
+            </div>
+            <button className="button2">
+              <div className="textContainer">
+                <div className="cta">Join Now</div>
+              </div>
+            </button>
+            </div>
+        </section>
+      </div>
     </div>
   );
-
 };
-<div className="property1defaultAlt">
-<div className="copyComponent">
-  <div className="headingText">
-    <h1 className="heading">Membership Plans</h1>
-    <h3 className="subheading">Choose the best plan for you.</h3>
-  </div>
-</div>
-<section className="pricePlans">
-  <div className="plan">
-    <div className="heading1">
-      <img className="iconIcon" alt="" src="/icon--icon@2x.png" />
-      <h1 className="title">Basic</h1>
-      <div className="shortDescription">
-        For individual healthcare specialists
-      </div>
-    </div>
-    <div className="price">
-      <b className="b">$20</b>
-      <div className="detailsContainer">
-        <div className="perMonth">per month</div>
-        <div className="yearlySwitch">
-          <div className="perMonth">yearly</div>
-          <div className="switch">
-            <div className="circle" />
-          </div>
-        </div>
-      </div>
-    </div>
-    <div className="featureList">
-      <div className="price">
-        <img className="checkcircleIcon" alt="" src="/checkcircle--icon@2x.png" />
-        <div className="listItem">Profile Listing</div>
-      </div>
-      <div className="price">
-        <img className="checkcircleIcon" alt="" src="/checkcircle--icon@2x.png" />
-        <div className="listItem">5 Client Limit</div>
-      </div>
-      <div className="price">
-        <img className="checkcircleIcon" alt="" src="/checkcircle--icon@2x.png" />
-        <div className="listItem">Basic Support</div>
-      </div>
-      <div className="price">
-        <img className="checkcircleIcon" alt="" src="/checkcircle--icon@2x.png" />
-        <div className="listItem">Community Access</div>
-      </div>
-    </div>
-    <button className="button">
-      <div className="textContainer">
-        <div className="cta">Join Now</div>
-      </div>
-    </button>
-  </div>
-  <div className="plan1">
-    <div className="heading2">
-      <img className="iconIcon" alt="" src="/icon--icon@2x.png" />
-      <h1 className="title">Pro</h1>
-      <div className="shortDescription">
-        For small healthcare businesses
-      </div>
-    </div>
-    <div className="price1">
-      <div className="price2">
-        <b className="b">$50</b>
-        <b className="b2">99</b>
-      </div>
-      <div className="detailsContainer">
-        <div className="perMonth">per month</div>
-        <div className="yearlySwitch1">
-          <div className="perMonth">yearly</div>
-          <div className="switch">
-            <div className="circle" />
-          </div>
-        </div>
-      </div>
-    </div>
-    <div className="featureList1">
-      <div className="price">
-        <img className="checkcircleIcon" alt="" src="/checkcircle--icon@2x.png" />
-        <div className="listItem">Unlimited Clients</div>
-      </div>
-      <div className="price">
-        <img className="checkcircleIcon" alt="" src="/checkcircle--icon@2x.png" />
-        <div className="listItem">Unlimited Storage</div>
-      </div>
-      <div className="price">
-        <img className="checkcircleIcon" alt="" src="/checkcircle--icon@2x.png" />
-        <div className="listItem">24/7 Dedicated Support</div>
-      </div>
-      <div className="price">
-        <img className="checkcircleIcon" alt="" src="/checkcircle--icon@2x.png" />
-        <div className="listItem">Custom Integrations</div>
-      </div>
-    </div>
-    <div className="tag">
-      <div className="bestDeal">Best Deal</div>
-    </div>
-    <button className="button1">
-      <div className="textContainer">
-        <div className="cta1">Join Now</div>
-      </div>
-    </button>
-  </div>
-  <div className="plan">
-    <div className="heading1">
-      <img className="iconIcon" alt="" src="/icon@2x.png" />
-      <h1 className="title">Enterprise</h1>
-      <div className="shortDescription">
-        For large healthcare companies
-      </div>
-    </div>
-    <div className="price">
-      <b className="b">$100</b>
-      <div className="detailsContainer">
-        <div className="perMonth">per month</div>
-        <div className="yearlySwitch">
-          <div className="perMonth">yearly</div>
-          <div className="switch">
-            <div className="circle" />
-          </div>
-        </div>
-      </div>
-    </div>
-    <div className="featureList">
-      <div className="price">
-        <img className="checkcircleIcon" alt="" src="/checkcircle--icon@2x.png" />
-        <div className="listItem">Premium Listing</div>
-      </div>
-      <div className="price">
-        <img className="checkcircleIcon" alt="" src="/checkcircle--icon@2x.png" />
-        <div className="listItem">Unlimited Clients</div>
-      </div>
-      <div className="price">
-        <img className="checkcircleIcon" alt="" src="/checkcircle--icon@2x.png" />
-        <div className="listItem">Priority Support</div>
-      </div>
-      <div className="price">
-        <img className="checkcircleIcon" alt="" src="/checkcircle--icon@2x.png" />
-        <div className="listItem">Community Access</div>
-      </div>
-    </div>
-    <button className="button2">
-      <div className="textContainer">
-        <div className="cta">Join Now</div>
-      </div>
-    </button>
-  </div>
-</section>
-</div>
-
 
 export default Home;

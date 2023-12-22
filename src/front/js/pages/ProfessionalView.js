@@ -1,4 +1,4 @@
-import React, { useContext, useState } from 'react';
+import React, { useContext, useState, useEffect } from 'react';
 import { useLocation, Link } from 'react-router-dom';
 import { Context } from '../store/appContext';
 
@@ -6,6 +6,10 @@ const ProfessionalView = () => {
   const { state } = useLocation();
   const { store, actions } = useContext(Context);
   const [specialistData, setSpecialistData] = useState(state && state.specialistData);
+
+  useEffect(() => {
+    console.log('Datos del especialista:', specialistData);
+  }, [specialistData]);
 
   // Verificar si hay datos del especialista
   if (!specialistData) {
@@ -31,38 +35,46 @@ const ProfessionalView = () => {
   };
 
   return (
-    <div>
-      <h1>Perfil del Especialista</h1>
-      <div>
-        <strong>Nombre:</strong> {first_name} {last_name}
-      </div>
-      <div>
-        <strong>Email:</strong> {email}
-      </div>
-      <div>
-        <strong>Descripción:</strong> {description}
-      </div>
-      <div>
-        <strong>Idioma:</strong> {language}
-      </div>
-      <div>
-        <strong>Certificado:</strong> {certificate}
-      </div>
-      <div>
-        <strong>Imagen:</strong> {img}
-      </div>
-      <div>
-        <strong>Número de Teléfono:</strong> {phoneNumber}
-      </div>
-      <div>
-        <strong>País de Origen:</strong> {countryOrigin}
-      </div>
+    <div className="card mt-4">
+      <div className="card-body">
+        <h1 className="card-title">Perfil del Especialista</h1>
 
-      {/* Agregar enlaces o cualquier otra información adicional según sea necesario */}
-      <Link to="/">Volver a la página principal</Link>
+        {/* Aquí debes asegurarte de que los datos se están recibiendo y mostrando correctamente */}
+        <div className="card-text">
+          <strong>Nombre:</strong> {first_name} {last_name}
+        </div>
+        <div className="card-text">
+          <strong>Email:</strong> {email}
+        </div>
+        <div className="card-text">
+          <strong>Descripción:</strong> {description}
+        </div>
+        <div className="card-text">
+          <strong>Idioma:</strong> {language}
+        </div>
+        <div className="card-text">
+          <strong>Certificado:</strong> {certificate}
+        </div>
+        <div className="card-text">
+          <strong>Imagen:</strong> {img}
+        </div>
+        <div className="card-text">
+          <strong>Número de Teléfono:</strong> {phoneNumber}
+        </div>
+        <div className="card-text">
+          <strong>País de Origen:</strong> {countryOrigin}
+        </div>
 
-      {/* Botón para actualizar datos (Ejemplo, puedes eliminarlo si no es necesario) */}
-      <button onClick={handlerUpdateSpecialistData}>Actualizar Datos</button>
+        {/* Agregar enlaces o cualquier otra información adicional según sea necesario */}
+        <Link to="/" className="btn btn-primary mt-3">
+          Volver a la página principal
+        </Link>
+
+        {/* Botón para actualizar datos (Ejemplo, puedes eliminarlo si no es necesario) */}
+        <button onClick={handlerUpdateSpecialistData} className="btn btn-success mt-3">
+          Actualizar Datos
+        </button>
+      </div>
     </div>
   );
 };
