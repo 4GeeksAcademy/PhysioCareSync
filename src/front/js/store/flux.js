@@ -18,6 +18,7 @@ const getState = ({ getStore, getActions, setStore }) => {
 				}
 			],
 			isAuthenticated: false,
+			informationPatient: []
 		},
 		actions: {
 			// Use getActions to call a function within a fuction
@@ -46,6 +47,7 @@ const getState = ({ getStore, getActions, setStore }) => {
 			},
 
 			accessConfirmationPatient: async () => {
+				const store = getStore()
 				try {
 					const token = sessionStorage.getItem('tokenPatient')
 					const response = await fetch(API_URL + "/api/private_patient", {
@@ -62,13 +64,15 @@ const getState = ({ getStore, getActions, setStore }) => {
 					}
 
 					const data = await response.json();
-					console.log("Still have access this is the information you need from back end", data)
+					console.log("Still have access this is the information you need from back end")
 
+					setStore({ ...store, informationPatient: data.patient })
 
 				} catch (error) {
 					console.log("Authentication issue you do not have access", error)
+					const emptyData = ""
+					setStore({ ...store, informationPatient: emptyData })
 				}
-
 			},
 
 			accessConfirmationSpecialist: async () => {
