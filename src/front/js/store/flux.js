@@ -172,6 +172,33 @@ const getState = ({ getStore, getActions, setStore }) => {
 				}
 			},
 
+			editPatient: async (newInformationForm, patientId) => {
+				const nameRoute = "/update_information_patient/"
+				try {
+
+					const response = fetch(API_URL + nameRoute + patientId, {
+						method: "POST",
+						body: JSON.stringify(newInformationForm),
+						headers: {
+							"Content-Type": "application/json"
+						}
+					})
+
+					if (response.ok) {
+						data = await response.json()
+						console.log("user upload succesfully")
+						return data
+					}
+
+					else {
+						throw new Error("The request was failed! check it out!")
+					}
+
+				}
+				catch (error) {
+					console.log("There was an error, check it out!", error)
+				}
+			},
 			login: () => {
 				setStore({ isAuthenticated: true });
 			},
