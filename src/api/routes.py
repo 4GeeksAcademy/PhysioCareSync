@@ -267,7 +267,7 @@ def update_patient(patient_id):
     patient=Patient.query.get(patient_id)
     if patient:
         patient.first_name=new_first_name
-        patient.new_last_name=new_last_name
+        patient.last_name=new_last_name
         patient.email=new_email
         patient.img=new_img
         patient.phone_number=new_phone_number

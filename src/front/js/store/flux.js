@@ -177,11 +177,15 @@ const getState = ({ getStore, getActions, setStore }) => {
 			},
 
 			editPatient: async (newInformationForm, patientId) => {
-				const nameRoute = "/update_information_patient/"
+				console.log(newInformationForm)
+				const nameRoute = "api/update_information_patient/"
+				const stringPatientId = String(patientId)
+				console.log(API_URL + nameRoute + stringPatientId)
+				const store = getStore()
 				try {
 
-					const response = fetch(API_URL + nameRoute + patientId, {
-						method: "POST",
+					const response = await fetch(API_URL + nameRoute + stringPatientId, {
+						method: "PUT",
 						body: JSON.stringify(newInformationForm),
 						headers: {
 							"Content-Type": "application/json"
@@ -189,9 +193,9 @@ const getState = ({ getStore, getActions, setStore }) => {
 					})
 
 					if (response.ok) {
-						data = await response.json()
-						console.log("user upload succesfully")
-						return data
+						const data = await response.json()
+						console.log("Changes of user upload succesfully")
+						setStore({ ...store, informationPatient: data.patient })
 					}
 
 					else {
