@@ -46,11 +46,12 @@ const LogInPatient = () => {
 
             const result = await actions.loginPatient(loginPatient)
             console.log("This is the result:", result.patient) //Eliminar
-            if (result && result.accessToken) {
+
+            if (result.patient && result.accessToken) {
                 const token = result.accessToken;
                 sessionStorage.setItem('tokenPatient', token)
                 // const tokenPatient = sessionStorage.getItem('tokenPatient')
-                navigate("/privatePatient")
+                navigate("/edit/patient")
                 // console.log("This is your token patient", tokenPatient) //Eliminar 
             } else {
                 alert("email or password incorrect");

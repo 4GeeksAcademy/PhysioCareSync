@@ -60,18 +60,18 @@ const getState = ({ getStore, getActions, setStore }) => {
 
 					if (!response.ok) {
 						getActions().deleteTokenPatient();
+						const emptyInformation = {}
+						setStore({ ...store, informationPatient: emptyInformation })
 						throw new Error("There was an error with the token confirmation in flux")
+
 					}
 
 					const data = await response.json();
 					console.log("Still have access this is the information you need from back end")
-
 					setStore({ ...store, informationPatient: data.patient })
 
 				} catch (error) {
 					console.log("Authentication issue you do not have access", error)
-					const emptyData = ""
-					setStore({ ...store, informationPatient: emptyData })
 				}
 			},
 
@@ -178,23 +178,57 @@ const getState = ({ getStore, getActions, setStore }) => {
 
 			editPatient: async (newInformationForm, patientId) => {
 				console.log(newInformationForm)
-				const nameRoute = "api/update_information_patient/"
+				const nameRoute = "/api/update_information_patient/"
 				const stringPatientId = String(patientId)
 				console.log(API_URL + nameRoute + stringPatientId)
 				const store = getStore()
 				try {
-
 					const response = await fetch(API_URL + nameRoute + stringPatientId, {
 						method: "PUT",
 						body: JSON.stringify(newInformationForm),
 						headers: {
-							"Content-Type": "application/json"
+
+							'Content-Type': 'application/json',
 						}
 					})
 
 					if (response.ok) {
 						const data = await response.json()
 						console.log("Changes of user upload succesfully")
+						setStore({ ...store, informationPatient: data.patient })
+					}
+
+					else {
+						throw new Error("The request was failed! check it out!")
+					}
+
+				}
+				catch (error) {
+					console.log("There was an error, check it out!", error)
+				}
+			},
+
+			editImagePatient: async (image, patientId) => {
+				console.log(image)
+				const nameRoute = "/api/update_img_patient/"
+				const stringPatientId = String(patientId)
+				console.log(API_URL + nameRoute + stringPatientId)
+				const store = getStore()
+				try {
+
+					const response = await fetch(API_URL + nameRoute + stringPatientId, {
+
+						method: "PUT",
+						body: image,
+						headers: {
+							'Accept': 'application/json',
+						}
+					})
+
+					if (response.ok) {
+						const data = await response.json()
+						console.log("image upload succesfully")
+						console.log(data)
 						setStore({ ...store, informationPatient: data.patient })
 					}
 

@@ -3,22 +3,34 @@ This module takes care of starting the API Server, Loading the DB and Adding the
 """
 import secrets
 from flask import Flask, request, jsonify, url_for, Blueprint
-
+import cloudinary
 from api.models import db, Patient, Specialist
-
+# Import the cloudinary.api for managing assets
+import cloudinary.api
 from api.utils import generate_sitemap, APIException
-from flask_cors import CORS
+from flask_cors import CORS,cross_origin
 from jwt.exceptions import ExpiredSignatureError
 from flask_jwt_extended import  JWTManager, create_access_token, jwt_required, get_jwt_identity
 from flask_bcrypt import Bcrypt
 import logging
+import cloudinary.uploader
+
+cloudinary.config(
+            cloud_name="dxgvkwunx",
+            api_key="498479955778132",
+            api_secret="UV8fjqUqRGCzs-R0myg5stXhljE" ,
+    )
 
 api = Blueprint('api', __name__)
 
 
 # Allow CORS requests to this API
 CORS(api)
+# CORS(api, resources={r"/*": {"origins": "*"}})
+
+
 app=Flask(__name__)
+CORS(app, resources=r'/api/*')
 secret_keys=secrets.token_hex(32)
 app.config["JWT_SECRET_KEY"]= secret_keys
 jwt= JWTManager(app)
@@ -254,26 +266,32 @@ def get_specialist_by_id(specialist_id):
 
 
 @api.route("/update_information_patient/<int:patient_id>",methods=["PUT"])
+@cross_origin( origins="*",
+    methods=["PUT"],
+    allow_headers=["Content-Type"])
 def update_patient(patient_id):
 
     new_first_name=request.json.get("first_name")
     new_last_name=request.json.get("last_name")
     new_email=request.json.get("email")
-    new_img=request.json.get("img")
+    
+  
     new_phone_number=request.json.get("phone_number")
     country_origin=request.json.get("country_origin")
     language=request.json.get("language")
-
     patient=Patient.query.get(patient_id)
+   
     if patient:
+
+
         patient.first_name=new_first_name
         patient.last_name=new_last_name
         patient.email=new_email
-        patient.img=new_img
         patient.phone_number=new_phone_number
         patient.country_origin=country_origin
         patient.language=language
-
+   
+        
         db.session.commit()
         return jsonify({
             "message":"The information was uploaded succesfully",
@@ -282,6 +300,28 @@ def update_patient(patient_id):
     
     else:
         return ({"error":"the patient does not exist"}),400 
+
+
+
+@api.route("/update_img_patient/<int:patient_id>", methods=["PUT"])
+@cross_origin()
+def update_img_patient(patient_id):
+    new_img=request.files.get("img")
+    patient=Patient.query.get(patient_id)
+    if patient:
+        img_path=None
+        folder_name="PhysioCareSync"
+        if new_img:
+            res=cloudinary.uploader.upload(new_img,folder=folder_name)
+            img_path=res["secure_url"]
+            patient.img=img_path
+    
+    
+    db.session.commit()
+    return jsonify({
+        "message":"The profile image was updated!",
+        "patient":patient.serialize()
+    })
 
 
 
