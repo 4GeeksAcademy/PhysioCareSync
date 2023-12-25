@@ -63,7 +63,6 @@ const getState = ({ getStore, getActions, setStore }) => {
 						const emptyInformation = {}
 						setStore({ ...store, informationPatient: emptyInformation })
 						throw new Error("There was an error with the token confirmation in flux")
-
 					}
 
 					const data = await response.json();

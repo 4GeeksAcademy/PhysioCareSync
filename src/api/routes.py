@@ -26,7 +26,6 @@ api = Blueprint('api', __name__)
 
 # Allow CORS requests to this API
 CORS(api)
-# CORS(api, resources={r"/*": {"origins": "*"}})
 
 
 app=Flask(__name__)
@@ -134,15 +133,11 @@ def login_patient():
         get_patient_by_email=Patient.query.filter_by(email=email).one()
         check_password_of_existing=get_patient_by_email.password
         is_correctly_password=bcrypt.check_password_hash(check_password_of_existing,password)
-       
-      
         serialized_patient = get_patient_by_email.serialize()
         
         if is_correctly_password:
             patient_id=get_patient_by_email.id
             access_token=create_access_token(identity=patient_id)
-        
-        
             return jsonify({"accessToken": access_token, "patient":serialized_patient}),200
         else:
             return jsonify({"error":"Invalid credentials"}),400
@@ -156,10 +151,9 @@ def login_specialist():
     try:
         email=request.json.get("email")
         password=request.json.get("password")
-
         if not email or not password:
-            return jsonify({"error" : "The Email does not exist or the password does not exist" })
-        
+            return jsonify({"error" : "The Email does not exist or the password does not exist" })  
+          
         get_specialist_by_email=Specialist.query.filter_by(email=email).one()
         check_password_of_existing=get_specialist_by_email.password
         is_password_correctly=bcrypt.check_password_hash(check_password_of_existing,password)
@@ -275,15 +269,12 @@ def update_patient(patient_id):
     new_last_name=request.json.get("last_name")
     new_email=request.json.get("email")
     
-  
     new_phone_number=request.json.get("phone_number")
     country_origin=request.json.get("country_origin")
     language=request.json.get("language")
     patient=Patient.query.get(patient_id)
    
     if patient:
-
-
         patient.first_name=new_first_name
         patient.last_name=new_last_name
         patient.email=new_email
@@ -331,24 +322,19 @@ def update_specialist(specialist_id):
     new_first_name=request.json.get("first_name")
     new_last_name=request.json.get("last_name")
     new_email=request.json.get("email")
-    new_img=request.json.get("img")
     new_description=request.json.get("description")
     new_language=request.json.get("language")
     new_phone_number=request.json.get("phone_number")
     country_origin=request.json.get("country_origin")
-    new_certificate=request.json.get("certificate")
     specialist=Specialist.query.get(specialist_id)
     if specialist:
         specialist.first_name=new_first_name
-        specialist.new_last_name=new_last_name
+        specialist.last_name=new_last_name
         specialist.email=new_email
-        specialist.img=new_img
         specialist.description=new_description
         specialist.language=new_language
         specialist.phone_number=new_phone_number
         specialist.country_origin=country_origin
-        specialist.certificate=new_certificate
-        
 
         db.session.commit()
         
@@ -359,3 +345,29 @@ def update_specialist(specialist_id):
     
     else:
         return ({"error":"the patient does not exist"}),400 
+    
+
+@api.route("/update_img_specialist/<int:specialist_id>", methods=["PUT"])
+@cross_origin()
+def update_img_specialist(specialist_id):
+    new_img=request.files.get("img")
+    new_certificate=request.files.get("certificate")
+    specialist=Specialist.query.get(specialist_id)
+    if specialist:
+        img_path=None
+        certificate_path=None
+        folder_name="PhysioCareSync"
+        if new_img and new_certificate:
+            res_img=cloudinary.uploader.upload(new_img,folder=folder_name)
+            res_certificate=cloudinary.uploader.upload(new_certificate,folder=folder_name)
+            img_path=res_img["secure_url"]
+            certificate_path=res_certificate["secure_url"]
+            specialist.img=img_path
+            specialist.certificate=certificate_path
+            
+    
+    db.session.commit()
+    return jsonify({
+        "message":"The profile image and the certificate was updated!",
+        "patient":specialist.serialize()
+    })

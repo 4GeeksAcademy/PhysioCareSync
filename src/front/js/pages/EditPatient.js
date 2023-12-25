@@ -1,5 +1,4 @@
 import React, { useContext, useEffect, useRef, useState } from 'react'
-// import { v2 as cloudinary } from 'cloudinary';
 import "../../styles/EditPatient.css"
 import { Context } from '../store/appContext'
 import { useNavigate } from 'react-router-dom'
@@ -17,6 +16,7 @@ const EditPatient = () => {
     const handleEditInformation = (nameValue, value) => {
         setInformationPatient({ ...formInformationPatient, [nameValue]: value })
     }
+
     const handleUploadImage = (img) => {
         img.preventDefault()
         const fileImg = img.target.files[0];
@@ -27,6 +27,7 @@ const EditPatient = () => {
     const handleSubmitInformation = async (form, patientId, finalImagePatient) => {
         const formImg = new FormData()
         formImg.append("img", finalImagePatient)
+
         const formData = new FormData()
         if (!form.first_name) {
             formData.append("first_name", store.informationPatient.first_name || "")
@@ -89,7 +90,7 @@ const EditPatient = () => {
         }
     }
 
-    
+
     checkAccess()
 
 
