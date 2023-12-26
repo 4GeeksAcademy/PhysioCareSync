@@ -18,7 +18,8 @@ const getState = ({ getStore, getActions, setStore }) => {
 				}
 			],
 			isAuthenticated: false,
-			informationPatient: []
+			informationPatient: [],
+			informationSpecialist: []
 		},
 		actions: {
 			// Use getActions to call a function within a fuction
@@ -75,6 +76,7 @@ const getState = ({ getStore, getActions, setStore }) => {
 			},
 
 			accessConfirmationSpecialist: async () => {
+				const store = getStore()
 				try {
 					const token = sessionStorage.getItem('tokenSpecialist')
 					const response = await fetch(API_URL + "/api/private_specialist", {
@@ -87,12 +89,14 @@ const getState = ({ getStore, getActions, setStore }) => {
 
 					if (!response.ok) {
 						getActions().deleteTokenSpecialist();
+						const emptyInformation = {}
+						setStore({ ...store, informationSpecialist: emptyInformation })
 						throw new Error("There was an error with the token confirmation in flux")
 					}
 
 					const data = await response.json();
 					console.log("Still have access this is the information you need from back end", data)
-
+					setStore({ ...store, informationSpecialist: data.specialist })
 
 				} catch (error) {
 					console.log("Authentication issue you do not have access", error)
@@ -227,7 +231,6 @@ const getState = ({ getStore, getActions, setStore }) => {
 					if (response.ok) {
 						const data = await response.json()
 						console.log("image upload succesfully")
-						console.log(data)
 						setStore({ ...store, informationPatient: data.patient })
 					}
 
@@ -237,9 +240,74 @@ const getState = ({ getStore, getActions, setStore }) => {
 
 				}
 				catch (error) {
-					console.log("There was an error, check it out!", error)
+					console.log("There was an error", error)
 				}
 			},
+
+			editSpecialistInformation: async (specialist_id, formInformation) => {
+				const store = getStore()
+				const nameRoute = "/api/update_information_specialist/"
+				const stringSpecialistId = String(specialist_id)
+
+				console.log(stringSpecialistId)
+				console.log(formInformation)
+
+				try {
+
+					const response = await fetch(API_URL + nameRoute + stringSpecialistId, {
+						method: "PUT",
+						body: JSON.stringify(formInformation),
+						headers: {
+							"Content-Type": "application/json"
+						}
+					})
+
+					if (response.ok) {
+						const jsonResponse = await response.json()
+						console.log("Changes upload succesfully")
+						setStore({ ...store, informationSpecialist: jsonResponse.specialist })
+					}
+
+					else {
+						throw new Error("The request was failed! check it out!")
+					}
+
+				}
+				catch (error) {
+					console.log("There was an error, check it out", error)
+				}
+			},
+
+			editImagesSpecialist: async (formImage, specialistId) => {
+				const store = getStore()
+				const nameRoute = "/api/update_img_specialist/"
+				const stringSpecialistId = String(specialistId)
+				try {
+
+					const response = await fetch(API_URL + nameRoute + stringSpecialistId, {
+						method: "PUT",
+						body: formImage,
+						headers: {
+							'Accept': 'application/json',
+						}
+					})
+
+					if (response.ok) {
+						const jsonResponse = await response.json()
+						console.log("images upload succesfully")
+						setStore({ ...store, informationSpecialist: jsonResponse.specialist })
+					}
+
+					else {
+						throw new Error("The request was failed! check it out!")
+					}
+
+				}
+				catch (error) {
+					console.log("There was an error, check it out", error)
+				}
+			},
+
 			login: () => {
 				setStore({ isAuthenticated: true });
 			},

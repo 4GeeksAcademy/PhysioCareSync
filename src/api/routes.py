@@ -335,12 +335,12 @@ def update_specialist(specialist_id):
         specialist.language=new_language
         specialist.phone_number=new_phone_number
         specialist.country_origin=country_origin
-
+        
         db.session.commit()
         
         return jsonify({
             "message":"The information was uploaded succesfully",
-           "patient": specialist.serialize()
+           "specialist": specialist.serialize()
         }),200
     
     else:
@@ -369,5 +369,5 @@ def update_img_specialist(specialist_id):
     db.session.commit()
     return jsonify({
         "message":"The profile image and the certificate was updated!",
-        "patient":specialist.serialize()
+        "specialist":specialist.serialize()
     })

@@ -20,6 +20,7 @@ import NewPatient from "./pages/NewPatient.js";
 import NewSpecialist from "./pages/NewSpecialist.js";
 import EditPatient from "./pages/EditPatient.js";
 import PrivateSpecialist from "./pages/PrivateSpecialist.js";
+import EditSpecialist from "./pages/EditSpecialist.js";
 
 
 //create your first component
@@ -47,6 +48,7 @@ const Layout = () => {
                         <Route element={<NewPatient />} path="/signup/newPatient" />
                         <Route element={<NewSpecialist />} path="/signup/newSpecialist" />
                         <Route element={<EditPatient />} path="/edit/patient" />
+                        <Route element={<EditSpecialist />} path="/edit/specialist" />
                         <Route element={<Single />} path="/single/:theid" />
                         <Route element={<h1>Not found!</h1>} />
                     </Routes>

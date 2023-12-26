@@ -13,6 +13,7 @@ const EditPatient = () => {
     const { store, actions } = useContext(Context)
     const goToHome = useNavigate()
     const formRef = useRef(null)
+
     const handleEditInformation = (nameValue, value) => {
         setInformationPatient({ ...formInformationPatient, [nameValue]: value })
     }
