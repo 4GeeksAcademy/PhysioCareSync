@@ -1,6 +1,9 @@
+// ProfessionalView.jsx
+
 import React, { useContext, useState, useEffect } from 'react';
 import { useLocation, Link } from 'react-router-dom';
 import { Context } from '../store/appContext';
+import '../../styles/ProfessionalView.css'; 
 
 const ProfessionalView = () => {
   const { state } = useLocation();
@@ -13,7 +16,7 @@ const ProfessionalView = () => {
 
   // Verificar si hay datos del especialista
   if (!specialistData) {
-    return <div>No se encontraron datos del especialista. Puede ser un error.</div>;
+    return <div className="error-message">No se encontraron datos del especialista. Puede ser un error.</div>;
   }
 
   const {
@@ -35,45 +38,42 @@ const ProfessionalView = () => {
   };
 
   return (
-    <div className="card mt-4">
+    <div className="specialist-card mt-4">
       <div className="card-body">
         <h1 className="card-title">Perfil del Especialista</h1>
 
-        {/* Aquí debes asegurarte de que los datos se están recibiendo y mostrando correctamente */}
-        <div className="card-text">
+        {/* Información del Especialista */}
+        <div className="info-item">
           <strong>Nombre:</strong> {first_name} {last_name}
         </div>
-        <div className="card-text">
+        <div className="info-item">
           <strong>Email:</strong> {email}
         </div>
-        <div className="card-text">
+        <div className="info-item">
           <strong>Descripción:</strong> {description}
         </div>
-        <div className="card-text">
+        <div className="info-item">
           <strong>Idioma:</strong> {language}
         </div>
-        <div className="card-text">
+        <div className="info-item">
           <strong>Certificado:</strong> {certificate}
         </div>
-        <div className="card-text">
-          <strong>Imagen:</strong> {img}
-        </div>
-        <div className="card-text">
+        <div className="info-item">
           <strong>Número de Teléfono:</strong> {phoneNumber}
         </div>
-        <div className="card-text">
+        <div className="info-item">
           <strong>País de Origen:</strong> {countryOrigin}
         </div>
 
-        {/* Agregar enlaces o cualquier otra información adicional según sea necesario */}
-        <Link to="/" className="btn btn-primary mt-3">
-          Volver a la página principal
-        </Link>
-
-        {/* Botón para actualizar datos (Ejemplo, puedes eliminarlo si no es necesario) */}
-        <button onClick={handlerUpdateSpecialistData} className="btn btn-success mt-3">
-          Actualizar Datos
-        </button>
+        {/* Botones y Enlaces */}
+        <div className="buttons-section">
+          <Link to="/" className="btn btn-primary">
+            Volver a la página principal
+          </Link>
+          <button onClick={handlerUpdateSpecialistData} className="btn btn-success">
+            Actualizar Datos
+          </button>
+        </div>
       </div>
     </div>
   );

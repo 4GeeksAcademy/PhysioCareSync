@@ -77,15 +77,16 @@ def signup_patient():
 @api.route("signup_specialist",methods=["POST"])
 def signup_specialist():
     try:
-        first_name=request.json.get("first_name")
-        last_name=request.json.get("last_name")
-        email=request.json.get("email")
-        password=request.json.get("password")
-        is_physiotherapist=request.json.get("is_physiotherapist")    
-        is_nurse=request.json.get("is_nurse")   
-        certificate=request.json.get("certificate")
-        description=request.json.get("description")
-        language=request.json.get("language") 
+        first_name = request.json.get("first_name")
+        last_name = request.json.get("last_name")
+        email = request.json.get("email")
+        password = request.json.get("password")
+        is_physiotherapist = request.json.get("is_physiotherapist")
+        is_nurse = request.json.get("is_nurse")
+        certificate = request.json.get("certificate")
+        description = request.json.get("description")
+        language = request.json.get("language") 
+        
         
         if not first_name or not last_name or not email or not password:
             return jsonify ({"error":"You are missing information, check it out"}),400

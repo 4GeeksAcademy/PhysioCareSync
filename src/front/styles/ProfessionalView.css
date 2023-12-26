@@ -1,0 +1,38 @@
+/* ProfessionalView.css */
+
+.specialist-card {
+    max-width: 600px;
+    margin: 0 auto;
+    padding: 20px;
+    border: 1px solid #ddd;
+    border-radius: 10px;
+    box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
+    background-color: #fff;
+  }
+  
+  .card-title {
+    text-align: center;
+    margin-bottom: 20px;
+  }
+  
+  .info-item {
+    margin-bottom: 15px;
+  }
+  
+  .buttons-section {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 20px;
+  }
+  
+  .btn {
+    padding: 10px 20px;
+    font-size: 16px;
+  }
+  
+  .error-message {
+    color: #e74c3c;
+    font-size: 18px;
+    text-align: center;
+  }
+  

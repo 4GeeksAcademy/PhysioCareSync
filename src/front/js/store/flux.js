@@ -17,7 +17,8 @@ const getState = ({ getStore, getActions, setStore }) => {
 					initial: "white"
 				}
 			],
-			isAuthenticated: false,
+			isAuthenticatedPatient: false,
+			isAuthenticatedSpecialist: false
 		},
 		actions: {
 			// Use getActions to call a function within a fuction
@@ -172,22 +173,20 @@ const getState = ({ getStore, getActions, setStore }) => {
 				setStore({ isAuthenticated: true });
 			},
 
-			logout: () => {
-
-				const confirm = window.confirm('¿Estás seguro de que quieres cerrar sesión?');
-
-
-				if (confirm) {
-
-					sessionStorage.removeItem('token');
-
-
-					setStore({ isAuthenticated: false });
-
-
-					const history = useHistory();
-					history.push('/');
-				}
+		
+			logout: async (navigate) => {
+				console.log("Logging out...");
+				sessionStorage.removeItem('tokenPatient');
+				sessionStorage.removeItem('tokenSpecialist');
+			
+				setStore({
+					isAuthenticatedPatient: false,
+					isAuthenticatedSpecialist: false
+				});
+			
+				console.log("Logout successful. Navigating...");
+				// Call the provided navigate function for navigation
+				navigate('/');
 			},
 
 
@@ -229,4 +228,3 @@ const getState = ({ getStore, getActions, setStore }) => {
 
 
 export default getState;
-

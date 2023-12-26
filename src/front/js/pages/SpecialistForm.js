@@ -12,7 +12,7 @@ const NewSpecialist = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [isPhysio, setIsPhysio] = useState(false);
-  const [isNurse, setIsNurse] = useState('');
+  const [isNurse, setIsNurse] = useState(false);
   const [certificate, setCertificate] = useState('');
   const [description, setDescription] = useState('');
   const [language, setLanguage] = useState('');
@@ -71,8 +71,7 @@ const NewSpecialist = () => {
   };
 
   const handlerNurseChange = () => {
-    setIsNurse(true);
-    setIsPhysio(false);
+   setIsNurse(true);
   };
 
   const handlerCreateSpecialist = async () => {

@@ -1,48 +1,51 @@
 /* Estilos generales para el formulario */
 .patientForm {
-  max-width: 400px;
+  max-width: 500px; /* Aumenté el ancho máximo para una mejor presentación */
   margin: 0 auto;
-  padding: 20px;
-  border: 1px solid #ccc;
-  border-radius: 8px;
-  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-  background-color: #fff;
+  padding: 30px; /* Aumenté el relleno para más espacio interior */
+  border: 2px solid #ddd; /* Hice el borde un poco más grueso */
+  border-radius: 10px;
+  box-shadow: 0 0 15px rgba(0, 0, 0, 0.2);
+  background-color: #f8f8f8; /* Cambié el color de fondo a un tono más suave */
 }
 
 .title {
   text-align: center;
-  margin-bottom: 20px;
+  margin-bottom: 30px; /* Aumenté el margen inferior para más espacio */
 }
 
 .subTitle {
-  font-size: 14px;
-  color: #555;
+  font-size: 16px; /* Aumenté el tamaño de la subida de título */
+  color: #666; /* Cambié el color para que sea un poco más suave */
 }
 
 /* Estilos para los campos de entrada */
 .form-control {
-  margin-bottom: 15px;
+  margin-bottom: 20px; /* Aumenté el espacio entre los campos */
 }
 
 .errorMsg {
-  color: red;
-  font-size: 12px;
-  margin-top: 5px;
+  color: #e74c3c; /* Usé un rojo más oscuro y más suave */
+  font-size: 14px;
+  margin-top: 8px; /* Ajusté el margen superior para mejor alineación */
 }
 
 /* Estilos para los botones */
 .createNewBtn {
   display: flex;
   justify-content: space-between;
+  margin-top: 20px; /* Añadí un margen superior para separar los botones */
 }
 
 .btn {
   width: 48%;
+  padding: 12px; /* Aumenté el relleno para un aspecto más amigable */
+  font-size: 14px; /* Ajusté el tamaño del texto de los botones */
 }
 
 /* Estilos para los radio buttons */
 .speciality {
-  margin-top: 15px;
+  margin-top: 20px;
 }
 
 /* Otros estilos según tus necesidades */
