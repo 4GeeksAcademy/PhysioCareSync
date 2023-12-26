@@ -18,8 +18,9 @@ import PrivatePatient from "./pages/PrivatePatient";
 import SignUp from "./pages/SignUp.js";
 import NewPatient from "./pages/NewPatient.js";
 import NewSpecialist from "./pages/NewSpecialist.js";
-
+import EditPatient from "./pages/EditPatient.js";
 import PrivateSpecialist from "./pages/PrivateSpecialist.js";
+import EditSpecialist from "./pages/EditSpecialist.js";
 
 
 //create your first component
@@ -36,10 +37,8 @@ const Layout = () => {
                 <ScrollToTop>
                     <Navbar />
                     <Routes>
-
                         <Route element={<Home />} path="/" />
                         <Route element={<Demo />} path="/demo" />
-
                         <Route element={<LogIn />} path="/login" />
                         <Route element={<LogInPatient />} path="/login/loginPatient" />
                         <Route element={<LogInSpecialist />} path="/login/loginSpecialist" />
@@ -48,9 +47,10 @@ const Layout = () => {
                         <Route element={<SignUp />} path="/signup" />
                         <Route element={<NewPatient />} path="/signup/newPatient" />
                         <Route element={<NewSpecialist />} path="/signup/newSpecialist" />
+                        <Route element={<EditPatient />} path="/edit/patient" />
+                        <Route element={<EditSpecialist />} path="/edit/specialist" />
                         <Route element={<Single />} path="/single/:theid" />
                         <Route element={<h1>Not found!</h1>} />
-
                     </Routes>
                 </ScrollToTop>
             </BrowserRouter>
