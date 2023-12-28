@@ -1,4 +1,5 @@
 from flask_sqlalchemy import SQLAlchemy
+from datetime import datetime
 
 
 
@@ -15,6 +16,8 @@ class Patient(db.Model):
     phone_number=db.Column(db.String(30),unique=False,nullable=True)
     country_origin=db.Column(db.String(120),unique=False,nullable=True)
     language = db.Column(db.String(120), unique=False, nullable=True)
+    created_at=db.Column(db.DateTime, default=datetime.utcnow, nullable=False)
+    last_login_at=db.Column( db.DateTime, nullable=True)
 
 
     def __repr__(self):
@@ -30,7 +33,9 @@ class Patient(db.Model):
             "img":self.img,
             "phone_number":self.phone_number,
             "country_origin":self.country_origin,
-            "language":self.language
+            "language":self.language,
+            "created_at":self.created_at,
+            "last_login_at":self.last_login_at
             # do not serialize the password, its a security breach
         }
     
@@ -49,6 +54,8 @@ class Specialist(db.Model):
     img=db.Column(db.String(400),unique=False,nullable=True)
     phone_number=db.Column(db.String(30),unique=False,nullable=True)
     country_origin=db.Column(db.String(120),unique=False,nullable=True)
+    created_at=db.Column(db.DateTime,default=datetime.utcnow,nullable=False)
+    last_login_at=db.Column(db.DateTime,nullable=True)
 
 
     def __repr__(self):
@@ -68,7 +75,9 @@ class Specialist(db.Model):
             "language": self.language,
             "img":self.img,
             "phone_number":self.phone_number,
-            "country_origin":self.country_origin
+            "country_origin":self.country_origin,
+            "created_at":self.created_at,
+            "last_login_at":self.last_login_at
         }
 
 

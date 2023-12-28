@@ -48,8 +48,12 @@ const LogInSpecialist = () => {
             if (result && result.accessToken) {
                 const token = result.accessToken;
                 sessionStorage.setItem('tokenSpecialist', token)
-                navigate("/privateSpecialist")
-                //    console.log("This is your token specialist", token)
+                await actions.accessConfirmationSpecialist();
+                sessionStorage.setItem("specialistId", store.informationPatient.id)
+                const specialistId = sessionStorage.getItem("specialistId")
+                navigate(`/profile/specialist/${specialistId}`)
+
+
             } else {
                 alert("email or password incorrect");
             }

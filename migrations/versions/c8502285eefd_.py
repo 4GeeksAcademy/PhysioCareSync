@@ -1,8 +1,8 @@
 """empty message
 
-Revision ID: abe5a08f28b8
+Revision ID: c8502285eefd
 Revises: 
-Create Date: 2023-12-20 16:05:42.829176
+Create Date: 2023-12-27 17:06:32.362021
 
 """
 from alembic import op
@@ -10,7 +10,7 @@ import sqlalchemy as sa
 
 
 # revision identifiers, used by Alembic.
-revision = 'abe5a08f28b8'
+revision = 'c8502285eefd'
 down_revision = None
 branch_labels = None
 depends_on = None
@@ -25,9 +25,11 @@ def upgrade():
     sa.Column('email', sa.String(length=120), nullable=False),
     sa.Column('password', sa.String(length=80), nullable=False),
     sa.Column('img', sa.String(length=250), nullable=True),
-    sa.Column('phone_number', sa.Integer(), nullable=True),
+    sa.Column('phone_number', sa.String(length=30), nullable=True),
     sa.Column('country_origin', sa.String(length=120), nullable=True),
     sa.Column('language', sa.String(length=120), nullable=True),
+    sa.Column('created_at', sa.DateTime(), nullable=False),
+    sa.Column('last_login_at', sa.DateTime(), nullable=True),
     sa.PrimaryKeyConstraint('id'),
     sa.UniqueConstraint('email')
     )
@@ -39,12 +41,14 @@ def upgrade():
     sa.Column('password', sa.String(length=80), nullable=False),
     sa.Column('is_physiotherapist', sa.Boolean(), nullable=False),
     sa.Column('is_nurse', sa.Boolean(), nullable=False),
-    sa.Column('certificate', sa.String(length=120), nullable=True),
-    sa.Column('description', sa.String(length=250), nullable=True),
+    sa.Column('certificate', sa.String(length=400), nullable=True),
+    sa.Column('description', sa.String(length=2000), nullable=True),
     sa.Column('language', sa.String(length=120), nullable=True),
-    sa.Column('img', sa.String(length=250), nullable=True),
-    sa.Column('phone_number', sa.Integer(), nullable=True),
+    sa.Column('img', sa.String(length=400), nullable=True),
+    sa.Column('phone_number', sa.String(length=30), nullable=True),
     sa.Column('country_origin', sa.String(length=120), nullable=True),
+    sa.Column('created_at', sa.DateTime(), nullable=False),
+    sa.Column('last_login_at', sa.DateTime(), nullable=True),
     sa.PrimaryKeyConstraint('id'),
     sa.UniqueConstraint('email')
     )

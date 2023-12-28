@@ -12,6 +12,7 @@ const EditPatient = () => {
     const finalPatientForm = {}
     const { store, actions } = useContext(Context)
     const goToHome = useNavigate()
+    const navigate = useNavigate()
     const formRef = useRef(null)
 
     const handleEditInformation = (nameValue, value) => {
@@ -79,14 +80,17 @@ const EditPatient = () => {
         await actions.editPatient(finalPatientForm, patientId)
         await actions.editImagePatient(formImg, patientId)
         setFinalImagePatient(null);
+        const profileId = sessionStorage.getItem("patientId")
+        navigate(`/profile/patient/${profileId}`)
         formRef.current.reset()
     }
 
     const checkAccess = async () => {
         await actions.accessConfirmationPatient()
         const token = sessionStorage.getItem("tokenPatient")
-        if (token === null) {
+        if (token === null && store.isTokenAuthentication == true) {
             console.log("El token se vencio, ingrese nuevamente")
+            alert("You do not have access to this page, please log in or create an account");
             goToHome("/")
         }
     }

@@ -1,3 +1,4 @@
+import { useNavigate } from "react-router-dom";
 
 const API_URL = process.env.BACKEND_URL
 
@@ -19,7 +20,8 @@ const getState = ({ getStore, getActions, setStore }) => {
 			],
 			isAuthenticated: false,
 			informationPatient: [],
-			informationSpecialist: []
+			informationSpecialist: [],
+			isTokenAuthentication: false
 		},
 		actions: {
 			// Use getActions to call a function within a fuction
@@ -60,12 +62,13 @@ const getState = ({ getStore, getActions, setStore }) => {
 					})
 
 					if (!response.ok) {
+						store.isTokenAuthentication = true
 						getActions().deleteTokenPatient();
 						const emptyInformation = {}
 						setStore({ ...store, informationPatient: emptyInformation })
 						throw new Error("There was an error with the token confirmation in flux")
 					}
-
+					store.isTokenAuthentication = false
 					const data = await response.json();
 					console.log("Still have access this is the information you need from back end")
 					setStore({ ...store, informationPatient: data.patient })
@@ -89,11 +92,14 @@ const getState = ({ getStore, getActions, setStore }) => {
 
 					if (!response.ok) {
 						getActions().deleteTokenSpecialist();
+						store.isTokenAuthentication == true
 						const emptyInformation = {}
 						setStore({ ...store, informationSpecialist: emptyInformation })
 						throw new Error("There was an error with the token confirmation in flux")
 					}
 
+
+					store.isTokenAuthentication == false
 					const data = await response.json();
 					console.log("Still have access this is the information you need from back end", data)
 					setStore({ ...store, informationSpecialist: data.specialist })
@@ -107,10 +113,12 @@ const getState = ({ getStore, getActions, setStore }) => {
 
 			deleteTokenPatient: async () => {
 				sessionStorage.removeItem('tokenPatient')
+				sessionStorage.removeItem("patientId")
 			},
 
 			deleteTokenSpecialist: async () => {
 				sessionStorage.removeItem('tokenSpecialist')
+				sessionStorage.removeItem("specialistId")
 			},
 
 			loginSpecialist: async (specialist) => {
@@ -312,23 +320,7 @@ const getState = ({ getStore, getActions, setStore }) => {
 				setStore({ isAuthenticated: true });
 			},
 
-			logout: () => {
 
-				const confirm = window.confirm('¿Estás seguro de que quieres cerrar sesión?');
-
-
-				if (confirm) {
-
-					sessionStorage.removeItem('token');
-
-
-					setStore({ isAuthenticated: false });
-
-
-					const history = useHistory();
-					history.push('/');
-				}
-			},
 
 
 			exampleFunction: () => {

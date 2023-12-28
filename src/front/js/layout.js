@@ -21,6 +21,7 @@ import NewSpecialist from "./pages/NewSpecialist.js";
 import EditPatient from "./pages/EditPatient.js";
 import PrivateSpecialist from "./pages/PrivateSpecialist.js";
 import EditSpecialist from "./pages/EditSpecialist.js";
+import ProfilePatient from "./pages/ProfilePatient.js";
 
 
 //create your first component
@@ -49,12 +50,13 @@ const Layout = () => {
                         <Route element={<NewSpecialist />} path="/signup/newSpecialist" />
                         <Route element={<EditPatient />} path="/edit/patient" />
                         <Route element={<EditSpecialist />} path="/edit/specialist" />
+                        <Route element={<ProfilePatient />} exact path="profile/patient/:theid" />
                         <Route element={<Single />} path="/single/:theid" />
                         <Route element={<h1>Not found!</h1>} />
                     </Routes>
                 </ScrollToTop>
             </BrowserRouter>
-        </div>
+        </div >
     );
 };
 

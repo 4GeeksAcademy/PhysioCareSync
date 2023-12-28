@@ -1,7 +1,8 @@
 """
 This module takes care of starting the API Server, Loading the DB and Adding the endpoints
 """
-import secrets
+import secrets,json
+from datetime import datetime
 from flask import Flask, request, jsonify, url_for, Blueprint
 import cloudinary
 from api.models import db, Patient, Specialist
@@ -127,6 +128,7 @@ def login_patient():
         email=request.json.get("email")
         password=request.json.get("password")
 
+
         if not email or not password:
             return jsonify ({"error": "Invalid credentials"}),400
         
@@ -134,10 +136,11 @@ def login_patient():
         check_password_of_existing=get_patient_by_email.password
         is_correctly_password=bcrypt.check_password_hash(check_password_of_existing,password)
         serialized_patient = get_patient_by_email.serialize()
-        
         if is_correctly_password:
             patient_id=get_patient_by_email.id
             access_token=create_access_token(identity=patient_id)
+            get_patient_by_email.last_login_at=datetime.utcnow()
+            db.session.commit()
             return jsonify({"accessToken": access_token, "patient":serialized_patient}),200
         else:
             return jsonify({"error":"Invalid credentials"}),400
@@ -163,6 +166,8 @@ def login_specialist():
         if is_password_correctly:
             specialist_id=get_specialist_by_email.id
             access_token=create_access_token(identity= specialist_id)
+            get_specialist_by_email.last_login_at=datetime.utcnow()
+            db.session.commit()
 
             return jsonify ({"accessToken": access_token,"specialist":serialized_specialist}),200
         else:
@@ -272,6 +277,8 @@ def update_patient(patient_id):
     new_phone_number=request.json.get("phone_number")
     country_origin=request.json.get("country_origin")
     language=request.json.get("language")
+
+
     patient=Patient.query.get(patient_id)
    
     if patient:
@@ -282,7 +289,6 @@ def update_patient(patient_id):
         patient.country_origin=country_origin
         patient.language=language
    
-        
         db.session.commit()
         return jsonify({
             "message":"The information was uploaded succesfully",
