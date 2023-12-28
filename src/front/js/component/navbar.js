@@ -12,7 +12,7 @@ export const Navbar = () => {
 
     const { store, actions } = useContext(Context)
     const navigate = useNavigate()
-
+    let tokenAuthentication
     const handleInicioClick = () => {
         console.log("Botón de Inicio clicado");
 
@@ -38,7 +38,15 @@ export const Navbar = () => {
 
     };
 
-    const token = sessionStorage.getItem('tokenPatient');
+    const tokenPatient = sessionStorage.getItem('tokenPatient');
+    if (!tokenPatient) {
+        const tokenSpecialist = sessionStorage.getItem("tokenSpecialist")
+        tokenAuthentication = tokenSpecialist
+    }
+    else {
+        tokenAuthentication = tokenPatient
+    }
+
 
     return (
         <div className="bubbleContainer">
@@ -57,12 +65,12 @@ export const Navbar = () => {
             </div>
             <div className="navLinks1">
                 {
-                    !token ?
+                    !tokenAuthentication ?
                         <LogInBtn onClick={handleLoginClick}></LogInBtn> :
                         <></>
                 }
                 {
-                    !token ?
+                    !tokenAuthentication ?
                         <NewUserBtn onClick={handleRegisterClick} ></NewUserBtn> :
                         <ProfileDropdown></ProfileDropdown>
                 }

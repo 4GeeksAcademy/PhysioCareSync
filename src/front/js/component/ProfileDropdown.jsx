@@ -4,12 +4,40 @@ import { Link } from "react-router-dom";
 
 
 const ProfileDropdown = () => {
+
+    let userId
+    let user
+
     const patientId = sessionStorage.getItem("patientId")
+    if (patientId == null) {
+        const specialistId = sessionStorage.getItem("specialistId")
+        userId = specialistId
+        user = "specialist"
+
+    }
+    else {
+        userId = patientId
+        user = "patient"
+    }
+
+
     return (
         <div>
-            <Link to={`/profile/patient/${patientId}`}>
-                <button type="button" className="navBar-ProfileImage">Perfil</button>
-            </Link>
+            {
+                user == "specialist"
+                    ?
+                    <Link to={`/profile/specialist/${userId}`}>
+                        <button type="button" className="navBar-ProfileImage">Perfil</button>
+                    </Link>
+                    : (user == "patient" ?
+                        <Link to={`/profile/patient/${userId}`}>
+                            <button type="button" className="navBar-ProfileImage">Perfil</button>
+                        </Link>
+                        : null
+                    )
+
+            }
+
         </div >
     )
 }

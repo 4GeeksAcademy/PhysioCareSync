@@ -49,7 +49,7 @@ const LogInSpecialist = () => {
                 const token = result.accessToken;
                 sessionStorage.setItem('tokenSpecialist', token)
                 await actions.accessConfirmationSpecialist();
-                sessionStorage.setItem("specialistId", store.informationPatient.id)
+                sessionStorage.setItem("specialistId", store.informationSpecialist.id)
                 const specialistId = sessionStorage.getItem("specialistId")
                 navigate(`/profile/specialist/${specialistId}`)
 
