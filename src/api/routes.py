@@ -252,7 +252,7 @@ def get_specialist_by_id(specialist_id):
     if specialist:
         specialist_serialize=specialist.serialize()
 
-        return jsonify({"specialist":specialist_serialize})
+        return jsonify({"specialist":specialist_serialize, "ok":True})
     
     else:
         return jsonify({"error":"The specialist does not exist"})
