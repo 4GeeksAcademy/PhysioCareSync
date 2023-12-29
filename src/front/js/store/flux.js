@@ -286,6 +286,7 @@ const getState = ({ getStore, getActions, setStore }) => {
 				}
 			},
 
+			
 			editImagesSpecialist: async (formImage, specialistId) => {
 				const store = getStore()
 				const nameRoute = "/api/update_img_specialist/"

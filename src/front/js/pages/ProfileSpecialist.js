@@ -43,12 +43,11 @@ const ProfileSpecialist = () => {
     const isAuthenticatedSpecialistId = store.informationSpecialist.length ? store.informationSpecialist.id : parseInt(theid)
     console.log(isAuthenticatedSpecialistId)
 
-    const profileImageEmpty = "https://res-console.cloudinary.com/dxgvkwunx/thumbnails/v1/image/upload/v1703777652/UGh5c2lvQ2FyZVN5bmMvaW1hZ2VuX3Npbl90b2RvX3BlcmZpbF9hancyb2g=/preview"
+    const profileImageEmpty = "https://res-console.cloudinary.com/dxgvkwunx/thumbnails/v1/image/upload/v1703884900/UGh5c2lvQ2FyZVN5bmMvaW1hZ2VuX3Npbl9mb25kb19lbmZlcm1lcm9faG95emVp/preview"
     const registerSpecialistDateUTC = new Date(store.informationSpecialist.created_at)
     const registerSpecialistLocalTime = registerSpecialistDateUTC.toLocaleString()
     const [registerDate] = registerSpecialistLocalTime.split(",")
     const handleInformationProfesional = store.informationSpecialist.is_physiotherapist == true ? "Fisioterapia" : "Enfermeria"
-
 
 
 

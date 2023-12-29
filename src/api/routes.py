@@ -382,16 +382,23 @@ def upload_certificates_by_specialist(specialist_id_certificate):
     try:
         certificate_path=None
         specialist=Specialist.query.get(specialist_id_certificate)
+        num_certificates=int(request.form.get("num_certificates"))
+        print(num_certificates)
+        certificate_paths=[]
         folder_name="PhysioCareSync"
-        new_certificate=request.files.get("certificates_url")
-        if specialist:
-            res_certificate=cloudinary.uploader.upload(new_certificate,folder=folder_name)
-            certificate_path=res_certificate["secure_url"]
-            new_certificate=Certificates(certificates_url=certificate_path,specialist=specialist)
-            db.session.add(new_certificate)
-            db.session.commit()
-    
-        return jsonify({"message":"The certificate was uploaded succesfully", "specialist_information":specialist.serialize()}),200
+        for i in range(1,num_certificates+1):
+            certificate_key=f"certificates_url_{i}"
+            print(certificate_key)
+            new_certificate=request.files.get(certificate_key)
+            if new_certificate and specialist:
+                print("entre a la condicion!")
+                res_certificate=cloudinary.uploader.upload(new_certificate,folder=folder_name)
+                certificate_path=res_certificate["secure_url"]
+                new_certificate_instance=Certificates(certificates_url=certificate_path,specialist=specialist)
+                db.session.add(new_certificate_instance)
+     
+        db.session.commit()
+        return jsonify({"message":"The certificates was uploaded succesfully", "specialist_information":specialist.serialize()}),200
     
     except Exception as e:
         return jsonify({"error":e}),400
