@@ -21,6 +21,10 @@ import NewSpecialist from "./pages/NewSpecialist.js";
 
 import PrivateSpecialist from "./pages/PrivateSpecialist.js";
 
+import PaySuccess from "./pages/PaySuccess.jsx";
+import PayError from "./pages/PayError.jsx";
+import PayPending from "./pages/PayPending.jsx";
+
 
 //create your first component
 const Layout = () => {
@@ -48,6 +52,12 @@ const Layout = () => {
                         <Route element={<SignUp />} path="/signup" />
                         <Route element={<NewPatient />} path="/signup/newPatient" />
                         <Route element={<NewSpecialist />} path="/signup/newSpecialist" />
+                        <Route element={<PaySuccess />} path="/success" />
+                        <Route element={<PayError />} path="/failure" />
+                        <Route element={<PayPending />} path="/pending" />
+
+
+
                         <Route element={<Single />} path="/single/:theid" />
                         <Route element={<h1>Not found!</h1>} />
 

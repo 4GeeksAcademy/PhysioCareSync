@@ -25,7 +25,7 @@ app = Flask (__name__)
 app.config["JWT_SECRET_KEY"] = "value_variable"
 jwt=JWTManager(app)
 bcrypt=Bcrypt(app)
-app.sdk = sdk
+# app.sdk = sdk
 # from models import Person
 
 ENV = "development" if os.getenv("FLASK_DEBUG") == "1" else "production"

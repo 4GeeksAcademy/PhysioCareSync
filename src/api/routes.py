@@ -216,34 +216,35 @@ def get_private_specialist():
         return jsonify ({"error": "The token is invalid " + str (e)}), 400
 
 
-@app.route('/create_preference', methods=['POST'])
+@api.route('/create_preference', methods=['POST'])
 def create_preference():
-   # try:
-    req_data = request.get_json()
+    try:
+        req_data = request.get_json()
 
-    preference_data = {
-        "items": [
-            {
-                "title": req_data["description"],
-                "unit_price": float(req_data["price"]),
-                "quantity": int(req_data["quantity"]),
-            }
-        ],
-        "back_urls": {
-            "success": "http://localhost:3000/",
-            "failure": "http://localhost:3000/",
-            "pending": "",
-        },
-        "auto_return": "approved",
-    }
+        preference_data = {
+            "items": [
+                {
+                    "title": req_data["description"],
+                    "unit_price": float(req_data["price"]),
+                    "quantity": int(req_data["quantity"]),
+                }
+            ],
+            "back_urls": {
+                "success": "https://solid-space-broccoli-7v9r5r744rx9fwwjw-3000.app.github.dev/api/success",
+                "failure": "https://solid-space-broccoli-7v9r5r744rx9fwwjw-3000.app.github.dev/api/failure",
+                "pending": "https://solid-space-broccoli-7v9r5r744rx9fwwjw-3000.app.github.dev/api/pending",
+            },
+            "auto_return": "approved",
+        }
 
-    preference_response = current_app.sdk.preference().create(preference_data)
-    preference_id = preference_response["response"] 
+        preference_response = sdk.preference().create(preference_data)
+        preference_id = preference_response["response"]
 
-    return jsonify({"id": preference_id})
-    
-    # except Exception as e:
-       # return jsonify({"error": str(e)}), 500
+        return jsonify({"id": preference_id})
+
+    except Exception as e:
+        print("Error creating preference:", str(e))
+        return jsonify({"error": str(e)}), 500
 
 
 @api.route("/delete_patient/<int:patient_id>",methods=['DELETE'])

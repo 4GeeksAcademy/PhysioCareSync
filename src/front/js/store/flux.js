@@ -175,7 +175,7 @@ const getState = ({ getStore, getActions, setStore }) => {
 			},
 
 			createPreference: async () => {
-				//try {
+				try {
 					const response = await fetch(API_URL + "/api/create_preference", {
 					method: "POST",
 					headers: {
@@ -185,7 +185,6 @@ const getState = ({ getStore, getActions, setStore }) => {
 						description: "Bananita contenta",
 						price: 100,
 						quantity: 1,
-						currency_id: "BRL" //Si no configuro nada me agarra la moneda de mi cuenta
 					}),
 					});
 
@@ -197,14 +196,14 @@ const getState = ({ getStore, getActions, setStore }) => {
 					let store = getStore()
 					setStore({...store , preferenceId: id})
 					let store2 = getStore()
-					console.log("Este es el contenido de id en el store: ",store2.preferenceId.id)
+					console.log("Este es el contenido de id en el store: ",store2.preferenceId)
 					return id;
 					} else {
 					console.error("Error creating preference, o sea response.ok dio false en flux.js");
 					}
-				// } catch (error) {
-				// 	console.error(error);
-				// }
+				} catch (error) {
+					console.error(error);
+				}
 
 			  },
 			
