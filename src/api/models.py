@@ -40,6 +40,31 @@ class Patient(db.Model):
         }
     
 
+class Certificates(db.Model):
+    id=db.Column(db.Integer, primary_key=True)
+    certificates_url=db.Column(db.String(400),unique=False,nullable=True)
+    specialist_id = db.Column(db.Integer, db.ForeignKey('specialist.id'))
+    specialist=db.relationship("Specialist",back_populates="certificates")
+    
+    def serialize(self):
+
+        return{ 
+            "id":self.id,
+           "specialist":{
+            "id":self.specialist.id,
+            "first_name":self.specialist.first_name,
+            "last_name":self.specialist.last_name  
+           },
+            "certificates_url":self.certificates_url,
+        }
+    
+    def serialize_information_certificate(self):
+        return{
+            "id":self.id,
+            "certificates_url": self.certificates_url
+        }
+    
+
 class Specialist(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     first_name = db.Column(db.String(120), unique=False, nullable=False)
@@ -48,7 +73,6 @@ class Specialist(db.Model):
     password = db.Column(db.String(80), unique=False, nullable=False)
     is_physiotherapist = db.Column(db.Boolean(), unique=False, nullable=False)
     is_nurse = db.Column(db.Boolean(), unique=False, nullable=False)
-    certificate = db.Column(db.String(400), unique=False, nullable=True)
     description = db.Column(db.String(2000), unique=False, nullable=True)
     language = db.Column(db.String(120), unique=False, nullable=True)
     img=db.Column(db.String(400),unique=False,nullable=True)
@@ -56,6 +80,10 @@ class Specialist(db.Model):
     country_origin=db.Column(db.String(120),unique=False,nullable=True)
     created_at=db.Column(db.DateTime,default=datetime.utcnow,nullable=False)
     last_login_at=db.Column(db.DateTime,nullable=True)
+    certificates=db.relationship("Certificates",back_populates="specialist")
+  
+
+
 
 
     def __repr__(self):
@@ -70,14 +98,14 @@ class Specialist(db.Model):
             "email": self.email,
             "is_physiotherapist": self.is_physiotherapist,
             "is_nurse": self.is_nurse,
-            "certificate": self.certificate,
             "description": self.description,
             "language": self.language,
             "img":self.img,
             "phone_number":self.phone_number,
             "country_origin":self.country_origin,
             "created_at":self.created_at,
-            "last_login_at":self.last_login_at
+            "last_login_at":self.last_login_at,
+            "certificates":[certificate.serialize_information_certificate() for certificate in self.certificates]
         }
 
 

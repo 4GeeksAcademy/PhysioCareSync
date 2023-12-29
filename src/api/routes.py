@@ -5,7 +5,7 @@ import secrets,json
 from datetime import datetime
 from flask import Flask, request, jsonify, url_for, Blueprint
 import cloudinary
-from api.models import db, Patient, Specialist
+from api.models import db, Patient, Specialist,Certificates
 # Import the cloudinary.api for managing assets
 import cloudinary.api
 from api.utils import generate_sitemap, APIException
@@ -324,7 +324,6 @@ def update_img_patient(patient_id):
 
 @api.route("/update_information_specialist/<int:specialist_id>",methods=["PUT"])
 def update_specialist(specialist_id):
-
     new_first_name=request.json.get("first_name")
     new_last_name=request.json.get("last_name")
     new_email=request.json.get("email")
@@ -341,9 +340,7 @@ def update_specialist(specialist_id):
         specialist.language=new_language
         specialist.phone_number=new_phone_number
         specialist.country_origin=country_origin
-        
         db.session.commit()
-        
         return jsonify({
             "message":"The information was uploaded succesfully",
            "specialist": specialist.serialize()
@@ -353,27 +350,69 @@ def update_specialist(specialist_id):
         return ({"error":"the patient does not exist"}),400 
     
 
+
 @api.route("/update_img_specialist/<int:specialist_id>", methods=["PUT"])
 @cross_origin()
 def update_img_specialist(specialist_id):
     new_img=request.files.get("img")
-    new_certificate=request.files.get("certificate")
     specialist=Specialist.query.get(specialist_id)
     if specialist:
         img_path=None
-        certificate_path=None
         folder_name="PhysioCareSync"
-        if new_img and new_certificate:
+        if new_img :
             res_img=cloudinary.uploader.upload(new_img,folder=folder_name)
-            res_certificate=cloudinary.uploader.upload(new_certificate,folder=folder_name)
             img_path=res_img["secure_url"]
-            certificate_path=res_certificate["secure_url"]
             specialist.img=img_path
-            specialist.certificate=certificate_path
-            
-    
+                
     db.session.commit()
     return jsonify({
         "message":"The profile image and the certificate was updated!",
         "specialist":specialist.serialize()
     })
+
+
+
+@api.route("/upload_certificates_specialist/<int:specialist_id_certificate>",methods=["POST"])
+@cross_origin()
+def upload_certificates_by_specialist(specialist_id_certificate):
+    try:
+        certificate_path=None
+        specialist=Specialist.query.get(specialist_id_certificate)
+        folder_name="PhysioCareSync"
+        new_certificate=request.files.get("certificates_url")
+        if specialist:
+            res_certificate=cloudinary.uploader.upload(new_certificate,folder=folder_name)
+            certificate_path=res_certificate["secure_url"]
+            new_certificate=Certificates(certificates_url=certificate_path,specialist=specialist)
+            db.session.add(new_certificate)
+            db.session.commit()
+    
+        return jsonify({"message":"The certificate was uploaded succesfully", "specialist_information":specialist.serialize()})
+    
+    except Exception as e:
+        return jsonify({"error":e}),400
+
+
+
+
+@api.route("/get_certificates")
+def get_information_certificates():
+    certificates=Certificates.query.all()
+    certificates_list=[]
+    for certificate in certificates:
+        certificates_dict={
+            "id":certificate.id,
+           "specialist":{
+                "specialist_id":certificate.specialist.id,
+                "specialist_first_name":certificate.specialist.first_name,
+                "specialist_last_name":certificate.specialist.last_name,
+            },
+        
+            "certificates_url":certificate.certificates_url 
+            }
+        
+        certificates_list.append(certificates_dict)
+
+    return certificates_list,200
+            
+        
