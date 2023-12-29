@@ -317,6 +317,24 @@ const getState = ({ getStore, getActions, setStore }) => {
 				}
 			},
 
+			getSpecialistInfo: async (id_specilist) => {
+				try{
+					const response = await fetch(API_URL + `get_information_specialist/${id_specilist}`)
+					if(!response.ok){
+						throw new Error("Function can't get the information")
+					}
+					const data = await response.json()
+					const store = getStore();
+					setStore({...store, viewSpecialist:data})
+					console.log("This is the specialist information", data)
+
+				}catch(error){
+					console.error("There is an error getting the specialist info:", error)
+				}
+
+
+			},
+
 			login: () => {
 				setStore({ isAuthenticated: true });
 			},
