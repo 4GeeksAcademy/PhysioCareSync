@@ -81,14 +81,13 @@ class Specialist(db.Model):
     created_at=db.Column(db.DateTime,default=datetime.utcnow,nullable=False)
     last_login_at=db.Column(db.DateTime,nullable=True)
     certificates=db.relationship("Certificates",back_populates="specialist")
+    is_authorized=db.Column(db.Boolean(),unique=False,nullable=True)
   
-
-
-
 
     def __repr__(self):
         return f'<Specialist {self.first_name}>'
 
+    
 
     def serialize(self):
         return {
@@ -105,7 +104,8 @@ class Specialist(db.Model):
             "country_origin":self.country_origin,
             "created_at":self.created_at,
             "last_login_at":self.last_login_at,
-            "certificates":[certificate.serialize_information_certificate() for certificate in self.certificates]
+            "certificates":[certificate.serialize_information_certificate() for certificate in self.certificates],
+            "is_authorized":self.is_authorized
         }
 
 

@@ -95,9 +95,10 @@ def signup_specialist():
         password=request.json.get("password")
         is_physiotherapist=request.json.get("is_physiotherapist")    
         is_nurse=request.json.get("is_nurse")   
-        certificate=request.json.get("certificate")
         description=request.json.get("description")
-        language=request.json.get("language") 
+        language=request.json.get("language")
+
+
         
         if not first_name or not last_name or not email or not password:
             return jsonify ({"error":"You are missing information, check it out"}),400
@@ -110,11 +111,14 @@ def signup_specialist():
             return jsonify ({"error":"The Specialist already exist!"}),400
         
         password_hash=bcrypt.generate_password_hash(password).decode("utf-8")
-        new_specialist=Specialist(email=email,first_name=first_name,last_name=last_name,password=password_hash,is_physiotherapist=is_physiotherapist,is_nurse=is_nurse,certificate=certificate,description=description,language=language)
+        is_authorized=False
+        new_specialist=Specialist(email=email,first_name=first_name,last_name=last_name,password=password_hash,is_physiotherapist=is_physiotherapist,is_nurse=is_nurse,description=description,language=language,is_authorized=is_authorized)
         db.session.add(new_specialist)
         db.session.commit()
+        existing_specialist_to_show=Specialist.query.filter_by(email=email).first()
 
-        return jsonify({"message":"The Specialist was created succesfully!","specialist_id":new_specialist.id, "email":email,"first_name":first_name, "last_name": last_name,"is_physiotherapist":is_physiotherapist,"is_nurse":is_nurse,"certificate":certificate,"description":description,"language":language}),200
+
+        return jsonify({"message":"The Specialist was created succesfully!","specialist_id":existing_specialist_to_show.serialize()}),200
 
     except Exception as e: 
         return jsonify({"error": "Error in Specialist creation " + str(e)}),400
@@ -257,10 +261,10 @@ def get_specialist_by_id(specialist_id):
     if specialist:
         specialist_serialize=specialist.serialize()
 
-        return jsonify({"specialist":specialist_serialize})
+        return jsonify({"specialist":specialist_serialize}),200
     
     else:
-        return jsonify({"error":"The specialist does not exist"})
+        return jsonify({"error":"The specialist does not exist"}),400
 
 
 
@@ -318,7 +322,7 @@ def update_img_patient(patient_id):
     return jsonify({
         "message":"The profile image was updated!",
         "patient":patient.serialize()
-    })
+    }),200
 
 
 
@@ -368,7 +372,7 @@ def update_img_specialist(specialist_id):
     return jsonify({
         "message":"The profile image and the certificate was updated!",
         "specialist":specialist.serialize()
-    })
+    }),200
 
 
 
@@ -387,7 +391,7 @@ def upload_certificates_by_specialist(specialist_id_certificate):
             db.session.add(new_certificate)
             db.session.commit()
     
-        return jsonify({"message":"The certificate was uploaded succesfully", "specialist_information":specialist.serialize()})
+        return jsonify({"message":"The certificate was uploaded succesfully", "specialist_information":specialist.serialize()}),200
     
     except Exception as e:
         return jsonify({"error":e}),400
@@ -416,3 +420,18 @@ def get_information_certificates():
     return certificates_list,200
             
         
+@api.route("/authorize_specialist/<int:specialist_id>",methods=["PUT"])
+def authorization_specialist(specialist_id):
+    try:
+        specialist=Specialist.query.get(specialist_id)
+        check_authorization=request.json.get("is_authorized")
+
+        if specialist:
+            specialist.is_authorized = check_authorization  
+            db.session.commit()
+            return jsonify({"message":"The specialist is authorized!","specialist_information":specialist.serialize()}),200
+
+
+    except Exception as e:
+        return jsonify({"error":e}),400
+
