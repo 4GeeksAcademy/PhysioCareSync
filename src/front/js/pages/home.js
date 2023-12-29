@@ -7,7 +7,6 @@ import Product from "../component/Product.jsx";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faUser, faSignInAlt, faInfoCircle } from "@fortawesome/free-solid-svg-icons";
 
-import OpenChat from "../component/OpenChat.jsx"
 
 export const Home = () => {
 

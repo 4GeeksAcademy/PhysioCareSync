@@ -1,0 +1,20 @@
+.suscriptionBox{
+    display: flex;
+    flex-direction: column;
+    width: 20rem;
+    border: 2px rgb(119, 255, 255) solid;
+    border-radius: 1rem;
+    padding: 1rem;
+    margin: auto;
+    margin-top: 1rem;
+    background-color: azure;
+    align-items: center;
+}
+
+.price{
+    border-bottom: 1px solid gray;
+}
+
+.payButton{
+    width: 100%;
+}

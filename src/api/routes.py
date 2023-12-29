@@ -21,7 +21,7 @@ import string
 #SDK de Mercado Pago
 import mercadopago
 # Agrega credenciales
-sdk = mercadopago.SDK("TEST-3121285479794599-122021-59e32c2ffe15b65b99751e52e0999527-833328876")
+sdk = mercadopago.SDK("APP_USR-3678964543970321-122914-cff594eb1bc1032844fce854aa9f58ed-1603958860")
 
 api = Blueprint('api', __name__)
 
@@ -33,6 +33,7 @@ secret_keys=secrets.token_hex(32)
 app.config["JWT_SECRET_KEY"]= secret_keys
 jwt= JWTManager(app)
 bcrypt=Bcrypt(app)
+
 
 
 
@@ -230,9 +231,9 @@ def create_preference():
                 }
             ],
             "back_urls": {
-                "success": "https://solid-space-broccoli-7v9r5r744rx9fwwjw-3000.app.github.dev/api/success",
-                "failure": "https://solid-space-broccoli-7v9r5r744rx9fwwjw-3000.app.github.dev/api/failure",
-                "pending": "https://solid-space-broccoli-7v9r5r744rx9fwwjw-3000.app.github.dev/api/pending",
+                "success": "https://solid-space-broccoli-7v9r5r744rx9fwwjw-3000.app.github.dev/success",
+                "failure": "https://solid-space-broccoli-7v9r5r744rx9fwwjw-3000.app.github.dev/failure",
+                "pending": "https://solid-space-broccoli-7v9r5r744rx9fwwjw-3000.app.github.dev/pending",
             },
             "auto_return": "approved",
         }
