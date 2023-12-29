@@ -1,6 +1,7 @@
 from flask_sqlalchemy import SQLAlchemy
 
 
+
 db = SQLAlchemy()
 
 
@@ -11,7 +12,7 @@ class Patient(db.Model):
     email = db.Column(db.String(120), unique=True, nullable=False)
     password = db.Column(db.String(80), unique=False, nullable=False)
     img=db.Column(db.String(250),unique=False,nullable=True)
-    phone_number=db.Column(db.Integer,unique=False,nullable=True)
+    phone_number=db.Column(db.String(30),unique=False,nullable=True)
     country_origin=db.Column(db.String(120),unique=False,nullable=True)
     language = db.Column(db.String(120), unique=False, nullable=True)
 
@@ -42,11 +43,11 @@ class Specialist(db.Model):
     password = db.Column(db.String(80), unique=False, nullable=False)
     is_physiotherapist = db.Column(db.Boolean(), unique=False, nullable=False)
     is_nurse = db.Column(db.Boolean(), unique=False, nullable=False)
-    certificate = db.Column(db.String(250), unique=False, nullable=True)
-    description = db.Column(db.String(250), unique=False, nullable=True)
+    certificate = db.Column(db.String(400), unique=False, nullable=True)
+    description = db.Column(db.String(2000), unique=False, nullable=True)
     language = db.Column(db.String(120), unique=False, nullable=True)
-    img=db.Column(db.String(250),unique=False,nullable=True)
-    phone_number=db.Column(db.Integer,unique=False,nullable=True)
+    img=db.Column(db.String(400),unique=False,nullable=True)
+    phone_number=db.Column(db.String(30),unique=False,nullable=True)
     country_origin=db.Column(db.String(120),unique=False,nullable=True)
 
 

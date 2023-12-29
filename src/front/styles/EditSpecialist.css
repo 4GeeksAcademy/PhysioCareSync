@@ -1,0 +1,52 @@
+
+.container-edit-specialist{
+    font-family: 'Times New Roman', Times, serif;
+    display: flex;
+    background-color: #f4f4f4;
+    padding: 0;
+    margin: 0;
+    justify-content: center;
+    align-items:  center;
+    height: 100vh;
+}
+
+.form-edit-specialist{
+    background-color: #fff;
+    padding: 5%;
+    box-shadow: 0 0 10px rgb(0, 0, 0, 0.1);
+    max-width: 400px;
+    width: 100%;
+}
+
+.label-edit-specialist{
+    margin-bottom: 5px;
+    display: block;
+}
+
+.input-edit-specialist{  
+    width: 100%;
+    padding: 3px;
+    margin-bottom: 16px;   
+}
+
+.button-edit-specialist{
+    background-color:#4caf50;
+    color: #fff;
+    padding: 5px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 16px;
+}
+
+.button-edit-specialist:hover{
+    background-color:#45a049 ;
+}
+
+
+/* .container-go-home{
+    position: absolute;
+    bottom: 11%;
+    left: 41%;
+
+} */
