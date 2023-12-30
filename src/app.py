@@ -11,20 +11,24 @@ from api.models import db,Patient,Specialist
 from api.routes import api
 from api.admin import setup_admin
 from api.commands import setup_commands, setup_commands_specialist
-
+import mercadopago
 
 # from app import app
 
 from flask_jwt_extended import  JWTManager, create_access_token, jwt_required, get_jwt_identity
 from flask_bcrypt import Bcrypt
 
+#sdk de mercadopago
+sdk = mercadopago.SDK("APP_USR-3678964543970321-122914-cff594eb1bc1032844fce854aa9f58ed-1603958860")
+
 
 app = Flask (__name__)
 app.config["JWT_SECRET_KEY"] = "value_variable"
 jwt=JWTManager(app)
 bcrypt=Bcrypt(app)
-# CORS(app, origins="https://cautious-space-trout-4rwr7qjwjpv3jp6-3000.app.github.dev")
+
 CORS(app, resources=r'/api/*')
+
 # from models import Person
 
 ENV = "development" if os.getenv("FLASK_DEBUG") == "1" else "production"
