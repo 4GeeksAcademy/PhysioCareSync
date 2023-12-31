@@ -1,68 +1,74 @@
-import React, { useContext, useState } from 'react'
-import { Context } from '../store/appContext'
-import { Link, useNavigate } from 'react-router-dom'
-import '../../styles/LogIn.css'
+import React, { useContext, useState } from 'react';
+import { Context } from '../store/appContext';
+import { Link, useNavigate } from 'react-router-dom';
 
 const LogInPatient = () => {
-    const navigate = useNavigate()
-    const { store, actions } = useContext(Context)
+    const navigate = useNavigate();
+    const { actions } = useContext(Context);
 
-    const [email, setEmail] = useState("")
-    const [password, setPassword] = useState("")
-
-    const [clickedEmail, setClickedEmail] = useState(false)
-    const [clickedPassword, setClickedPassword] = useState(false)
-
+    const [email, setEmail] = useState('');
+    const [password, setPassword] = useState('');
+    const [clickedEmail, setClickedEmail] = useState(false);
+    const [clickedPassword, setClickedPassword] = useState(false);
+    const [emailError, setEmailError] = useState('');
 
     const handlerClickEmail = () => {
-        setClickedEmail(false)
-    }
+        setClickedEmail(false);
+    };
+
     const handlerBlurEmail = () => {
         if (!email.trim()) {
             setClickedEmail(true);
+            setEmailError('El correo electrónico es obligatorio');
+        } else if (!email.includes('@')) {
+            setClickedEmail(true);
+            setEmailError('El correo electrónico debe contener "@"');
+        } else {
+            setClickedEmail(false);
+            setEmailError('');
         }
-    }
+    };
 
     const handlerClickPassword = () => {
-        setClickedPassword(false)
-    }
+        setClickedPassword(false);
+    };
+
     const handlerBlurPassword = () => {
         if (!password.trim()) {
             setClickedPassword(true);
         }
-    }
+    };
+
+    const handlerKeyPress = (event) => {
+        if (event.key === 'Enter') {
+            handlerLogInPatient();
+        }
+    };
 
     const handlerLogInPatient = async () => {
         try {
-            if (email == "" || password == "") {
-                alert("All fields are required")
-                return
+            if (email.trim() === '' || emailError || password.trim() === '' || clickedPassword) {
+                return;
             }
 
-            let loginPatient = {
+            const loginPatient = {
                 email: email,
-                password: password
-            }
+                password: password,
+            };
 
-            const result = await actions.loginPatient(loginPatient)
-            console.log("This is the result:", result.patient) //Eliminar
+            const result = await actions.loginPatient(loginPatient);
 
             if (result.patient && result.accessToken) {
                 const token = result.accessToken;
-                sessionStorage.setItem('tokenPatient', token)
-                // const tokenPatient = sessionStorage.getItem('tokenPatient')
-                navigate("/")
-                // console.log("This is your token patient", tokenPatient) //Eliminar 
+                sessionStorage.setItem('tokenPatient', token);
+                navigate('/');
             } else {
-                alert("email or password incorrect");
+                setEmailError('Correo electrónico o contraseña incorrectos');
             }
         } catch (error) {
-            console.error("There was an error with the query", error)
+            console.error('Hubo un error con la consulta', error);
         }
-
-
-
-    }
+    };
 
     return (
         <div>
@@ -72,26 +78,49 @@ const LogInPatient = () => {
                     <p className='subTitle'>Por favor, introduce tus datos para ingresar a tu cuenta</p>
                 </div>
 
-                <div className="mb-3">
-                    <input onChange={(e) => setEmail(e.target.value)} onClick={handlerClickEmail} onBlur={handlerBlurEmail} type="email" className="form-control" id="exampleFormControlInput1" placeholder=" Correo electrónico" />
-                    {clickedEmail && (<p className='errorMsg'>* El correo electrónico es obligatorio *</p>)}
-
+                <div className='mb-3'>
+                    <input
+                        onChange={(e) => setEmail(e.target.value)}
+                        onClick={handlerClickEmail}
+                        onBlur={handlerBlurEmail}
+                        onKeyPress={handlerKeyPress}
+                        type='email'
+                        className='form-control'
+                        id='exampleFormControlInput1'
+                        placeholder='Correo electrónico'
+                    />
+                    {clickedEmail && email.trim() === '' && <p className='errorMsg'>* El correo electrónico es obligatorio *</p>}
+                    {emailError && <p className='errorMsg'>{emailError}</p>}
                 </div>
 
-                <input onChange={(e) => setPassword(e.target.value)} onClick={handlerClickPassword} onBlur={handlerBlurPassword} type="password" id="inputPassword5" className="form-control" aria-describedby="passwordHelpBlock" placeholder='Contraseña' />
-                {clickedPassword && (<p className='errorMsg'>* La contraseña es obligatoria *</p>)}
-                <br></br>
+                <input
+                    onChange={(e) => setPassword(e.target.value)}
+                    onClick={handlerClickPassword}
+                    onBlur={handlerBlurPassword}
+                    onKeyPress={handlerKeyPress}
+                    type='password'
+                    id='inputPassword5'
+                    className='form-control'
+                    aria-describedby='passwordHelpBlock'
+                    placeholder='Contraseña'
+                />
+                {clickedPassword && password.trim() === '' && <p className='errorMsg'>* La contraseña es obligatoria *</p>}
+                <br />
 
                 <div className='createNewBtn'>
-                    <button type="button" onClick={handlerLogInPatient} className="btn btn-success saveBtn">Ingresar</button>
+                    <button onClick={handlerLogInPatient} type='button' className='btn btn-success saveBtn'>
+                        Ingresar
+                    </button>
 
                     <Link to={'/login'}>
-                        <button type="button" className="btn btn-outline-primary exitBtn">Salir</button>
+                        <button type='button' className='btn btn-outline-primary exitBtn'>
+                            Salir
+                        </button>
                     </Link>
                 </div>
             </div>
         </div>
-    )
-}
+    );
+};
 
-export default LogInPatient
+export default LogInPatient;

@@ -1,28 +1,25 @@
 import React from "react";
+import { useNavigate } from 'react-router-dom';  // Importa useNavigate
 import "../../styles/home.css";
 import LogInBtn from "../component/LogInBtn.jsx";
 import NewUserBtn from "../component/NewUserBtn.jsx";
 
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faUser, faSignInAlt, faInfoCircle } from "@fortawesome/free-solid-svg-icons";
-
-
-
 export const Home = () => {
+  const navigate = useNavigate();  // Inicializa useNavigate
 
+  const handleLoginClick = () => {
+    console.log("Botón de iniciar sesión clicado");
+  };
 
+  const handleLearnMoreClick = () => {
+    console.log("Botón de aprender más clicado");
+  };
 
-    const handleLoginClick = () => {
-      console.log("Botón de iniciar sesión clicado");
-    };
+  const handleSignUpClick = () => {
+    console.log("Botón de registrarse clicado");
+    navigate('/edit/specialist');  // Redirige a la página EditSpecialist
+  };
 
-    const handleLearnMoreClick = () => {
-      console.log("Botón de aprender más clicado");
-    };
-   
-    const handleSignUpClick = () => {
-      console.log("Botón de registrarse clicado");
-    };
   
   return (
     <div className="mushoChoiceDrivenUserExpe">
@@ -102,7 +99,6 @@ export const Home = () => {
             <div className="copy">
               <h1 className="heading1">"¡Regístrate como Especialista Ahora!"</h1>
             </div>
-              <NewUserBtn></NewUserBtn>
             <button className="buttonCombo" onClick={handleSignUpClick}>
               <div className="button2">
                 <div className="textContainer">
