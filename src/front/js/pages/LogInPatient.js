@@ -67,8 +67,15 @@ const LogInPatient = () => {
 
             if (result.patient && result.accessToken) {
                 const token = result.accessToken;
-                sessionStorage.setItem('tokenPatient', token);
-                navigate('/');
+
+                sessionStorage.setItem('tokenPatient', token)
+                // const tokenPatient = sessionStorage.getItem('tokenPatient')
+                await actions.accessConfirmationPatient();
+                sessionStorage.setItem("patientId", store.informationPatient.id)
+                const patientId = sessionStorage.getItem("patientId")
+                navigate(`/profile/patient/${patientId}`)
+                // console.log("This is your token patient", tokenPatient) //Eliminar 
+
             } else {
                 setEmailError('Correo electrónico o contraseña incorrectos');
             }

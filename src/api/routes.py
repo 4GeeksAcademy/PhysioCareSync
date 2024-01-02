@@ -1,14 +1,13 @@
 """
 This module takes care of starting the API Server, Loading the DB and Adding the endpoints
 """
-import secrets
 
-from flask import Flask, request, jsonify, url_for, Blueprint, current_app
-
-
+import secrets,json
+from datetime import datetime
+from flask import Flask, request, jsonify, url_for, Blueprint,current_app
 import cloudinary
+from api.models import db, Patient, Specialist,Certificates
 
-from api.models import db, Patient, Specialist
 # Import the cloudinary.api for managing assets
 import cloudinary.api
 from api.utils import generate_sitemap, APIException
@@ -109,9 +108,10 @@ def signup_specialist():
         password=request.json.get("password")
         is_physiotherapist=request.json.get("is_physiotherapist")    
         is_nurse=request.json.get("is_nurse")   
-        certificate=request.json.get("certificate")
         description=request.json.get("description")
-        language=request.json.get("language") 
+        language=request.json.get("language")
+
+
         
         if not first_name or not last_name or not email or not password:
             return jsonify ({"error":"You are missing information, check it out"}),400
@@ -124,11 +124,14 @@ def signup_specialist():
             return jsonify ({"error":"The Specialist already exist!"}),400
         
         password_hash=bcrypt.generate_password_hash(password).decode("utf-8")
-        new_specialist=Specialist(email=email,first_name=first_name,last_name=last_name,password=password_hash,is_physiotherapist=is_physiotherapist,is_nurse=is_nurse,certificate=certificate,description=description,language=language)
+        is_authorized=False
+        new_specialist=Specialist(email=email,first_name=first_name,last_name=last_name,password=password_hash,is_physiotherapist=is_physiotherapist,is_nurse=is_nurse,description=description,language=language,is_authorized=is_authorized)
         db.session.add(new_specialist)
         db.session.commit()
+        existing_specialist_to_show=Specialist.query.filter_by(email=email).first()
 
-        return jsonify({"message":"The Specialist was created succesfully!","specialist_id":new_specialist.id, "email":email,"first_name":first_name, "last_name": last_name,"is_physiotherapist":is_physiotherapist,"is_nurse":is_nurse,"certificate":certificate,"description":description,"language":language}),200
+
+        return jsonify({"message":"The Specialist was created succesfully!","specialist_id":existing_specialist_to_show.serialize()}),200
 
     except Exception as e: 
         return jsonify({"error": "Error in Specialist creation " + str(e)}),400
@@ -142,6 +145,7 @@ def login_patient():
         email=request.json.get("email")
         password=request.json.get("password")
 
+
         if not email or not password:
             return jsonify ({"error": "Invalid credentials"}),400
         
@@ -149,10 +153,11 @@ def login_patient():
         check_password_of_existing=get_patient_by_email.password
         is_correctly_password=bcrypt.check_password_hash(check_password_of_existing,password)
         serialized_patient = get_patient_by_email.serialize()
-        
         if is_correctly_password:
             patient_id=get_patient_by_email.id
             access_token=create_access_token(identity=patient_id)
+            get_patient_by_email.last_login_at=datetime.utcnow()
+            db.session.commit()
             return jsonify({"accessToken": access_token, "patient":serialized_patient}),200
         else:
             return jsonify({"error":"Invalid credentials"}),400
@@ -178,6 +183,8 @@ def login_specialist():
         if is_password_correctly:
             specialist_id=get_specialist_by_email.id
             access_token=create_access_token(identity= specialist_id)
+            get_specialist_by_email.last_login_at=datetime.utcnow()
+            db.session.commit()
 
             return jsonify ({"accessToken": access_token,"specialist":serialized_specialist}),200
         else:
@@ -297,10 +304,12 @@ def get_specialist_by_id(specialist_id):
     if specialist:
         specialist_serialize=specialist.serialize()
 
+
         return jsonify({"specialist":specialist_serialize, "ok":True})
+
     
     else:
-        return jsonify({"error":"The specialist does not exist"})
+        return jsonify({"error":"The specialist does not exist"}),400
 
 
 
@@ -317,6 +326,8 @@ def update_patient(patient_id):
     new_phone_number=request.json.get("phone_number")
     country_origin=request.json.get("country_origin")
     language=request.json.get("language")
+
+
     patient=Patient.query.get(patient_id)
    
     if patient:
@@ -327,7 +338,6 @@ def update_patient(patient_id):
         patient.country_origin=country_origin
         patient.language=language
    
-        
         db.session.commit()
         return jsonify({
             "message":"The information was uploaded succesfully",
@@ -357,13 +367,12 @@ def update_img_patient(patient_id):
     return jsonify({
         "message":"The profile image was updated!",
         "patient":patient.serialize()
-    })
+    }),200
 
 
 
 @api.route("/update_information_specialist/<int:specialist_id>",methods=["PUT"])
 def update_specialist(specialist_id):
-
     new_first_name=request.json.get("first_name")
     new_last_name=request.json.get("last_name")
     new_email=request.json.get("email")
@@ -380,9 +389,7 @@ def update_specialist(specialist_id):
         specialist.language=new_language
         specialist.phone_number=new_phone_number
         specialist.country_origin=country_origin
-        
         db.session.commit()
-        
         return jsonify({
             "message":"The information was uploaded succesfully",
            "specialist": specialist.serialize()
@@ -393,28 +400,93 @@ def update_specialist(specialist_id):
 
     
 
+
 @api.route("/update_img_specialist/<int:specialist_id>", methods=["PUT"])
 @cross_origin()
 def update_img_specialist(specialist_id):
     new_img=request.files.get("img")
-    new_certificate=request.files.get("certificate")
     specialist=Specialist.query.get(specialist_id)
     if specialist:
         img_path=None
-        certificate_path=None
         folder_name="PhysioCareSync"
-        if new_img and new_certificate:
+        if new_img :
             res_img=cloudinary.uploader.upload(new_img,folder=folder_name)
-            res_certificate=cloudinary.uploader.upload(new_certificate,folder=folder_name)
             img_path=res_img["secure_url"]
-            certificate_path=res_certificate["secure_url"]
             specialist.img=img_path
-            specialist.certificate=certificate_path
-            
-    
+                
     db.session.commit()
     return jsonify({
         "message":"The profile image and the certificate was updated!",
         "specialist":specialist.serialize()
-    })
+
+    }),200
+
+
+
+@api.route("/upload_certificates_specialist/<int:specialist_id_certificate>",methods=["POST"])
+@cross_origin()
+def upload_certificates_by_specialist(specialist_id_certificate):
+    try:
+        certificate_path=None
+        specialist=Specialist.query.get(specialist_id_certificate)
+        num_certificates=int(request.form.get("num_certificates"))
+        print(num_certificates)
+        certificate_paths=[]
+        folder_name="PhysioCareSync"
+        for i in range(1,num_certificates+1):
+            certificate_key=f"certificates_url_{i}"
+            print(certificate_key)
+            new_certificate=request.files.get(certificate_key)
+            if new_certificate and specialist:
+                print("entre a la condicion!")
+                res_certificate=cloudinary.uploader.upload(new_certificate,folder=folder_name)
+                certificate_path=res_certificate["secure_url"]
+                new_certificate_instance=Certificates(certificates_url=certificate_path,specialist=specialist)
+                db.session.add(new_certificate_instance)
+     
+        db.session.commit()
+        return jsonify({"message":"The certificates was uploaded succesfully", "specialist_information":specialist.serialize()}),200
+    
+    except Exception as e:
+        return jsonify({"error":e}),400
+
+
+
+
+@api.route("/get_certificates")
+def get_information_certificates():
+    certificates=Certificates.query.all()
+    certificates_list=[]
+    for certificate in certificates:
+        certificates_dict={
+            "id":certificate.id,
+           "specialist":{
+                "specialist_id":certificate.specialist.id,
+                "specialist_first_name":certificate.specialist.first_name,
+                "specialist_last_name":certificate.specialist.last_name,
+            },
+        
+            "certificates_url":certificate.certificates_url 
+            }
+        
+        certificates_list.append(certificates_dict)
+
+    return certificates_list,200
+            
+        
+@api.route("/authorize_specialist/<int:specialist_id>",methods=["PUT"])
+def authorization_specialist(specialist_id):
+    try:
+        specialist=Specialist.query.get(specialist_id)
+        check_authorization=request.json.get("is_authorized")
+
+        if specialist:
+            specialist.is_authorized = check_authorization  
+            db.session.commit()
+            return jsonify({"message":"The specialist is authorized!","specialist_information":specialist.serialize()}),200
+
+
+    except Exception as e:
+        return jsonify({"error":e}),400
+
 

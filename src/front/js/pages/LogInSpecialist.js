@@ -63,9 +63,14 @@ const LogInSpecialist = () => {
             console.log('Este es el resultado:', result.specialist);
             if (result && result.accessToken) {
                 const token = result.accessToken;
-                sessionStorage.setItem('tokenSpecialist', token);
-             
-                navigate('/formSpecialist');
+                sessionStorage.setItem('tokenSpecialist', token)
+                await actions.accessConfirmationSpecialist();
+                sessionStorage.setItem("specialistId", store.informationSpecialist.id)
+                const specialistId = sessionStorage.getItem("specialistId")
+                navigate(`/profile/specialist/${specialistId}`)
+
+
+
             } else {
                 alert('Correo electrónico o contraseña incorrectos');
             }

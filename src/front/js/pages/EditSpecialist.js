@@ -13,6 +13,7 @@ const EditSpecialist = () => {
 
     const formRef = useRef(null)
     const goToHome = useNavigate()
+    const navigate = useNavigate()
 
     //chequear parametros relacionados a la funcion de submit!
     const handleUploadImageProfile = (e) => {
@@ -97,8 +98,8 @@ const EditSpecialist = () => {
 
         await actions.editSpecialistInformation(specialistId, finalSpecialistForm)
         await actions.editImagesSpecialist(formImages, specialistId)
-
-
+        const profileId = sessionStorage.getItem("specialistId")
+        navigate(`/profile/specialist/${profileId}`)
 
         setFinalImageCertificate(null)
         setFinalImagePatient(null)

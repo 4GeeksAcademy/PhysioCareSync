@@ -22,13 +22,15 @@ import NewSpecialist from "./pages/NewSpecialist.js";
 import EditPatient from "./pages/EditPatient.js";
 import PrivateSpecialist from "./pages/PrivateSpecialist.js";
 import EditSpecialist from "./pages/EditSpecialist.js";
+
+import ProfilePatient from "./pages/ProfilePatient.js";
+import ProfileSpecialist from "./pages/ProfileSpecialist.js";
 import FormSpecialist from "./pages/FormSpecialist.js";
 import ProfessionalView from "./pages/ProfessionalView"; 
-
-
 import PaySuccess from "./pages/PaySuccess.jsx";
 import PayError from "./pages/PayError.jsx";
 import PayPending from "./pages/PayPending.jsx";
+
 
 
 //create your first component
@@ -61,6 +63,8 @@ const Layout = () => {
                         <Route element={<PayPending />} path="/pending" />
                         <Route element={<EditPatient />} path="/edit/patient" />
                         <Route element={<EditSpecialist />} path="/edit/specialist" />
+                        <Route element={<ProfilePatient />} exact path="profile/patient/:theid" />
+                        <Route element={<ProfileSpecialist />} exact path="profile/specialist/:theid" />
                         <Route element={<Single />} path="/single/:theid" />
                         <Route element={<FormSpecialist />} path="/formSpecialist" />
                         <Route element={<ProfessionalView />} path="/professional-view" />
@@ -69,7 +73,7 @@ const Layout = () => {
                     </Routes>
                 </ScrollToTop>
             </BrowserRouter>
-        </div>
+        </div >
     );
 };
 
