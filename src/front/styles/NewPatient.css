@@ -43,3 +43,50 @@ align-items: center;
     justify-content: center;
     color: white;
 }
+
+
+
+.password-strength {
+    margin-top: 10px;
+  }
+  
+  .progress-strength {
+    width: 100%;
+    height: 8px;
+    border-radius: 5px;
+    overflow: hidden;
+    background-color: #eee;
+  }
+  
+  .progress-strength-bar {
+    height: 100%;
+    transition: background-color 0.3s ease; /* Corregido a background-color para la transición de color */
+}
+
+  
+  .password-feedback {
+    margin-top: 5px;
+    font-size: 14px;
+    color: #555;
+  }
+  
+  /* Cambié los colores de fondo directamente aquí, para simplificar */
+  .progress-strength-0 {
+    background: #ff4d4d;
+  }
+  
+  .progress-strength-1 {
+    background: #ffa500;
+  }
+  
+  .progress-strength-2 {
+    background: #ffd700;
+  }
+  
+  .progress-strength-3 {
+    background: #9acd32;
+  }
+  
+  .progress-strength-4 {
+    background: #00cc66;
+  }

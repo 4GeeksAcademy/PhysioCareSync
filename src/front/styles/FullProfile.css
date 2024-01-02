@@ -1,0 +1,35 @@
+/* En FullProfile.css */
+.full-profile-container {
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 20px;
+    background-color: #f5f5f5;
+  }
+  
+  .full-profile-title {
+    font-size: 24px;
+    margin-bottom: 10px;
+  }
+  
+  .full-profile-details {
+    margin-bottom: 20px;
+  }
+  
+  .full-profile-image-section,
+  .full-profile-certificate-section {
+    margin-top: 20px;
+  }
+  
+  .full-profile-image,
+  .full-profile-certificate {
+    max-width: 100%;
+    height: auto;
+  }
+  
+  .full-profile-message {
+    color: red;
+    font-size: 18px;
+    text-align: center;
+    margin-top: 20px;
+  }
+  

@@ -1,144 +1,210 @@
-import React, { useContext, useState } from 'react'
-import { Context } from '../store/appContext'
-import { Link, useNavigate } from 'react-router-dom'
+import React, { useContext, useState } from 'react';
+import { Context } from '../store/appContext';
+import { Link, useNavigate } from 'react-router-dom';
+import zxcvbn from 'zxcvbn'; // Importa la biblioteca de fortaleza de contraseña
 import '../../styles/NewPatient.css';
 
-
 const NewPatient = () => {
-    const navigate = useNavigate()
-    const { store, actions } = useContext(Context)
+  const navigate = useNavigate();
+  const { store, actions } = useContext(Context);
 
-    const [firstName, setFirstName] = useState("")
-    const [lastName, setLastName] = useState("")
-    const [email, setEmail] = useState("")
-    const [password, setPassword] = useState("")
+  const [firstName, setFirstName] = useState('');
+  const [lastName, setLastName] = useState('');
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
 
-    //Dinamizations states
-    const [clickedFristName, setClickedFirstName] = useState(false)
-    const [clickedLastName, setClickedLastName] = useState(false)
-    const [clickedEmail, setClickedEmail] = useState(false)
-    const [clickedPassword, setClickedPassword] = useState(false)
+  // Estados de dinamización
+  const [clickedFirstName, setClickedFirstName] = useState(false);
+  const [clickedLastName, setClickedLastName] = useState(false);
+  const [clickedEmail, setClickedEmail] = useState(false);
+  const [clickedPassword, setClickedPassword] = useState(false);
 
+  // Estado de fortaleza de contraseña
+  const [passwordStrength, setPasswordStrength] = useState({ score: 0 });
 
+  // Funciones de dinamización de inputs
+  const handlerClickFirstName = () => {
+    setClickedFirstName(false);
+  };
 
-    //Funciones para dinamizmos de inputs
-
-    const handlerClickFirstName = () => {
-        setClickedFirstName(false)
+  const handlerBlurFirstName = () => {
+    if (!firstName.trim()) {
+      setClickedFirstName(true);
     }
-    const handlerBlurFirstName = () => {
-        if (!firstName.trim()) {
-            setClickedFirstName(true);
-        }
+  };
+
+  const handlerClickLastName = () => {
+    setClickedLastName(false);
+  };
+
+  const handlerBlurLastName = () => {
+    if (!lastName.trim()) {
+      setClickedLastName(true);
     }
+  };
 
-    const handlerClickLastName = () => {
-        setClickedLastName(false)
+  const handlerClickEmail = () => {
+    setClickedEmail(false);
+  };
+
+  const handlerBlurEmail = () => {
+    if (!email.trim()) {
+      setClickedEmail(true);
+    } else if (!isEmailValid(email)) {
+      setClickedEmail(true);
+      alert('El formato del correo electrónico es incorrecto');
     }
-    const handlerBlurLastName = () => {
-        if (!lastName.trim()) {
-            setClickedLastName(true);
-        }
+  };
+
+  const handlerClickPassword = () => {
+    setClickedPassword(false);
+  };
+
+  const handlerBlurPassword = () => {
+    if (!password.trim()) {
+      setClickedPassword(true);
     }
+  };
 
-    const handlerClickEmail = () => {
-        setClickedEmail(false)
+  // Actualiza la fortaleza de la contraseña mientras el usuario la escribe
+  const handlerChangePassword = (e) => {
+    const newPassword = e.target.value;
+    setPassword(newPassword);
+    checkPasswordStrength(newPassword);
+  };
+
+  // Comprobación de fortaleza de contraseña
+  const checkPasswordStrength = (password) => {
+    const strength = zxcvbn(password);
+    const score = strength.score;
+  
+    // Asegúrate de que la puntuación esté en el rango de 0 a 4
+    const adjustedScore = Math.min(Math.max(score, 0), 4);
+    setPasswordStrength({ score: adjustedScore, feedback: strength.feedback });
+  };
+
+  // Validación del formato del correo electrónico
+  const isEmailValid = (email) => {
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    return emailRegex.test(email);
+  };
+
+  // Función para crear el paciente
+  const handlerCreatePatient = async () => {
+    try {
+      if (
+        firstName === '' ||
+        lastName === '' ||
+        email === '' ||
+        password === '' ||
+        !isEmailValid(email)
+      ) {
+        alert('Todos los campos son requeridos o el formato del correo es incorrecto');
+        return;
+      }
+
+      let newInputPatient = {
+        email: email,
+        password: password,
+        first_name: firstName,
+        last_name: lastName,
+      };
+
+      await actions.createNewPatient(newInputPatient);
+      navigate('/'); // Replace with the desired route
+    } catch (error) {
+      console.error('Hubo un error al crear el paciente', error);
     }
-    const handlerBlurEmail = () => {
-        if (!email.trim()) {
-            setClickedEmail(true);
-        }
-    }
+  };
 
-    const handlerClickPassword = () => {
-        setClickedPassword(false)
-    }
-    const handlerBlurPassword = () => {
-        if (!password.trim()) {
-            setClickedPassword(true);
-        }
-    }
+  return (
+    <div className='patientForm'>
+      <div className='title'>
+        <h1>Bienvenido paciente!</h1>
+        <p className='subTitle'>Por favor, introduce tus datos para registrarte</p>
+      </div>
 
+      <div className="mb-3">
+        <input
+          onChange={(e) => setFirstName(e.target.value)}
+          onClick={handlerClickFirstName}
+          onBlur={handlerBlurFirstName}
+          type="firstName"
+          className="form-control"
+          id="exampleFormControlInput1"
+          placeholder="Nombre"
+        />
+        {clickedFirstName && <p className='errorMsg'>* El nombre es obligatorio *</p>}
+      </div>
 
+      <div className="mb-3">
+        <input
+          onChange={(e) => setLastName(e.target.value)}
+          onClick={handlerClickLastName}
+          onBlur={handlerBlurLastName}
+          type="lastName"
+          className="form-control"
+          id="exampleFormControlInput2"
+          placeholder="Apellido"
+        />
+        {clickedLastName && <p className='errorMsg'>* El apellido es obligatorio *</p>}
+      </div>
 
+      <div className="mb-3">
+        <input
+          onChange={(e) => setEmail(e.target.value)}
+          onClick={handlerClickEmail}
+          onBlur={handlerBlurEmail}
+          type="email"
+          className="form-control"
+          id="exampleFormControlInput3"
+          placeholder="Correo electrónico"
+        />
+        {clickedEmail && <p className='errorMsg'>* El correo electrónico es obligatorio *</p>}
+      </div>
 
-
-
-    //Funcion para crear usuario
-    const handlerCreatePatient = async () => {
-        try {
-            if (firstName == "" || lastName == "" || email == "" || password == "") {
-                alert("Todos los campos son requeridos")
-                return
-            }
-
-
-            let newInputPatient = {
-                first_name: firstName,
-                last_name: lastName,
-                email: email,
-                password: password
-            }
-            await actions.createNewPatient(newInputPatient)
-            navigate("/") //---------------------------->Colocar ruta creada por Leo ATENCION <------------------------------------
-        } catch (error) {
-            console.error("Error trying to send info", error)
-        }
-
-
-    }
-
-    return (
-        <div className='patientForm'>
-             <div className='title'>
-            <h1>Bienvenido paciente!</h1>
-            <p className='subTitle'>Por favor, introduce tus datos para registrarte</p>
+      <div>
+        <input
+          onChange={handlerChangePassword}
+          onClick={handlerClickPassword}
+          onBlur={handlerBlurPassword}
+          placeholder='Contraseña'
+          type="password"
+          id="inputPassword5"
+          className="form-control"
+          aria-describedby="passwordHelpBlock"
+        />
+        <div id="passwordHelpBlock" className="form-text">
+          {passwordStrength.feedback && (
+            <div className="password-strength">
+              <progress
+                className={`progress-strength progress-strength-${passwordStrength.score}`}
+                value={passwordStrength.score}
+                max="4"
+              ></progress>
+              <p className={`password-feedback password-feedback-${passwordStrength.score}`}>
+                {passwordStrength.feedback.suggestions.join(' ')}
+              </p>
             </div>
-            <div className="mb-3">
-                <input onChange={(e) => setFirstName(e.target.value)} onClick={handlerClickFirstName} onBlur={handlerBlurFirstName} type="email" className="form-control" id="exampleFormControlInput1" placeholder="Nombre" />
-                {clickedFristName && (<p className='errorMsg'>* El nombre es obligatorio *</p>)}
-            </div>
-
-            <div className="mb-3">
-                <input onChange={(e) => setLastName(e.target.value)} onClick={handlerClickLastName} onBlur={handlerBlurLastName} type="email" className="form-control" id="exampleFormControlInput1" placeholder="Apellido" />
-                {clickedLastName && (<p className='errorMsg'>* El apellido es obligatorio *</p>)}
-            </div>
-
-            <div className="mb-3">
-                <input onChange={(e) => setEmail(e.target.value)} onClick={handlerClickEmail} onBlur={handlerBlurEmail} type="email" className="form-control" id="exampleFormControlInput1" placeholder=" Correo electrónico" />
-                {clickedEmail && (<p className='errorMsg'>* El correo electrónico es obligatorio *</p>)}
-
-            </div>
-
-            <input onChange={(e) => setPassword(e.target.value)} onClick={handlerClickPassword} onBlur={handlerBlurPassword} type="password" id="inputPassword5" className="form-control" aria-describedby="passwordHelpBlock" placeholder='Contraseña' />
-            {clickedPassword && (<p className='errorMsg'>* La contraseña es obligatoria *</p>)}
-            <br></br>
-
-            {/* <div>
-                <div class="progress">
-                    <div class="progress-bar bg-success" role="progressbar" style={{ width: '25%' }} aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"></div>
-                </div>
-                <div class="progress">
-                    <div class="progress-bar bg-info" role="progressbar" style={{ width: '50%' }} aria-valuenow="50" aria-valuemin="0" aria-valuemax="100"></div>
-                </div>
-                <div class="progress">
-                    <div class="progress-bar bg-warning" role="progressbar" style={{ width: '75%' }} aria-valuenow="75" aria-valuemin="0" aria-valuemax="100"></div>
-                </div>
-                <div class="progress">
-                    <div class="progress-bar bg-danger" role="progressbar" style={{ width: '100%' }} aria-valuenow="100" aria-valuemin="0" aria-valuemax="100"></div>
-                </div>
-            </div> */}
-
-            <div className='createNewBtn'>
-                <button onClick={handlerCreatePatient} type="button" className="btn btn-success saveBtn">Crear</button>
-
-                <Link to={'/signup'}>
-                    <button type="button" className="btn btn-outline-primary exitBtn">Salir</button>
-                </Link>
-            </div>
-
+          )}
         </div>
-    )
-}
+      </div>
 
-export default NewPatient
+      <br />
+
+      <div className='createNewBtn'>
+        <button onClick={handlerCreatePatient} type="button" className="btn btn-success">
+          Crear
+        </button>
+
+        <Link to={'/signup'}>
+          <button type="button" className="btn btn-outline-primary exitBtn">
+            Salir
+          </button>
+        </Link>
+      </div>
+    </div>
+  );
+};
+
+export default NewPatient;

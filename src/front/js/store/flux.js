@@ -24,7 +24,7 @@ const getState = ({ getStore, getActions, setStore }) => {
 
 		},
 		actions: {
-			// Use getActions to call a function within a fuction
+			
 
 
 			loginPatient: async (patient) => {
@@ -40,7 +40,7 @@ const getState = ({ getStore, getActions, setStore }) => {
 						throw new Error("An error occurred with the query")
 					}
 					const data = await response.json();
-					console.log("Log In successful") //Eliminar
+					console.log("Log In successful") 
 					return data
 
 
@@ -415,7 +415,6 @@ const getState = ({ getStore, getActions, setStore }) => {
 					return elm;
 				});
 
-				//reset the global store
 				setStore({ demo: demo });
 			}
 		}
