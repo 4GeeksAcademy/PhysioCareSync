@@ -1,3 +1,4 @@
+
 import React, { useContext, useState } from 'react';
 import { Context } from '../store/appContext';
 import { Link, useNavigate } from 'react-router-dom';
@@ -12,6 +13,11 @@ const LogInPatient = () => {
     const [clickedPassword, setClickedPassword] = useState(false);
     const [emailError, setEmailError] = useState('');
 
+    const isEmailValid = (email) => {
+        const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+        return emailRegex.test(email);
+    };
+
     const handlerClickEmail = () => {
         setClickedEmail(false);
     };
@@ -20,9 +26,9 @@ const LogInPatient = () => {
         if (!email.trim()) {
             setClickedEmail(true);
             setEmailError('El correo electrónico es obligatorio');
-        } else if (!email.includes('@')) {
+        } else if (!isEmailValid(email)) {
             setClickedEmail(true);
-            setEmailError('El correo electrónico debe contener "@"');
+            setEmailError('El formato del correo electrónico es incorrecto');
         } else {
             setClickedEmail(false);
             setEmailError('');
@@ -50,6 +56,7 @@ const LogInPatient = () => {
             if (email.trim() === '' || emailError || password.trim() === '' || clickedPassword) {
                 return;
             }
+
 
             const loginPatient = {
                 email: email,

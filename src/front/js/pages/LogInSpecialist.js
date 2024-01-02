@@ -1,16 +1,22 @@
+
 import React, { useContext, useState } from 'react';
 import { Context } from '../store/appContext';
 import { Link, useNavigate } from 'react-router-dom';
 
-const LogInPatient = () => {
+const LogInSpecialist = () => {
     const navigate = useNavigate();
-    const { actions } = useContext(Context);
+    const { store, actions } = useContext(Context);
 
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
+
     const [clickedEmail, setClickedEmail] = useState(false);
     const [clickedPassword, setClickedPassword] = useState(false);
-    const [emailError, setEmailError] = useState('');
+
+    const isEmailValid = (email) => {
+        const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+        return emailRegex.test(email);
+    };
 
     const handlerClickEmail = () => {
         setClickedEmail(false);
@@ -19,13 +25,9 @@ const LogInPatient = () => {
     const handlerBlurEmail = () => {
         if (!email.trim()) {
             setClickedEmail(true);
-            setEmailError('El correo electrónico es obligatorio');
-        } else if (!email.includes('@')) {
+        } else if (!isEmailValid(email)) {
             setClickedEmail(true);
-            setEmailError('El correo electrónico debe contener "@"');
-        } else {
-            setClickedEmail(false);
-            setEmailError('');
+            alert('El formato del correo electrónico es incorrecto');
         }
     };
 
@@ -39,31 +41,33 @@ const LogInPatient = () => {
         }
     };
 
-    const handlerKeyPress = (event) => {
-        if (event.key === 'Enter') {
-            handlerLogInPatient();
-        }
-    };
-
-    const handlerLogInPatient = async () => {
+    const handlerLogInSpecialist = async () => {
         try {
-            if (email.trim() === '' || emailError || password.trim() === '' || clickedPassword) {
+            if (email === '' || password === '') {
+                alert('Todos los campos son obligatorios');
                 return;
             }
 
-            const loginPatient = {
+            // Validación del formato del correo electrónico
+            if (!isEmailValid(email)) {
+                alert('El formato del correo electrónico es incorrecto');
+                return;
+            }
+
+            let loginSpecialist = {
                 email: email,
                 password: password,
             };
 
-            const result = await actions.loginPatient(loginPatient);
-
-            if (result.patient && result.accessToken) {
+            const result = await actions.loginSpecialist(loginSpecialist);
+            console.log('Este es el resultado:', result.specialist);
+            if (result && result.accessToken) {
                 const token = result.accessToken;
-                sessionStorage.setItem('tokenPatient', token);
-                navigate('/');
+                sessionStorage.setItem('tokenSpecialist', token);
+             
+                navigate('/formSpecialist');
             } else {
-                setEmailError('Correo electrónico o contraseña incorrectos');
+                alert('Correo electrónico o contraseña incorrectos');
             }
         } catch (error) {
             console.error('Hubo un error con la consulta', error);
@@ -72,48 +76,45 @@ const LogInPatient = () => {
 
     return (
         <div>
-            <div className='patientForm'>
-                <div className='title'>
-                    <h1>Bienvenido paciente!</h1>
-                    <p className='subTitle'>Por favor, introduce tus datos para ingresar a tu cuenta</p>
+            <div className="patientForm">
+                <div className="title">
+                    <h1>Bienvenido especialista!</h1>
+                    <p className="subTitle">Por favor, introduce tus datos para ingresar a tu cuenta</p>
                 </div>
 
-                <div className='mb-3'>
+                <div className="mb-3">
                     <input
                         onChange={(e) => setEmail(e.target.value)}
                         onClick={handlerClickEmail}
                         onBlur={handlerBlurEmail}
-                        onKeyPress={handlerKeyPress}
-                        type='email'
-                        className='form-control'
-                        id='exampleFormControlInput1'
-                        placeholder='Correo electrónico'
+                        type="email"
+                        className="form-control"
+                        id="exampleFormControlInput1"
+                        placeholder="Correo electrónico"
                     />
-                    {clickedEmail && email.trim() === '' && <p className='errorMsg'>* El correo electrónico es obligatorio *</p>}
-                    {emailError && <p className='errorMsg'>{emailError}</p>}
+                    {clickedEmail && <p className="errorMsg">* El correo electrónico es obligatorio o el formato es incorrecto *</p>}
                 </div>
 
                 <input
                     onChange={(e) => setPassword(e.target.value)}
                     onClick={handlerClickPassword}
                     onBlur={handlerBlurPassword}
-                    onKeyPress={handlerKeyPress}
-                    type='password'
-                    id='inputPassword5'
-                    className='form-control'
-                    aria-describedby='passwordHelpBlock'
-                    placeholder='Contraseña'
+                    type="password"
+                    id="inputPassword5"
+                    className="form-control"
+                    aria-describedby="passwordHelpBlock"
+                    placeholder="Contraseña"
                 />
-                {clickedPassword && password.trim() === '' && <p className='errorMsg'>* La contraseña es obligatoria *</p>}
-                <br />
+                {clickedPassword && <p className="errorMsg">* La contraseña es obligatoria *</p>}
+                <br></br>
 
-                <div className='createNewBtn'>
-                    <button onClick={handlerLogInPatient} type='button' className='btn btn-success saveBtn'>
+                <div className="createNewBtn">
+                    <button onClick={handlerLogInSpecialist} type="button" className="btn btn-success saveBtn">
                         Ingresar
                     </button>
 
                     <Link to={'/login'}>
-                        <button type='button' className='btn btn-outline-primary exitBtn'>
+                        <button type="button" className="btn btn-outline-primary exitBtn">
                             Salir
                         </button>
                     </Link>
@@ -123,4 +124,4 @@ const LogInPatient = () => {
     );
 };
 
-export default LogInPatient;
+export default LogInSpecialist;

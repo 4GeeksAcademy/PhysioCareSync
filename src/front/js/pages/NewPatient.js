@@ -1,221 +1,210 @@
 import React, { useContext, useState } from 'react';
 import { Context } from '../store/appContext';
 import { Link, useNavigate } from 'react-router-dom';
+import zxcvbn from 'zxcvbn'; // Importa la biblioteca de fortaleza de contraseña
 import '../../styles/NewPatient.css';
 
 const NewPatient = () => {
-    const navigate = useNavigate();
-    const { actions } = useContext(Context);
+  const navigate = useNavigate();
+  const { store, actions } = useContext(Context);
 
-    const [firstName, setFirstName] = useState('');
-    const [lastName, setLastName] = useState('');
-    const [email, setEmail] = useState('');
-    const [password, setPassword] = useState('');
-    const [clickedFirstName, setClickedFirstName] = useState(false);
-    const [clickedLastName, setClickedLastName] = useState(false);
-    const [clickedEmail, setClickedEmail] = useState(false);
-    const [clickedPassword, setClickedPassword] = useState(false);
+  const [firstName, setFirstName] = useState('');
+  const [lastName, setLastName] = useState('');
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
 
-    const validateFields = () => {
-        let isValid = true;
+  // Estados de dinamización
+  const [clickedFirstName, setClickedFirstName] = useState(false);
+  const [clickedLastName, setClickedLastName] = useState(false);
+  const [clickedEmail, setClickedEmail] = useState(false);
+  const [clickedPassword, setClickedPassword] = useState(false);
 
-        if (!firstName.trim()) {
-            setClickedFirstName(true);
-            isValid = false;
-        }
+  // Estado de fortaleza de contraseña
+  const [passwordStrength, setPasswordStrength] = useState({ score: 0 });
 
-        if (!lastName.trim()) {
-            setClickedLastName(true);
-            isValid = false;
-        }
+  // Funciones de dinamización de inputs
+  const handlerClickFirstName = () => {
+    setClickedFirstName(false);
+  };
 
-        if (!email.trim() || !email.includes('@')) {
-            setClickedEmail(true);
-            isValid = false;
-        }
+  const handlerBlurFirstName = () => {
+    if (!firstName.trim()) {
+      setClickedFirstName(true);
+    }
+  };
 
-        if (!password.trim()) {
-            setClickedPassword(true);
-            isValid = false;
-        }
+  const handlerClickLastName = () => {
+    setClickedLastName(false);
+  };
 
-        return isValid;
-    };
+  const handlerBlurLastName = () => {
+    if (!lastName.trim()) {
+      setClickedLastName(true);
+    }
+  };
 
-    const calculatePasswordStrength = () => {
-        // La lógica para calcular la fuerza de la contraseña puede personalizarse según tus criterios.
-        // En este ejemplo, evaluaré la longitud, la presencia de mayúsculas, minúsculas, números y caracteres especiales.
+  const handlerClickEmail = () => {
+    setClickedEmail(false);
+  };
 
-        let strength = 0;
+  const handlerBlurEmail = () => {
+    if (!email.trim()) {
+      setClickedEmail(true);
+    } else if (!isEmailValid(email)) {
+      setClickedEmail(true);
+      alert('El formato del correo electrónico es incorrecto');
+    }
+  };
 
-        // Longitud mínima requerida (puedes ajustar este valor según tus necesidades)
-        const minLength = 8;
+  const handlerClickPassword = () => {
+    setClickedPassword(false);
+  };
 
-        if (password.length >= minLength) {
-            strength += 1;
-        }
+  const handlerBlurPassword = () => {
+    if (!password.trim()) {
+      setClickedPassword(true);
+    }
+  };
 
-        // Verificar la presencia de mayúsculas
-        if (/[A-Z]/.test(password)) {
-            strength += 1;
-        }
+  // Actualiza la fortaleza de la contraseña mientras el usuario la escribe
+  const handlerChangePassword = (e) => {
+    const newPassword = e.target.value;
+    setPassword(newPassword);
+    checkPasswordStrength(newPassword);
+  };
 
-        // Verificar la presencia de minúsculas
-        if (/[a-z]/.test(password)) {
-            strength += 1;
-        }
+  // Comprobación de fortaleza de contraseña
+  const checkPasswordStrength = (password) => {
+    const strength = zxcvbn(password);
+    const score = strength.score;
+  
+    // Asegúrate de que la puntuación esté en el rango de 0 a 4
+    const adjustedScore = Math.min(Math.max(score, 0), 4);
+    setPasswordStrength({ score: adjustedScore, feedback: strength.feedback });
+  };
 
-        // Verificar la presencia de números
-        if (/\d/.test(password)) {
-            strength += 1;
-        }
+  // Validación del formato del correo electrónico
+  const isEmailValid = (email) => {
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    return emailRegex.test(email);
+  };
 
-        // Verificar la presencia de caracteres especiales
-        if (/[^A-Za-z0-9]/.test(password)) {
-            strength += 1;
-        }
+  // Función para crear el paciente
+  const handlerCreatePatient = async () => {
+    try {
+      if (
+        firstName === '' ||
+        lastName === '' ||
+        email === '' ||
+        password === '' ||
+        !isEmailValid(email)
+      ) {
+        alert('Todos los campos son requeridos o el formato del correo es incorrecto');
+        return;
+      }
 
-        return strength;
-    };
+      let newInputPatient = {
+        email: email,
+        password: password,
+        first_name: firstName,
+        last_name: lastName,
+      };
 
-    const getSecurityLevelMessage = () => {
-        const strength = calculatePasswordStrength();
+      await actions.createNewPatient(newInputPatient);
+      navigate('/'); // Replace with the desired route
+    } catch (error) {
+      console.error('Hubo un error al crear el paciente', error);
+    }
+  };
 
-        if (strength === 0) {
-            return '';
-        } else if (strength <= 2) {
-            return 'Nivel bajo de seguridad';
-        } else if (strength <= 4) {
-            return 'Nivel medio de seguridad';
-        } else {
-            return 'Nivel alto de seguridad';
-        }
-    };
+  return (
+    <div className='patientForm'>
+      <div className='title'>
+        <h1>Bienvenido paciente!</h1>
+        <p className='subTitle'>Por favor, introduce tus datos para registrarte</p>
+      </div>
 
-    const handlerClickFirstName = () => {
-        setClickedFirstName(false);
-    };
+      <div className="mb-3">
+        <input
+          onChange={(e) => setFirstName(e.target.value)}
+          onClick={handlerClickFirstName}
+          onBlur={handlerBlurFirstName}
+          type="firstName"
+          className="form-control"
+          id="exampleFormControlInput1"
+          placeholder="Nombre"
+        />
+        {clickedFirstName && <p className='errorMsg'>* El nombre es obligatorio *</p>}
+      </div>
 
-    const handlerBlurFirstName = () => {
-        if (!firstName.trim()) {
-            setClickedFirstName(true);
-        }
-    };
+      <div className="mb-3">
+        <input
+          onChange={(e) => setLastName(e.target.value)}
+          onClick={handlerClickLastName}
+          onBlur={handlerBlurLastName}
+          type="lastName"
+          className="form-control"
+          id="exampleFormControlInput2"
+          placeholder="Apellido"
+        />
+        {clickedLastName && <p className='errorMsg'>* El apellido es obligatorio *</p>}
+      </div>
 
-    const handlerClickLastName = () => {
-        setClickedLastName(false);
-    };
+      <div className="mb-3">
+        <input
+          onChange={(e) => setEmail(e.target.value)}
+          onClick={handlerClickEmail}
+          onBlur={handlerBlurEmail}
+          type="email"
+          className="form-control"
+          id="exampleFormControlInput3"
+          placeholder="Correo electrónico"
+        />
+        {clickedEmail && <p className='errorMsg'>* El correo electrónico es obligatorio *</p>}
+      </div>
 
-    const handlerBlurLastName = () => {
-        if (!lastName.trim()) {
-            setClickedLastName(true);
-        }
-    };
-
-    const handlerClickEmail = () => {
-        setClickedEmail(false);
-    };
-
-    const handlerBlurEmail = () => {
-        if (!email.trim() || !email.includes('@')) {
-            setClickedEmail(true);
-        }
-    };
-
-    const handlerClickPassword = () => {
-        setClickedPassword(false);
-    };
-
-    const handlerBlurPassword = () => {
-        if (!password.trim()) {
-            setClickedPassword(true);
-        }
-    };
-
-    const handlerCreatePatient = async () => {
-        try {
-            if (!validateFields()) {
-                return;
-            }
-
-            const newInputPatient = {
-                first_name: firstName,
-                last_name: lastName,
-                email: email,
-                password: password,
-            };
-
-            await actions.createNewPatient(newInputPatient);
-            navigate('/'); // Cambiar a la ruta correspondiente después del registro
-        } catch (error) {
-            console.error('Error al intentar enviar la información', error);
-        }
-    };
-
-    return (
-        <div className='patientForm'>
-            <div className='title'>
-                <h1>Bienvenido paciente!</h1>
-                <p className='subTitle'>Por favor, introduce tus datos para registrarte</p>
+      <div>
+        <input
+          onChange={handlerChangePassword}
+          onClick={handlerClickPassword}
+          onBlur={handlerBlurPassword}
+          placeholder='Contraseña'
+          type="password"
+          id="inputPassword5"
+          className="form-control"
+          aria-describedby="passwordHelpBlock"
+        />
+        <div id="passwordHelpBlock" className="form-text">
+          {passwordStrength.feedback && (
+            <div className="password-strength">
+              <progress
+                className={`progress-strength progress-strength-${passwordStrength.score}`}
+                value={passwordStrength.score}
+                max="4"
+              ></progress>
+              <p className={`password-feedback password-feedback-${passwordStrength.score}`}>
+                {passwordStrength.feedback.suggestions.join(' ')}
+              </p>
             </div>
-            <div className="mb-3">
-                <input
-                    onChange={(e) => setFirstName(e.target.value)}
-                    onClick={handlerClickFirstName}
-                    onBlur={handlerBlurFirstName}
-                    type="text"
-                    className="form-control"
-                    placeholder="Nombre"
-                />
-                {clickedFirstName && <p className='errorMsg'>* El nombre es obligatorio *</p>}
-            </div>
-
-            <div className="mb-3">
-                <input
-                    onChange={(e) => setLastName(e.target.value)}
-                    onClick={handlerClickLastName}
-                    onBlur={handlerBlurLastName}
-                    type="text"
-                    className="form-control"
-                    placeholder="Apellido"
-                />
-                {clickedLastName && <p className='errorMsg'>* El apellido es obligatorio *</p>}
-            </div>
-
-            <div className="mb-3">
-                <input
-                    onChange={(e) => setEmail(e.target.value)}
-                    onClick={handlerClickEmail}
-                    onBlur={handlerBlurEmail}
-                    type="email"
-                    className="form-control"
-                    placeholder="Correo electrónico"
-                />
-                {clickedEmail && <p className='errorMsg'>* El correo electrónico es obligatorio y debe contener '@' *</p>}
-            </div>
-
-            <input
-                onChange={(e) => setPassword(e.target.value)}
-                onClick={handlerClickPassword}
-                onBlur={handlerBlurPassword}
-                type="password"
-                className="form-control"
-                placeholder='Contraseña'
-            />
-            {clickedPassword && <p className='errorMsg'>* La contraseña es obligatoria *</p>}
-            
-            {/* Mostrar nivel de seguridad */}
-            {password && <div className='passwordStrength'>{getSecurityLevelMessage()}</div>}
-            <br />
-
-            <div className='createNewBtn'>
-                <button onClick={handlerCreatePatient} type="button" className="btn btn-success saveBtn">Crear</button>
-                <Link to={'/signup'}>
-                    <button type="button" className="btn btn-outline-primary exitBtn">Salir</button>
-                </Link>
-            </div>
+          )}
         </div>
-    );
+      </div>
+
+      <br />
+
+      <div className='createNewBtn'>
+        <button onClick={handlerCreatePatient} type="button" className="btn btn-success">
+          Crear
+        </button>
+
+        <Link to={'/signup'}>
+          <button type="button" className="btn btn-outline-primary exitBtn">
+            Salir
+          </button>
+        </Link>
+      </div>
+    </div>
+  );
 };
 
 export default NewPatient;
