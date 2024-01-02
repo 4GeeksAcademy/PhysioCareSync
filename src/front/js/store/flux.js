@@ -18,8 +18,10 @@ const getState = ({ getStore, getActions, setStore }) => {
 				}
 			],
 			isAuthenticated: false,
+			preferenceId: null,
 			informationPatient: [],
 			informationSpecialist: []
+
 		},
 		actions: {
 			
@@ -179,6 +181,41 @@ const getState = ({ getStore, getActions, setStore }) => {
 				}
 			},
 
+
+			createPreference: async () => {
+				try {
+					const response = await fetch(API_URL + "/api/create_preference", {
+					method: "POST",
+					headers: {
+						"Content-Type": "application/json",
+					},
+					body: JSON.stringify({
+						description: "Bananita contenta",
+						price: 100,
+						quantity: 1,
+					}),
+					});
+
+					if (response.ok) {
+					console.log("El response vino ok del back end y tiene esta info: ", response)
+					const data = await response.json();
+					const { id } = data;
+					console.log("ESTE ES EL FAMOSO ID: ", id)
+					let store = getStore()
+					setStore({...store , preferenceId: id})
+					let store2 = getStore()
+					console.log("Este es el contenido de id en el store: ",store2.preferenceId)
+					return id;
+					} else {
+					console.error("Error creating preference, o sea response.ok dio false en flux.js");
+					}
+				} catch (error) {
+					console.error(error);
+				}
+
+			  },
+			
+
 			editPatient: async (newInformationForm, patientId) => {
 				console.log(newInformationForm)
 				const nameRoute = "/api/update_information_patient/"
@@ -307,6 +344,25 @@ const getState = ({ getStore, getActions, setStore }) => {
 					console.log("There was an error, check it out", error)
 				}
 			},
+
+			getSpecialistInfo: async (id_specilist) => {
+				try{
+					const response = await fetch(API_URL + `get_information_specialist/${id_specilist}`)
+					if(!response.ok){
+						throw new Error("Function can't get the information")
+					}
+					const data = await response.json()
+					const store = getStore();
+					setStore({...store, viewSpecialist:data})
+					console.log("This is the specialist information", data)
+
+				}catch(error){
+					console.error("There is an error getting the specialist info:", error)
+				}
+
+
+			},
+
 
 			login: () => {
 				setStore({ isAuthenticated: true });
