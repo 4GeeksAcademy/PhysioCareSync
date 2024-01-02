@@ -14,6 +14,12 @@ const EditSpecialist = () => {
   const isMounted = useRef(true);
   const goToHome = useNavigate();
 
+  useEffect(() => {
+    const storedSpecialistsList = localStorage.getItem('specialistsList');
+    const initialSpecialistsList = storedSpecialistsList ? JSON.parse(storedSpecialistsList) : [];
+    actions.setSpecialistsList(initialSpecialistsList);
+  }, [actions]);
+
   const handleUploadImageProfile = (e) => {
     e.preventDefault();
     const imgProfile = e.target.files[0];
@@ -89,7 +95,7 @@ const EditSpecialist = () => {
             finalSpecialistForm[key] = value;
         });
 
-        
+
 
        const formImages = new FormData();
        formImages.append("img", imageSpecialist);
@@ -97,14 +103,37 @@ const EditSpecialist = () => {
 
        await actions.editSpecialistInformation(specialistId, finalSpecialistForm);
        await actions.editImagesSpecialist(formImages, specialistId);
+       localStorage.setItem('specialistsList', JSON.stringify(updatedSpecialistsList));
 
        if (isMounted.current && formRef.current) {
-       navigate('/professional-view', { state: { specialistData: formInformationSpecialist } });
-       setFinalImageCertificate(null);
-       setFinalImageSpecialist(null);
-       formRef.current.reset();
+         // Nueva implementación: Agregar al nuevo especialista a la lista
+         actions.addSpecialist({ ...formInformationSpecialist, id: specialistId });
+   
+         navigate('/professional-view', { state: { specialistData: formInformationSpecialist } });
+         setFinalImageCertificate(null);
+         setFinalImageSpecialist(null);
+         formRef.current.reset();
   }
 };
+
+const handleSpecialistRegistration = async (newSpecialist) => {
+    try {
+      const response = await actions.createNewSpecialist(newSpecialist);
+  
+      // Verifica si la respuesta es exitosa
+      if (response.success) {
+        // Almacena la información del especialista en el estado global
+        actions.setSpecialistInformation(response.data);
+  
+        // Otras acciones después del registro exitoso, si es necesario
+      } else {
+        // Maneja el caso en que el registro no fue exitoso
+        console.error('Error en el registro del especialista:', response.error);
+      }
+    } catch (error) {
+      console.error('Error en el registro del especialista:', error);
+    }
+  };
     
       const checkAccess = async () => {
         await actions.accessConfirmationSpecialist();
@@ -128,7 +157,7 @@ const EditSpecialist = () => {
         };
       }, []);
 
-    return (
+  return (
         <div>
             <div className='container-edit-specialist'>
                 <form

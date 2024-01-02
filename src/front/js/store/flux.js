@@ -1,32 +1,54 @@
 import { useNavigate } from "react-router-dom";
 
-const API_URL = process.env.BACKEND_URL
+const API_URL = process.env.BACKEND_URL;
 
 const getState = ({ getStore, getActions, setStore }) => {
 	return {
-		store: {
-			message: null,
-			demo: [
-				{
-					title: "FIRST",
-					background: "white",
-					initial: "white"
-				},
-				{
-					title: "SECOND",
-					background: "white",
-					initial: "white"
-				}
-			],
-			isAuthenticated: false,
-			preferenceId: null,
-			informationPatient: [],
-
-			informationSpecialist: [],
-			isTokenAuthentication: false
+	  store: {
+		// ... otros estados
+		specialistsList: [],
+		informationSpecialist: null, // Agrega esta línea si no está ya definida
+  
+      message: null,
+      demo: [
+        {
+          title: "FIRST",
+          background: "white",
+          initial: "white"
+        },
+        {
+          title: "SECOND",
+          background: "white",
+          initial: "white"
+        }
+      ],
+      isAuthenticated: false,
+      preferenceId: null,
+      informationPatient: [],
+      informationSpecialist: [],
+      isTokenAuthentication: false,
+      specialistsList: [] 
 
 		},
 		actions: {
+			
+			setSpecialistInformation: (information) => {
+				const store = getStore();
+				setStore({ ...store, informationSpecialist: information });
+			  },
+		
+			  getSpecialistInformation: () => {
+				const store = getStore();
+				return store.informationSpecialist;
+			  },
+		
+			  // Agrega estas funciones si no están ya definidas
+			  addSpecialist: (specialist) => {
+				const store = getStore();
+				setStore({ ...store, specialistsList: [...store.specialistsList, specialist] });
+			  },
+		  
+		
 			
 
 
@@ -169,27 +191,43 @@ const getState = ({ getStore, getActions, setStore }) => {
 
 			createNewSpecialist: async (newSpecialist) => {
 				try {
-					const response = await fetch(API_URL + "/api/signup_specialist", {
-						method: "POST",
-						body: JSON.stringify(newSpecialist),
-						headers: {
-							"Content-Type": "application/json"
-						}
-
-					});
-					if (!response.ok) {
-						throw new Error("There was a problem with the funtion in flux")
-					}
-					const data = await response.json();
-					console.log("User created successfully", data)
-
-
+				  const response = await fetch(API_URL + "/api/signup_specialist", {
+					method: "POST",
+					body: JSON.stringify(newSpecialist),
+					headers: {
+					  "Content-Type": "application/json",
+					},
+				  });
+			  
+				  if (!response.ok) {
+					throw new Error("There was a problem with the function in flux");
+				  }
+			  
+				  const data = await response.json();
+			  
+				  // Actualiza la lista de especialistas en el estado global
+				  const updatedSpecialistsList = [...store.specialistsList, data];
+				  setStore({ ...store, specialistsList: updatedSpecialistsList });
+			  
+				  console.log("User created successfully", data);
+				  return data;
 				} catch (error) {
-					console.error("There was an error tryinig to create the Specialist", error)
-
+				  console.error("There was an error trying to create the Specialist", error);
 				}
-			},
+			  },
+			  
+			  
 
+			setSpecialistInformation: (information) => {
+				const store = getStore();
+				setStore({ ...store, informationSpecialist: information });
+			  },
+			  
+			  getSpecialistInformation: () => {
+				const store = getStore();
+				return store.informationSpecialist;
+			  },
+			  
 
 			createPreference: async () => {
 				try {
@@ -291,39 +329,26 @@ const getState = ({ getStore, getActions, setStore }) => {
 			},
 
 			editSpecialistInformation: async (specialist_id, formInformation) => {
-				const store = getStore()
-				const nameRoute = "/api/update_information_specialist/"
-				const stringSpecialistId = String(specialist_id)
-
-				console.log(stringSpecialistId)
-				console.log(formInformation)
-
 				try {
-
-					const response = await fetch(API_URL + nameRoute + stringSpecialistId, {
-						method: "PUT",
-						body: JSON.stringify(formInformation),
-						headers: {
-							"Content-Type": "application/json"
-						}
-					})
-
-					if (response.ok) {
-						const jsonResponse = await response.json()
-						console.log("Changes upload succesfully")
-						setStore({ ...store, informationSpecialist: jsonResponse.specialist })
+				  const response = await fetch(API_URL + `/api/update_information_specialist/${specialist_id}`, {
+					method: "PUT",
+					body: JSON.stringify(formInformation),
+					headers: {
+					  "Content-Type": "application/json"
 					}
-
-					else {
-						throw new Error("The request was failed! check it out!")
-					}
-
+				  });
+			  
+				  if (response.ok) {
+					const jsonResponse = await response.json();
+					console.log("Changes upload successfully");
+					getActions().setSpecialistInformation(jsonResponse.specialist);
+				  } else {
+					throw new Error("The request was failed! Check it out!");
+				  }
+				} catch (error) {
+				  console.log("There was an error, check it out", error);
 				}
-				catch (error) {
-					console.log("There was an error, check it out", error)
-				}
-			},
-
+			  },
 			
 			editImagesSpecialist: async (formImage, specialistId) => {
 				const store = getStore()

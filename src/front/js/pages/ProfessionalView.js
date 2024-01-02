@@ -1,22 +1,29 @@
-// En ProfessionalView.js
-import React, { useContext } from 'react';
-import { useNavigate } from 'react-router-dom';
+import React, { useContext, useEffect, useState } from 'react';
 import { Context } from '../store/appContext';
+import { useNavigate } from 'react-router-dom';
 import '../../styles/ProfessionalView.css';
 
 const ProfessionalView = () => {
   const { store } = useContext(Context);
   const navigate = useNavigate();
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
+
+  useEffect(() => {
+    setLoading(false);
+  }, []);
 
   const handleNavigate = () => {
     navigate(`/professional-view/${store.informationSpecialist.id}`);
   };
 
-  const truncateDescription = (description, maxLength) => {
-    return description.length > maxLength
-      ? `${description.substring(0, maxLength)}...`
-      : description;
-  };
+  if (loading) {
+    return <p>Cargando...</p>;
+  }
+
+  if (error) {
+    return <p>Error: {error}</p>;
+  }
 
   return (
     <div className="professional-view-container" onClick={handleNavigate} style={{ cursor: 'pointer' }}>
@@ -24,12 +31,14 @@ const ProfessionalView = () => {
       <div className="professional-view-card">
         <div className="professional-view-info specialist-info">
           <div className="profile-section">
+            {/* Mostrar la imagen del especialista */}
             {store.informationSpecialist.img && (
               <div className="professional-view-image">
                 <img src={store.informationSpecialist.img} alt="Perfil" className="profile-image" />
               </div>
             )}
             <div className="name-section no-link">
+              {/* Mostrar el nombre y otros detalles del especialista */}
               <p>
                 <strong>{store.informationSpecialist.first_name} {store.informationSpecialist.last_name}</strong>
               </p>
@@ -38,7 +47,7 @@ const ProfessionalView = () => {
               </p>
               <p>
                 <strong>Descripción:</strong>{' '}
-                {truncateDescription(store.informationSpecialist.description, 200)}
+                {store.informationSpecialist.description}
               </p>
             </div>
           </div>
@@ -49,3 +58,4 @@ const ProfessionalView = () => {
 };
 
 export default ProfessionalView;
+
