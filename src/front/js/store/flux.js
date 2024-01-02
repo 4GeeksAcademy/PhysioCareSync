@@ -19,12 +19,15 @@ const getState = ({ getStore, getActions, setStore }) => {
 				}
 			],
 			isAuthenticated: false,
+			preferenceId: null,
 			informationPatient: [],
+
 			informationSpecialist: [],
 			isTokenAuthentication: false
+
 		},
 		actions: {
-			// Use getActions to call a function within a fuction
+			
 
 
 			loginPatient: async (patient) => {
@@ -40,7 +43,7 @@ const getState = ({ getStore, getActions, setStore }) => {
 						throw new Error("An error occurred with the query")
 					}
 					const data = await response.json();
-					console.log("Log In successful") //Eliminar
+					console.log("Log In successful") 
 					return data
 
 
@@ -186,6 +189,41 @@ const getState = ({ getStore, getActions, setStore }) => {
 
 				}
 			},
+
+
+			createPreference: async () => {
+				try {
+					const response = await fetch(API_URL + "/api/create_preference", {
+					method: "POST",
+					headers: {
+						"Content-Type": "application/json",
+					},
+					body: JSON.stringify({
+						description: "Bananita contenta",
+						price: 100,
+						quantity: 1,
+					}),
+					});
+
+					if (response.ok) {
+					console.log("El response vino ok del back end y tiene esta info: ", response)
+					const data = await response.json();
+					const { id } = data;
+					console.log("ESTE ES EL FAMOSO ID: ", id)
+					let store = getStore()
+					setStore({...store , preferenceId: id})
+					let store2 = getStore()
+					console.log("Este es el contenido de id en el store: ",store2.preferenceId)
+					return id;
+					} else {
+					console.error("Error creating preference, o sea response.ok dio false en flux.js");
+					}
+				} catch (error) {
+					console.error(error);
+				}
+
+			  },
+			
 
 			editPatient: async (newInformationForm, patientId) => {
 				console.log(newInformationForm)
@@ -335,6 +373,7 @@ const getState = ({ getStore, getActions, setStore }) => {
 
 			},
 
+
 			login: () => {
 				setStore({ isAuthenticated: true });
 			},
@@ -370,7 +409,6 @@ const getState = ({ getStore, getActions, setStore }) => {
 					return elm;
 				});
 
-				//reset the global store
 				setStore({ demo: demo });
 			}
 		}

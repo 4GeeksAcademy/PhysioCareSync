@@ -1,52 +1,150 @@
+/* VARIABLES */
 
-.container-edit-specialist{
-    font-family: 'Times New Roman', Times, serif;
+:root {
+    --primary-color: #28a745;
+    --secondary-color: #218838;
+    --font-family: 'Arial', sans-serif;
+    --font-size: 16px;
+    --margin: 20px;
+}
+
+/* LAYOUT */
+
+.container-edit-specialist {
+    max-width: 800px;
+    margin: 0 auto;
+    padding: var(--margin);
+    background-color: #f8f9fa;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+.form-edit-specialist {
     display: flex;
-    background-color: #f4f4f4;
-    padding: 0;
-    margin: 0;
-    justify-content: center;
-    align-items:  center;
-    height: 100vh;
+    flex-direction: column;
 }
 
-.form-edit-specialist{
-    background-color: #fff;
-    padding: 5%;
-    box-shadow: 0 0 10px rgb(0, 0, 0, 0.1);
-    max-width: 400px;
-    width: 100%;
+/* LABELS */
+
+.label-edit-specialist {
+    font-size: var(--font-size);
+    margin-bottom: 10px;
+    color: #495057;
 }
 
-.label-edit-specialist{
-    margin-bottom: 5px;
-    display: block;
+/* INPUTS */
+
+.input-edit-specialist {
+    margin-bottom: 15px;
+    padding: 10px;
+    font-size: var(--font-size);
+    border: 1px solid #ced4da;
+    border-radius: 5px;
 }
 
-.input-edit-specialist{  
-    width: 100%;
-    padding: 3px;
-    margin-bottom: 16px;   
+.input-edit-specialist:focus {
+    border-color: var(--primary-color);
+    box-shadow: 0 0 5px rgba(40, 167, 69, 0.5);
 }
 
-.button-edit-specialist{
-    background-color:#4caf50;
+/* BUTTONS */
+
+.button-edit-specialist {
+    background-color: var(--primary-color);
     color: #fff;
-    padding: 5px;
-    border: none;
-    border-radius: 4px;
+    padding: 12px;
+    font-size: var(--font-size);
     cursor: pointer;
-    font-size: 16px;
+    border: none;
+    border-radius: 5px;
+    transition: background-color 0.3s ease-in-out;
 }
 
-.button-edit-specialist:hover{
-    background-color:#45a049 ;
+.button-edit-specialist:hover {
+    background-color: var(--secondary-color);
 }
 
+/* RESPONSIVENESS */
 
-/* .container-go-home{
+@media screen and (max-width: 600px) {
+    .container-edit-specialist {
+        max-width: 100%;
+    }
+}
+
+/* ANIMATION */
+
+.form-edit-specialist {
+    animation: form-edit-specialist-show 0.5s ease-in-out;
+}
+
+@keyframes form-edit-specialist-show {
+    from {
+        opacity: 0;
+        transform: translateY(-20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* VALIDATION STYLES */
+
+.input-edit-specialist.is-invalid {
+    border-color: red;
+}
+
+.input-edit-specialist.is-invalid:focus {
+    border-color: #dc3545;
+    box-shadow: 0 0 5px rgba(220, 53, 69, 0.5);
+}
+
+/* ACCESSIBILITY */
+
+.label-edit-specialist {
+    text-align: left;
+    color: #495057;
+}
+
+.input-edit-specialist {
+    border-radius: 0;
+    box-shadow: none;
+}
+
+.button-edit-specialist {
+    cursor: pointer;
+}
+
+/* UPLOAD FILE STYLES */
+
+.file-upload-container {
+    position: relative;
+    margin-bottom: 15px;
+}
+
+.file-upload-label {
+    display: inline-block;
+    background-color: var(--primary-color);
+    color: #fff;
+    padding: 12px;
+    font-size: var(--font-size);
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.file-input {
     position: absolute;
-    bottom: 11%;
-    left: 41%;
+    opacity: 0;
+    width: 100%;
+    height: 100%;
+    top: 0;
+    left: 0;
+    cursor: pointer;
+}
 
-} */
+.selected-file-info {
+    margin-top: 10px;
+    font-size: var(--font-size);
+    color: #495057;
+}

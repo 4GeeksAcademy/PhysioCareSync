@@ -1,11 +1,13 @@
 """
 This module takes care of starting the API Server, Loading the DB and Adding the endpoints
 """
+
 import secrets,json
 from datetime import datetime
-from flask import Flask, request, jsonify, url_for, Blueprint
+from flask import Flask, request, jsonify, url_for, Blueprint,current_app
 import cloudinary
 from api.models import db, Patient, Specialist,Certificates
+
 # Import the cloudinary.api for managing assets
 import cloudinary.api
 from api.utils import generate_sitemap, APIException
@@ -22,6 +24,16 @@ cloudinary.config(
             api_secret="UV8fjqUqRGCzs-R0myg5stXhljE" ,
     )
 
+from flask_mail import Message
+
+import random
+import string
+
+#SDK de Mercado Pago
+import mercadopago
+# Agrega credenciales
+sdk = mercadopago.SDK("APP_USR-3678964543970321-122914-cff594eb1bc1032844fce854aa9f58ed-1603958860")
+
 api = Blueprint('api', __name__)
 
 
@@ -35,6 +47,7 @@ secret_keys=secrets.token_hex(32)
 app.config["JWT_SECRET_KEY"]= secret_keys
 jwt= JWTManager(app)
 bcrypt=Bcrypt(app)
+
 
 
 
@@ -221,6 +234,36 @@ def get_private_specialist():
         return jsonify ({"error": "The token is invalid " + str (e)}), 400
 
 
+@api.route('/create_preference', methods=['POST'])
+def create_preference():
+    try:
+        req_data = request.get_json()
+
+        preference_data = {
+            "items": [
+                {
+                    "title": req_data["description"],
+                    "unit_price": float(req_data["price"]),
+                    "quantity": int(req_data["quantity"]),
+                }
+            ],
+            "back_urls": {
+                "success": "https://solid-space-broccoli-7v9r5r744rx9fwwjw-3000.app.github.dev/success",
+                "failure": "https://solid-space-broccoli-7v9r5r744rx9fwwjw-3000.app.github.dev/failure",
+                "pending": "https://solid-space-broccoli-7v9r5r744rx9fwwjw-3000.app.github.dev/pending",
+            },
+            "auto_return": "approved",
+        }
+
+        preference_response = sdk.preference().create(preference_data)
+        preference_id = preference_response["response"]
+
+        return jsonify({"id": preference_id})
+
+    except Exception as e:
+        print("Error creating preference:", str(e))
+        return jsonify({"error": str(e)}), 500
+
 
 @api.route("/delete_patient/<int:patient_id>",methods=['DELETE'])
 def delete_patient_by_id(patient_id):
@@ -354,6 +397,7 @@ def update_specialist(specialist_id):
     
     else:
         return ({"error":"the patient does not exist"}),400 
+
     
 
 
@@ -374,6 +418,7 @@ def update_img_specialist(specialist_id):
     return jsonify({
         "message":"The profile image and the certificate was updated!",
         "specialist":specialist.serialize()
+
     }),200
 
 
@@ -443,4 +488,5 @@ def authorization_specialist(specialist_id):
 
     except Exception as e:
         return jsonify({"error":e}),400
+
 
