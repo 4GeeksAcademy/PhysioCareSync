@@ -191,15 +191,17 @@ const getState = ({ getStore, getActions, setStore }) => {
 			},
 
 
-			createPreference: async () => {
+			createPreference: async (theid) => {
 				try {
+					console.log("Aquí está el id del actions", theid)
 					const response = await fetch(API_URL + "/api/create_preference", {
 					method: "POST",
 					headers: {
 						"Content-Type": "application/json",
 					},
 					body: JSON.stringify({
-						description: "Bananita contenta",
+						theid: theid,
+						description: "Suscripción única",
 						price: 100,
 						quantity: 1,
 					}),

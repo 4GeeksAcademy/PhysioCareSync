@@ -17,6 +17,7 @@ from flask_jwt_extended import  JWTManager, create_access_token, jwt_required, g
 from flask_bcrypt import Bcrypt
 import logging
 import cloudinary.uploader
+import requests
 
 cloudinary.config(
             cloud_name="dxgvkwunx",
@@ -238,11 +239,12 @@ def get_private_specialist():
 def create_preference():
     try:
         req_data = request.get_json()
+        theid = req_data.get("theid")
 
         preference_data = {
             "items": [
-                {
-                    "title": req_data["description"],
+                {   
+                    "title": f"Suscripción para el usuario: {theid}",
                     "unit_price": float(req_data["price"]),
                     "quantity": int(req_data["quantity"]),
                 }
@@ -258,7 +260,7 @@ def create_preference():
         preference_response = sdk.preference().create(preference_data)
         preference_id = preference_response["response"]
 
-        return jsonify({"id": preference_id})
+        return jsonify({"id": preference_id, "theid": theid})
 
     except Exception as e:
         print("Error creating preference:", str(e))
@@ -473,20 +475,38 @@ def get_information_certificates():
 
     return certificates_list,200
             
-        
-@api.route("/authorize_specialist/<int:specialist_id>",methods=["PUT"])
-def authorization_specialist(specialist_id):
+@api.route("/webhook_mercadopago", methods=['POST'])
+def webhook_mercadopago():
     try:
-        specialist=Specialist.query.get(specialist_id)
-        check_authorization=request.json.get("is_authorized")
+        
+        userID = request.json.get("specialistID")
+        print(f"Received  userID from Mercado Pago: {userID}")
 
-        if specialist:
-            specialist.is_authorized = check_authorization  
-            db.session.commit()
-            return jsonify({"message":"The specialist is authorized!","specialist_information":specialist.serialize()}),200
+        if userID:
+            response = requests.put(f'https://probable-yodel-7vprv49qr9vhxq74-3001.app.github.dev/api/authorize_specialist/{userID}', json={"is_authorized": True})
+            print(f"PUT request sent to authorize_specialist endpoint for userID: {userID}")
 
+        return jsonify({"message": "Notificación de Mercado Pago recibida y procesada"})
 
     except Exception as e:
-        return jsonify({"error":e}),400
+        return jsonify({"error": str(e)}), 400
+        
+@api.route("/authorize_specialist/<int:specialist_id>", methods=["PUT"])
+def authorization_specialist(specialist_id):
+    try:
+        specialist = Specialist.query.get(specialist_id)
+        check_authorization = request.json.get("is_authorized")
+        print(f"Received is_authorized value for specialist {specialist_id}: {check_authorization}")
+
+        if specialist and check_authorization is not None:
+            specialist.is_authorized = check_authorization
+            db.session.commit()
+            print(f"Updated is_authorized for specialist {specialist_id} to: {check_authorization}")
+            return jsonify({"message": "The specialist is authorized!", "specialist_information": specialist.serialize()}), 200
+        else:
+            return jsonify({"error": "Invalid request parameters"}), 400
+
+    except Exception as e:
+        return jsonify({"error": str(e)}), 400
 
 
