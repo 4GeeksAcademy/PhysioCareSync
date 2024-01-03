@@ -3,12 +3,11 @@ import { useNavigate } from "react-router-dom";
 const API_URL = process.env.BACKEND_URL;
 
 const getState = ({ getStore, getActions, setStore }) => {
-	return {
-	  store: {
-		// ... otros estados
-		specialistsList: [],
-		informationSpecialist: null, // Agrega esta línea si no está ya definida
-  
+  return {
+    store: {
+      // ... otros estados
+      specialistsList: [],
+      informationSpecialist: null, // Agrega esta línea si no está ya definida
       message: null,
       demo: [
         {
@@ -27,29 +26,81 @@ const getState = ({ getStore, getActions, setStore }) => {
       informationPatient: [],
       informationSpecialist: [],
       isTokenAuthentication: false,
-      specialistsList: [] 
+      specialistsList: []
+    },
+    actions: {
+      getSpecialistInformation: () => {
+        const store = getStore();
+        return store.informationSpecialist;
+      },
+      // Agrega estas funciones si no están ya definidas
+      addSpecialist: (specialist) => {
+        const store = getStore();
+        setStore({ ...store, specialistsList: [...store.specialistsList, specialist] });
+      },
+      setSpecialistInformation: (information) => {
+        const store = getStore();
+        // Store specialist information in localStorage
+        localStorage.setItem('informationSpecialist', JSON.stringify(information));
+        setStore({ ...store, informationSpecialist: information });
+      },
+      accessConfirmationSpecialist: async () => {
+        const store = getStore();
 
-		},
-		actions: {
-			
-			setSpecialistInformation: (information) => {
-				const store = getStore();
-				setStore({ ...store, informationSpecialist: information });
-			  },
-		
-			  getSpecialistInformation: () => {
-				const store = getStore();
-				return store.informationSpecialist;
-			  },
-		
-			  // Agrega estas funciones si no están ya definidas
-			  addSpecialist: (specialist) => {
-				const store = getStore();
-				setStore({ ...store, specialistsList: [...store.specialistsList, specialist] });
-			  },
-		  
-		
-			
+        try {
+          const token = sessionStorage.getItem('tokenSpecialist');
+          const response = await fetch(API_URL + "/api/private_specialist", {
+            method: 'GET',
+            headers: {
+              'Authorization': `Bearer ${token}`,
+              'Content-Type': 'application/json'
+            }
+          });
+
+          if (!response.ok) {
+            getActions().deleteTokenSpecialist();
+            store.isTokenAuthentication = true;
+            const emptyInformation = {};
+            localStorage.removeItem('informationSpecialist'); // Remove from localStorage
+            setStore({ ...store, informationSpecialist: emptyInformation });
+            throw new Error("There was an error with the token confirmation in flux");
+          }
+
+          store.isTokenAuthentication = false;
+
+          const data = await response.json();
+
+          // Store specialist information in localStorage
+          localStorage.setItem('informationSpecialist', JSON.stringify(data.specialist));
+
+          console.log("Still have access; this is the information you need from the back end", data);
+          setStore({ ...store, informationSpecialist: data.specialist });
+
+        } catch (error) {
+          console.log("Authentication issue; you do not have access", error);
+        }
+      },
+
+      loadAllSpecialists: async () => {
+		const store = getStore();
+	
+		try {
+		  const response = await fetch(API_URL + "/api/get_all_specialists");
+		  if (!response.ok) {
+			throw new Error("Error loading all specialists");
+		  }
+	
+		  const data = await response.json();
+	
+		  // Actualiza la lista de especialistas en el estado global
+		  setStore({ ...store, specialistsList: data.specialists });
+	
+		  console.log("All specialists loaded successfully", data);
+	
+		} catch (error) {
+		  console.error("Error loading all specialists:", error);
+        }
+      },
 
 
 			loginPatient: async (patient) => {
@@ -75,33 +126,34 @@ const getState = ({ getStore, getActions, setStore }) => {
 			},
 
 			accessConfirmationPatient: async () => {
-				const store = getStore()
+				const store = getStore();
 				try {
-					const token = sessionStorage.getItem('tokenPatient')
-					const response = await fetch(API_URL + "/api/private_patient", {
-						method: 'GET',
-						headers: {
-							'Authorization': `Bearer ${token}`,
-							'Content-Type': 'application/json'
-						}
-					})
-
-					if (!response.ok) {
-						store.isTokenAuthentication = true
-						getActions().deleteTokenPatient();
-						const emptyInformation = {}
-						setStore({ ...store, informationPatient: emptyInformation })
-						throw new Error("There was an error with the token confirmation in flux")
+				  const token = sessionStorage.getItem('tokenPatient');
+				  const response = await fetch(API_URL + "/api/private_patient", {
+					method: 'GET',
+					headers: {
+					  'Authorization': `Bearer ${token}`,
+					  'Content-Type': 'application/json'
 					}
-					store.isTokenAuthentication = false
-					const data = await response.json();
-					console.log("Still have access this is the information you need from back end")
-					setStore({ ...store, informationPatient: data.patient })
-
+				  });
+			  
+				  if (!response.ok) {
+					store.isTokenAuthentication = true;
+					getActions().deleteTokenPatient();
+					const emptyInformation = {};
+					setStore({ ...store, informationPatient: emptyInformation });
+					throw new Error("There was an error with the token confirmation in flux");
+				  }
+				  store.isTokenAuthentication = false;
+				  const data = await response.json();
+				  console.log("Still have access this is the information you need from back end");
+				  setStore({ ...store, informationPatient: data.patient });
+			  
 				} catch (error) {
-					console.log("Authentication issue you do not have access", error)
+				  console.log("Authentication issue you do not have access", error);
 				}
-			},
+			  },
+			  
 
 			accessConfirmationSpecialist: async () => {
 				const store = getStore()
@@ -443,4 +495,3 @@ const getState = ({ getStore, getActions, setStore }) => {
 
 
 export default getState;
-

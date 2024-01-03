@@ -490,3 +490,28 @@ def authorization_specialist(specialist_id):
         return jsonify({"error":e}),400
 
 
+@api.route("/get_all_specialists", methods=["GET"])
+def get_all_specialists():
+    try:
+        specialists = Specialist.query.all()
+        specialists_list = []
+
+        for specialist in specialists:
+            specialist_info = {
+                "id": specialist.id,
+                "first_name": specialist.first_name,
+                "last_name": specialist.last_name,
+                "email": specialist.email,
+                "description": specialist.description,
+                "language": specialist.language,
+                "phone_number": specialist.phone_number,
+                "country_origin": specialist.country_origin,
+                "img": specialist.img,
+            }
+
+            specialists_list.append(specialist_info)
+
+        return jsonify({"specialists": specialists_list}), 200
+
+    except Exception as e:
+        return jsonify({"error": str(e)}), 500

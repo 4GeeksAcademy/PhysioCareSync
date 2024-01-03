@@ -4,17 +4,26 @@ import { useNavigate } from 'react-router-dom';
 import '../../styles/ProfessionalView.css';
 
 const ProfessionalView = () => {
-  const { store } = useContext(Context);
+  const { store, actions } = useContext(Context);
   const navigate = useNavigate();
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
 
   useEffect(() => {
-    setLoading(false);
-  }, []);
+    const fetchData = async () => {
+      try {
+        await actions.loadAllSpecialists();
+        setLoading(false);
+      } catch (error) {
+        setError(error.message);
+      }
+    };
 
-  const handleNavigate = () => {
-    navigate(`/professional-view/${store.informationSpecialist.id}`);
+    fetchData();
+  }, [actions]);
+
+  const handleNavigate = (specialistId) => {
+    navigate(`/professional-view/${specialistId}`);
   };
 
   if (loading) {
@@ -26,36 +35,36 @@ const ProfessionalView = () => {
   }
 
   return (
-    <div className="professional-view-container" onClick={handleNavigate} style={{ cursor: 'pointer' }}>
-      <h1 className="professional-view-title">Información del Especialista</h1>
-      <div className="professional-view-card">
-        <div className="professional-view-info specialist-info">
-          <div className="profile-section">
-            {/* Mostrar la imagen del especialista */}
-            {store.informationSpecialist.img && (
-              <div className="professional-view-image">
-                <img src={store.informationSpecialist.img} alt="Perfil" className="profile-image" />
+    <div className="professional-view-container">
+      <h1 className="professional-view-title">Información de los Especialistas</h1>
+      <div className="professional-view-list">
+        {store.specialistsList.map((specialist) => (
+          <div key={specialist.id} className="professional-view-card" onClick={() => handleNavigate(specialist.id)}>
+            <div className="professional-view-info specialist-info">
+              <div className="profile-section">
+                {specialist.img && (
+                  <div className="professional-view-image">
+                    <img src={specialist.img} alt="Perfil" className="profile-image" />
+                  </div>
+                )}
+                <div className="name-section no-link">
+                  <p>
+                    <strong>{specialist.first_name} {specialist.last_name}</strong>
+                  </p>
+                  <p>
+                    <strong>País:</strong> {specialist.country_origin}
+                  </p>
+                  <p>
+                    <strong>Descripción:</strong> {specialist.description}
+                  </p>
+                </div>
               </div>
-            )}
-            <div className="name-section no-link">
-              {/* Mostrar el nombre y otros detalles del especialista */}
-              <p>
-                <strong>{store.informationSpecialist.first_name} {store.informationSpecialist.last_name}</strong>
-              </p>
-              <p>
-                <strong>País:</strong> {store.informationSpecialist.country_origin}
-              </p>
-              <p>
-                <strong>Descripción:</strong>{' '}
-                {store.informationSpecialist.description}
-              </p>
             </div>
           </div>
-        </div>
+        ))}
       </div>
     </div>
   );
 };
 
 export default ProfessionalView;
-

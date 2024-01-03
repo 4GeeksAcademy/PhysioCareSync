@@ -3,7 +3,7 @@ import React, { useContext, useEffect, useRef, useState } from 'react';
 import { Context } from '../store/appContext';
 import { useNavigate } from 'react-router-dom';
 
-const EditSpecialist = () => {
+const FormSpecialist = () => {
   const { store, actions } = useContext(Context);
   const navigate = useNavigate();
   const [formInformationSpecialist, setFormInformationSpecialist] = useState({});
@@ -236,4 +236,4 @@ const handleSpecialistRegistration = async (newSpecialist) => {
     )
 }
 
-export default EditSpecialist
+export default FormSpecialist
