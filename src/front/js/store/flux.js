@@ -367,7 +367,7 @@ const getState = ({ getStore, getActions, setStore }) => {
 
 				try {
 					const response = await fetch(API_URL + route + stringSpecialistId, {
-						method: "PUT",
+						method: "POST",
 						body: formCertificates,
 						headers: {
 							"Accept": "application/json"

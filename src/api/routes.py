@@ -430,6 +430,7 @@ def upload_certificates_by_specialist(specialist_id_certificate):
         certificate_path=None
         specialist=Specialist.query.get(specialist_id_certificate)
         num_certificates=int(request.form.get("num_certificates"))
+        print(num_certificates)
         certificate_paths=[]
         folder_name="PhysioCareSync"
         for i in range(1,num_certificates+1):
