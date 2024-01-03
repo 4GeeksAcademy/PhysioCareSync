@@ -1,7 +1,8 @@
 
-import React, { useContext, useState } from 'react';
+import React, { useContext, useRef, useState } from 'react';
 import { Context } from '../store/appContext';
 import { Link, useNavigate } from 'react-router-dom';
+import SnackBarLogin from '../component/SnackBarLogin';
 
 const LogInSpecialist = () => {
     const navigate = useNavigate();
@@ -15,6 +16,9 @@ const LogInSpecialist = () => {
     const [emailError, setEmailError] = useState('');
     const [showEmailError, setShowEmailError] = useState(false)
     const [hideAlert, setHideAlert] = useState(true)
+    const [loginSuccess, setLoginSuccess] = useState(false)
+    const [checkLoginBotton, setCheckLoginBotton] = useState(true)
+
 
 
 
@@ -71,21 +75,14 @@ const LogInSpecialist = () => {
 
 
     const handlerLogInSpecialist = async () => {
+        setCheckLoginBotton(false)
         try {
-            if (email.trim() === '' || password.trim() === '' || clickedPassword) {
+            if (email.trim() === '' || password.trim() === '') {
                 setHideAlert(true)
                 setShowEmailError(true)
                 setEmailError('Debe de ingresar los datos requeridos en el campo');
                 return;
             }
-
-            // Validación del formato del correo electrónico
-            // if (!isEmailValid(email)) {
-            //     setHideAlert(true)
-            //     setShowEmailError(true)
-            //     setEmailError('Debe de ingresar los datos requeridos en el campo');
-            //     return;
-            // }
 
             let loginSpecialist = {
                 email: email,
@@ -94,18 +91,24 @@ const LogInSpecialist = () => {
 
             const result = await actions.loginSpecialist(loginSpecialist);
             if (result.specialist && result.accessToken) {
+                setLoginSuccess(true)
                 const token = result.accessToken;
                 console.log('Este es el resultado:', result.specialist);
                 sessionStorage.setItem('tokenSpecialist', token)
                 await actions.accessConfirmationSpecialist();
                 sessionStorage.setItem("specialistId", store.informationSpecialist.id)
                 const specialistId = sessionStorage.getItem("specialistId")
-                navigate(`/profile/specialist/${specialistId}`)
+                snackRef.current.show()
+                setTimeout(() => {
+                    navigate(`/profile/specialist/${specialistId}`)
+                }, 2000)
 
             } else if (result.error) {
                 setHideAlert(true)
                 setShowEmailError(true)
                 setEmailError('Correo electrónico o contraseña incorrectos');
+                snackRef.current.show()
+                setCheckLoginBotton(true)
                 return;
             }
         } catch (error) {
@@ -113,8 +116,18 @@ const LogInSpecialist = () => {
         }
     };
 
+    const snackRef = useRef(null)
+    const snackBarType = {
+        fail: "fail",
+        success: "success",
+    }
+
     return (
         <div>
+            {loginSuccess ?
+                <SnackBarLogin type={snackBarType.success} ref={snackRef} message="Usted inicio sesión correctamente!" /> :
+                <SnackBarLogin type={snackBarType.fail} ref={snackRef} message="Intente nuevamente ingresando sus datos correctamente!" />}
+
             <div className="patientForm">
                 <div className="title">
                     <h1>Bienvenido especialista!</h1>
@@ -151,12 +164,12 @@ const LogInSpecialist = () => {
                 <br></br>
 
                 <div className="createNewBtn">
-                    <button onClick={handlerLogInSpecialist} type="button" className="btn btn-success saveBtn">
+                    <button disabled={!checkLoginBotton} onClick={handlerLogInSpecialist} type="button" className="btn btn-success saveBtn">
                         Ingresar
                     </button>
 
                     <Link to={'/login'}>
-                        <button type="button" className="btn btn-outline-primary exitBtn">
+                        <button disabled={!checkLoginBotton} type="button" className="btn btn-outline-primary exitBtn">
                             Salir
                         </button>
                     </Link>

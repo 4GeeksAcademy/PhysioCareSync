@@ -1,7 +1,8 @@
 
-import React, { useContext, useState } from 'react';
+import React, { useContext, useRef, useState } from 'react';
 import { Context } from '../store/appContext';
 import { Link, useNavigate } from 'react-router-dom';
+import SnackBarLogin from '../component/SnackBarLogin';
 
 const LogInPatient = () => {
     const navigate = useNavigate();
@@ -12,8 +13,13 @@ const LogInPatient = () => {
     const [clickedEmail, setClickedEmail] = useState(false);
     const [clickedPassword, setClickedPassword] = useState(false);
     const [emailError, setEmailError] = useState('');
+    const [passwordEmpty, setPasswordEmpty] = useState("")
     const [showEmailError, setShowEmailError] = useState(false)
     const [hideAlert, setHideAlert] = useState(true)
+    const [loginSuccess, setLoginSuccess] = useState(false)
+    const [checkLoginBotton, setCheckLoginBotton] = useState(true)
+
+
 
     const isEmailValid = (email) => {
         const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
@@ -66,12 +72,16 @@ const LogInPatient = () => {
         }
     };
 
+
+
     const handlerLogInPatient = async () => {
+        setCheckLoginBotton(false)
         try {
-            if (email.trim() === '' || password.trim() === '' || clickedPassword) {
+            if (email.trim() === '' || password.trim() === '') {
                 setHideAlert(true)
                 setShowEmailError(true)
                 setEmailError('Debe de ingresar los datos requeridos en el campo');
+                setPasswordEmpty("Debe de ingresar los datos requeridos en el campo")
                 return;
             }
 
@@ -84,19 +94,26 @@ const LogInPatient = () => {
 
             if (result.patient && result.accessToken) {
                 const token = result.accessToken;
-
+                setLoginSuccess(true)
                 sessionStorage.setItem('tokenPatient', token)
                 // const tokenPatient = sessionStorage.getItem('tokenPatient')
                 await actions.accessConfirmationPatient();
                 sessionStorage.setItem("patientId", store.informationPatient.id)
                 const patientId = sessionStorage.getItem("patientId")
-                navigate(`/profile/patient/${patientId}`)
+                snackRef.current.show()
+                setTimeout(() => {
+                    navigate(`/profile/patient/${patientId}`)
+                }, 2000)
                 // console.log("This is your token patient", tokenPatient) //Eliminar 
 
             } else if (result.error) {
                 setHideAlert(true)
                 setShowEmailError(true)
+                setLoginSuccess(false)
                 setEmailError('Correo electrónico o contraseña incorrectos');
+                setPasswordEmpty("")
+                snackRef.current.show()
+                setCheckLoginBotton(true)
                 return;
             }
         } catch (error) {
@@ -104,9 +121,22 @@ const LogInPatient = () => {
         }
     };
 
+
+    const snackRef = useRef(null)
+    const snackBarType = {
+        success: "success",
+        fail: "fail",
+    };
+
     return (
         <div>
+
+            {loginSuccess ?
+                < SnackBarLogin ref={snackRef} message="Usted inicio sesión correctamente!" type={snackBarType.success} /> :
+                < SnackBarLogin ref={snackRef} message="Intente nuevamente ingresando sus datos correctamente!" type={snackBarType.fail} />}
+
             <div className='patientForm'>
+
                 <div className='title'>
                     <h1>Bienvenido paciente!</h1>
                     <p className='subTitle'>Por favor, introduce tus datos para ingresar</p>
@@ -140,16 +170,16 @@ const LogInPatient = () => {
                     aria-describedby='passwordHelpBlock'
                     placeholder='Contraseña'
                 />
-                {clickedPassword && password.trim() === '' && <p className='errorMsg'>La contraseña es obligatoria</p>}
-                <br />
+                {clickedPassword && password.trim() === '' && !showEmailError && hideAlert && <p className='errorMsg'>La contraseña es obligatoria</p>}
+                {showEmailError && hideAlert && <p className='errorMsg'>{passwordEmpty}</p>}
 
+                <br />
                 <div className='createNewBtn'>
-                    <button onClick={handlerLogInPatient} type='button' className='btn btn-success saveBtn'>
+                    <button disabled={!checkLoginBotton} onClick={handlerLogInPatient} type='button' className='btn btn-success saveBtn'>
                         Ingresar
                     </button>
-
                     <Link to={'/login'}>
-                        <button type='button' className='btn btn-outline-primary exitBtn'>
+                        <button disabled={!checkLoginBotton} type='button' className='btn btn-outline-primary exitBtn'>
                             Salir
                         </button>
                     </Link>
