@@ -140,7 +140,7 @@ const LogInPatient = () => {
                     aria-describedby='passwordHelpBlock'
                     placeholder='Contraseña'
                 />
-                {clickedPassword && password.trim() === '' && <p className='errorMsg'>* La contraseña es obligatoria *</p>}
+                {clickedPassword && password.trim() === '' && <p className='errorMsg'>La contraseña es obligatoria</p>}
                 <br />
 
                 <div className='createNewBtn'>

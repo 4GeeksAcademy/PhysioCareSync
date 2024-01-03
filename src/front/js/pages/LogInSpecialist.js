@@ -12,6 +12,11 @@ const LogInSpecialist = () => {
 
     const [clickedEmail, setClickedEmail] = useState(false);
     const [clickedPassword, setClickedPassword] = useState(false);
+    const [emailError, setEmailError] = useState('');
+    const [showEmailError, setShowEmailError] = useState(false)
+    const [hideAlert, setHideAlert] = useState(true)
+
+
 
     const isEmailValid = (email) => {
         const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
@@ -24,35 +29,63 @@ const LogInSpecialist = () => {
 
     const handlerBlurEmail = () => {
         if (!email.trim()) {
+            setHideAlert(true)
             setClickedEmail(true);
+            setShowEmailError(false)
+            setEmailError('El correo electrónico es obligatorio');
         } else if (!isEmailValid(email)) {
+            setHideAlert(true)
             setClickedEmail(true);
-            alert('El formato del correo electrónico es incorrecto');
+            setShowEmailError(true)
+            setEmailError('El formato del correo electrónico es incorrecto');
+        }
+        else {
+            setHideAlert(true)
+            setClickedEmail(false);
+            setEmailError('');
         }
     };
 
     const handlerClickPassword = () => {
+        setHideAlert(true)
         setClickedPassword(false);
     };
 
     const handlerBlurPassword = () => {
         if (!password.trim()) {
+            setHideAlert(true)
             setClickedPassword(true);
         }
     };
 
+    const handlerKeyPress = (event) => {
+        if ((event.keyCode >= 65 && event.keyCode <= 90) || (event.keyCode >= 97 && event.keyCode <= 122)) {
+            setHideAlert(false)
+        }
+
+        if (event.key === 'Enter') {
+            setHideAlert(false)
+            handlerLogInPatient();
+        }
+    };
+
+
     const handlerLogInSpecialist = async () => {
         try {
-            if (email === '' || password === '') {
-                alert('Todos los campos son obligatorios');
+            if (email.trim() === '' || password.trim() === '' || clickedPassword) {
+                setHideAlert(true)
+                setShowEmailError(true)
+                setEmailError('Debe de ingresar los datos requeridos en el campo');
                 return;
             }
 
             // Validación del formato del correo electrónico
-            if (!isEmailValid(email)) {
-                alert('El formato del correo electrónico es incorrecto');
-                return;
-            }
+            // if (!isEmailValid(email)) {
+            //     setHideAlert(true)
+            //     setShowEmailError(true)
+            //     setEmailError('Debe de ingresar los datos requeridos en el campo');
+            //     return;
+            // }
 
             let loginSpecialist = {
                 email: email,
@@ -60,19 +93,20 @@ const LogInSpecialist = () => {
             };
 
             const result = await actions.loginSpecialist(loginSpecialist);
-            console.log('Este es el resultado:', result.specialist);
-            if (result && result.accessToken) {
+            if (result.specialist && result.accessToken) {
                 const token = result.accessToken;
+                console.log('Este es el resultado:', result.specialist);
                 sessionStorage.setItem('tokenSpecialist', token)
                 await actions.accessConfirmationSpecialist();
                 sessionStorage.setItem("specialistId", store.informationSpecialist.id)
                 const specialistId = sessionStorage.getItem("specialistId")
                 navigate(`/profile/specialist/${specialistId}`)
 
-
-
-            } else {
-                alert('Correo electrónico o contraseña incorrectos');
+            } else if (result.error) {
+                setHideAlert(true)
+                setShowEmailError(true)
+                setEmailError('Correo electrónico o contraseña incorrectos');
+                return;
             }
         } catch (error) {
             console.error('Hubo un error con la consulta', error);
@@ -92,25 +126,28 @@ const LogInSpecialist = () => {
                         onChange={(e) => setEmail(e.target.value)}
                         onClick={handlerClickEmail}
                         onBlur={handlerBlurEmail}
+                        onKeyDown={handlerKeyPress}
                         type="email"
                         className="form-control"
                         id="exampleFormControlInput1"
                         placeholder="Correo electrónico"
                     />
-                    {clickedEmail && <p className="errorMsg">* El correo electrónico es obligatorio o el formato es incorrecto *</p>}
+                    {clickedEmail && email.trim() === '' && !showEmailError && hideAlert && <p className='errorMsg'>{emailError}</p>}
+                    {emailError && showEmailError && hideAlert && <p className='errorMsg'>{emailError}</p>}
                 </div>
 
                 <input
                     onChange={(e) => setPassword(e.target.value)}
                     onClick={handlerClickPassword}
                     onBlur={handlerBlurPassword}
+                    onKeyDown={handlerKeyPress}
                     type="password"
                     id="inputPassword5"
                     className="form-control"
                     aria-describedby="passwordHelpBlock"
                     placeholder="Contraseña"
                 />
-                {clickedPassword && <p className="errorMsg">* La contraseña es obligatoria *</p>}
+                {clickedPassword && password.trim() === '' && <p className='errorMsg'>La contraseña es obligatoria</p>}
                 <br></br>
 
                 <div className="createNewBtn">

@@ -141,15 +141,18 @@ const getState = ({ getStore, getActions, setStore }) => {
 							'Content-Type': 'application/json'
 						}
 					});
+
 					if (!response.ok) {
-						throw new Error("An error occurred with the query")
+						console.error("An error occurred with the query")
+						return ({ error: "There was an error with the login action" })
 					}
 					const data = await response.json();
 					console.log("Log In successful")
 					return data
 
 				} catch (error) {
-					console.error("There was an error with the login action", error)
+					console.error("Authentication issue you do not have access", error)
+					return ({ error: "There was an error with the token confirmation in flux" })
 				}
 			},
 
