@@ -19,8 +19,10 @@ const ProfileSpecialist = () => {
         }
     };
 
+    useEffect(() => {
+        checkAccess();
+    }, []);
 
-    checkAccess();
 
     const handleLogOut = async () => {
 
@@ -78,7 +80,7 @@ const ProfileSpecialist = () => {
                             <p className='email-specialist'>Correo electrónico: {store.informationSpecialist.email} </p>
                             <p className='date-register-specialist'> Fecha de registro en PhysioCareSync: {registerDate}</p>
                             <div className='container-buttons-specialist'>
-                                {<Link to="/edit/specialist">
+                                {<Link to="/edit/formSpecialist">
                                     <button className="button-edit-profile-specialist" type='button'>Editar Perfil </button>
                                 </Link>}
                                 <button type='button' className='button-logout-profile-specialist' onClick={() => handleLogOut()}>Cerrar Sesión </button>

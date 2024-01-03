@@ -4,35 +4,34 @@ import { Context } from '../store/appContext';
 import { useNavigate } from 'react-router-dom';
 
 const EditSpecialist = () => {
-  const { store, actions } = useContext(Context);
-  const navigate = useNavigate();
-  const [formInformationSpecialist, setFormInformationSpecialist] = useState({});
-  const [finalImageSpecialist, setFinalImageSpecialist] = useState(null);
-  const [finalImageCertificate, setFinalImageCertificate] = useState(null);
+    const { store, actions } = useContext(Context);
+    const navigate = useNavigate();
+    const [formInformationSpecialist, setFormInformationSpecialist] = useState({});
+    const [finalImageSpecialist, setFinalImageSpecialist] = useState(null);
+    const [finalImageCertificates, setFinalImageCertificates] = useState(null);
 
-  const formRef = useRef(null);
-  const isMounted = useRef(true);
-  const goToHome = useNavigate();
+    const formRef = useRef(null);
+    const isMounted = useRef(true);
+    const goToHome = useNavigate();
 
-  const handleUploadImageProfile = (e) => {
-    e.preventDefault();
-    const imgProfile = e.target.files[0];
-    setFinalImageSpecialist(imgProfile);
-  };
+    const handleUploadImageProfile = (e) => {
+        e.preventDefault();
+        const imgProfile = e.target.files[0];
+        setFinalImageSpecialist(imgProfile);
+    };
 
-  const handleUploadImageCertificate = (e) => {
-    e.preventDefault();
-    const imgCertificate = e.target.files[0];
-    setFinalImageCertificate(imgCertificate);
-  };
+    const handleUploadImageCertificate = (e) => {
+        const imgCertificate = e.target.files;
+        setFinalImageCertificates(imgCertificate);
+    };
 
-  const handleEditInformation = (nameValue, value) => {
-    setFormInformationSpecialist({ ...formInformationSpecialist, [nameValue]: value });
-    console.log(formInformationSpecialist);
-  };
+    const handleEditInformation = (nameValue, value) => {
+        setFormInformationSpecialist({ ...formInformationSpecialist, [nameValue]: value });
+        console.log(formInformationSpecialist);
+    };
 
-  const handleSubmitInformation = async (form, specialistId, imageSpecialist, imageCertificate) => {
-    const formData = new FormData();
+    const handleSubmitInformation = async (form, specialistId, imageSpecialist) => {
+        const formData = new FormData();
         if (!form.first_name) {
             formData.append("first_name", store.informationSpecialist.first_name || "")
         }
@@ -84,49 +83,66 @@ const EditSpecialist = () => {
 
         const finalSpecialistForm = {};
 
-        
+
         formData.forEach((value, key) => {
             finalSpecialistForm[key] = value;
         });
 
-        
 
-       const formImages = new FormData();
-       formImages.append("img", imageSpecialist);
-       formImages.append("certificate", imageCertificate);
+        if (!finalImageCertificates) {
+            store.messageUploadCertificates = "Ningún archivo ha sido seleccionado"
+            // setMsg("Ningún archivo ha sido seleccionado")
+            return;
+        }
 
-       await actions.editSpecialistInformation(specialistId, finalSpecialistForm);
-       await actions.editImagesSpecialist(formImages, specialistId);
+        const formImages = new FormData();
+        const formCertificates = new FormData();
+        formImages.append("img", imageSpecialist);
+        let countCertificates = 0
 
-       if (isMounted.current && formRef.current) {
-       navigate('/professional-view', { state: { specialistData: formInformationSpecialist } });
-       setFinalImageCertificate(null);
-       setFinalImageSpecialist(null);
-       formRef.current.reset();
-  }
-};
-    
-      const checkAccess = async () => {
+        for (let i = 0; i < finalImageCertificates.length; i++) {
+            formCertificates.append(`certificates_url_${i + 1}`, finalImageCertificates[i]);
+            countCertificates = countCertificates + 1
+        }
+
+        // const countBlob = new Blob([String(countCertificates)], { type: "text/plain" })
+        const countString = String(countCertificates)
+
+        formCertificates.append("num_certificates", countString)
+
+        await actions.editSpecialistInformation(specialistId, finalSpecialistForm);
+        await actions.editImagesSpecialist(formImages, specialistId);
+        await actions.editCertificatesSpecialist(formCertificates, specialistId)
+
+        if (isMounted.current && formRef.current) {
+            navigate('/professional-view', { state: { specialistData: formInformationSpecialist } });
+            setFinalImageCertificates(null);
+            setFinalImageSpecialist(null);
+            formRef.current.reset();
+        }
+    };
+
+    const checkAccess = async () => {
         await actions.accessConfirmationSpecialist();
         const token = sessionStorage.getItem("tokenSpecialist");
         if (token === null) {
-          console.log("El token se venció, ingrese nuevamente");
-          goToHome("/");
+            console.log("El token se venció, ingrese nuevamente");
+            goToHome("/");
         }
-      };
-    
-      useEffect(() => {
+    };
+
+    useEffect(() => {
         checkAccess();
         return () => {
-          // Cuando el componente se desmonta, actualiza la ref
-          isMounted.current = false;
-    
-          // Resetear el formulario si la referencia existe
-          if (formRef.current) {
-            formRef.current.reset();
-          }
+            // Cuando el componente se desmonta, actualiza la ref
+            isMounted.current = false;
+
+            // Resetear el formulario si la referencia existe
+            if (formRef.current) {
+                formRef.current.reset();
+            }
         };
-      }, []);
+    }, []);
 
     return (
         <div>
@@ -190,16 +206,17 @@ const EditSpecialist = () => {
                         onChange={(e) => (handleEditInformation(e.target.name, e.target.value))}
                     ></input>
 
-                    <label>Certificado</label>
+                    <label for="files">Certificado</label>
                     <input
                         className="input-edit-specialist" type='file' id="certificate" name="certificate"
                         accept='image/png, image/jpeg, image/jpg'
                         onChange={(e) => (handleUploadImageCertificate(e))}
-                    ></input>
+                        multiple />
 
-                    <button className="button-edit-specialist" type="button" onClick={() => handleSubmitInformation(formInformationSpecialist, store.informationSpecialist.id, finalImageSpecialist, finalImageCertificate)}>Guardar Cambios</button>
+                    <button className="button-edit-specialist" type="button" onClick={() => handleSubmitInformation(formInformationSpecialist, store.informationSpecialist.id, finalImageSpecialist)}>Guardar Cambios</button>
                 </form>
 
+                {store.messageUploadCertificates && <span>{store.messageUploadCertificates} </span>}
 
             </div>
 

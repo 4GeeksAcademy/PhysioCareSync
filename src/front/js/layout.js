@@ -66,7 +66,7 @@ const Layout = () => {
                         <Route element={<ProfilePatient />} exact path="profile/patient/:theid" />
                         <Route element={<ProfileSpecialist />} exact path="profile/specialist/:theid" />
                         <Route element={<Single />} path="/single/:theid" />
-                        <Route element={<FormSpecialist />} path="/formSpecialist" />
+                        <Route element={<FormSpecialist />} path="edit/formSpecialist" />
                         <Route element={<ProfessionalView />} path="/professional-view" />
                         <Route element={<FullProfile />} path="/professional-view/:id" />
                         <Route element={<h1>Not found!</h1>} />

@@ -21,13 +21,13 @@ const getState = ({ getStore, getActions, setStore }) => {
 			isAuthenticated: false,
 			preferenceId: null,
 			informationPatient: [],
-
+			informationSpecialistSetCertificates: [],
 			informationSpecialist: [],
-			isTokenAuthentication: false
-
+			isTokenAuthentication: false,
+			messageUploadCertificates: null,
 		},
 		actions: {
-			
+
 
 
 			loginPatient: async (patient) => {
@@ -43,7 +43,7 @@ const getState = ({ getStore, getActions, setStore }) => {
 						throw new Error("An error occurred with the query")
 					}
 					const data = await response.json();
-					console.log("Log In successful") 
+					console.log("Log In successful")
 					return data
 
 
@@ -194,36 +194,36 @@ const getState = ({ getStore, getActions, setStore }) => {
 			createPreference: async () => {
 				try {
 					const response = await fetch(API_URL + "/api/create_preference", {
-					method: "POST",
-					headers: {
-						"Content-Type": "application/json",
-					},
-					body: JSON.stringify({
-						description: "Bananita contenta",
-						price: 100,
-						quantity: 1,
-					}),
+						method: "POST",
+						headers: {
+							"Content-Type": "application/json",
+						},
+						body: JSON.stringify({
+							description: "Bananita contenta",
+							price: 100,
+							quantity: 1,
+						}),
 					});
 
 					if (response.ok) {
-					console.log("El response vino ok del back end y tiene esta info: ", response)
-					const data = await response.json();
-					const { id } = data;
-					console.log("ESTE ES EL FAMOSO ID: ", id)
-					let store = getStore()
-					setStore({...store , preferenceId: id})
-					let store2 = getStore()
-					console.log("Este es el contenido de id en el store: ",store2.preferenceId)
-					return id;
+						console.log("El response vino ok del back end y tiene esta info: ", response)
+						const data = await response.json();
+						const { id } = data;
+						console.log("ESTE ES EL FAMOSO ID: ", id)
+						let store = getStore()
+						setStore({ ...store, preferenceId: id })
+						let store2 = getStore()
+						console.log("Este es el contenido de id en el store: ", store2.preferenceId)
+						return id;
 					} else {
-					console.error("Error creating preference, o sea response.ok dio false en flux.js");
+						console.error("Error creating preference, o sea response.ok dio false en flux.js");
 					}
 				} catch (error) {
 					console.error(error);
 				}
 
-			  },
-			
+			},
+
 
 			editPatient: async (newInformationForm, patientId) => {
 				console.log(newInformationForm)
@@ -324,7 +324,7 @@ const getState = ({ getStore, getActions, setStore }) => {
 				}
 			},
 
-			
+
 			editImagesSpecialist: async (formImage, specialistId) => {
 				const store = getStore()
 				const nameRoute = "/api/update_img_specialist/"
@@ -355,18 +355,56 @@ const getState = ({ getStore, getActions, setStore }) => {
 				}
 			},
 
+			editCertificatesSpecialist: async (formCertificates, specialistId) => {
+				const store = getStore()
+				const stringSpecialistId = String(specialistId)
+				const route = "/api/upload_certificates_specialist/"
+				store.messageUploadCertificates = "Subiendo información..."
+
+				for (var pair of formCertificates.entries()) {
+					console.log(pair[0] + ' ' + pair[1])
+				}
+
+				try {
+					const response = await fetch(API_URL + route + stringSpecialistId, {
+						method: "PUT",
+						body: formCertificates,
+						headers: {
+							"Accept": "application/json"
+						}
+					})
+
+					if (response.ok) {
+						const jsonResponse = await response.json()
+						store.messageUploadCertificates = "Subida de información exitosa"
+						setStore({ ...store, informationSpecialistSetCertificates: jsonResponse.specialist_information })
+						console.log(jsonResponse.specialist_information)
+					}
+
+					else {
+						throw new Error("The request was failed! check it out!")
+					}
+
+				}
+
+				catch (error) {
+					store.messageUploadCertificates = "Subida de información fallida"
+					console.log("There was an error, check it out", error)
+				}
+			},
+
 			getSpecialistInfo: async (id_specilist) => {
-				try{
+				try {
 					const response = await fetch(API_URL + `get_information_specialist/${id_specilist}`)
-					if(!response.ok){
+					if (!response.ok) {
 						throw new Error("Function can't get the information")
 					}
 					const data = await response.json()
 					const store = getStore();
-					setStore({...store, viewSpecialist:data})
+					setStore({ ...store, viewSpecialist: data })
 					console.log("This is the specialist information", data)
 
-				}catch(error){
+				} catch (error) {
 					console.error("There is an error getting the specialist info:", error)
 				}
 
