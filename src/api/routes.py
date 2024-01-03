@@ -89,8 +89,11 @@ def signup_patient():
         
         password_hash=bcrypt.generate_password_hash(password).decode("utf-8")
         new_patient=Patient(first_name=first_name,last_name=last_name,email=email,password=password_hash)
+       
+
         db.session.add(new_patient)
         db.session.commit()
+        
         
         return jsonify ({"message":"Patient was created Succesfully!","patient_id":new_patient.id,"first_name": first_name,"last_name": last_name, "email":email}),200
 

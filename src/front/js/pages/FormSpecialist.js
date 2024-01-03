@@ -105,10 +105,8 @@ const EditSpecialist = () => {
             countCertificates = countCertificates + 1
         }
 
-        // const countBlob = new Blob([String(countCertificates)], { type: "text/plain" })
 
         formCertificates.append("num_certificates", countCertificates.toString())
-
         await actions.editSpecialistInformation(specialistId, finalSpecialistForm);
         await actions.editImagesSpecialist(formImages, specialistId);
         await actions.editCertificatesSpecialist(formCertificates, specialistId)

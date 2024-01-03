@@ -12,6 +12,8 @@ const LogInPatient = () => {
     const [clickedEmail, setClickedEmail] = useState(false);
     const [clickedPassword, setClickedPassword] = useState(false);
     const [emailError, setEmailError] = useState('');
+    const [showEmailError, setShowEmailError] = useState(false)
+    const [hideAlert, setHideAlert] = useState(true)
 
     const isEmailValid = (email) => {
         const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
@@ -24,39 +26,54 @@ const LogInPatient = () => {
 
     const handlerBlurEmail = () => {
         if (!email.trim()) {
+            setHideAlert(true)
             setClickedEmail(true);
+            setShowEmailError(false)
             setEmailError('El correo electrónico es obligatorio');
         } else if (!isEmailValid(email)) {
+            setHideAlert(true)
             setClickedEmail(true);
+            setShowEmailError(true)
             setEmailError('El formato del correo electrónico es incorrecto');
+
         } else {
+            setHideAlert(true)
             setClickedEmail(false);
             setEmailError('');
         }
     };
 
     const handlerClickPassword = () => {
+        setHideAlert(true)
         setClickedPassword(false);
     };
 
     const handlerBlurPassword = () => {
         if (!password.trim()) {
+            setHideAlert(true)
             setClickedPassword(true);
         }
     };
 
     const handlerKeyPress = (event) => {
+        if ((event.keyCode >= 65 && event.keyCode <= 90) || (event.keyCode >= 97 && event.keyCode <= 122)) {
+            setHideAlert(false)
+        }
+
         if (event.key === 'Enter') {
+            setHideAlert(false)
             handlerLogInPatient();
         }
     };
 
     const handlerLogInPatient = async () => {
         try {
-            if (email.trim() === '' || emailError || password.trim() === '' || clickedPassword) {
+            if (email.trim() === '' || password.trim() === '' || clickedPassword) {
+                setHideAlert(true)
+                setShowEmailError(true)
+                setEmailError('Debe de ingresar los datos requeridos en el campo');
                 return;
             }
-
 
             const loginPatient = {
                 email: email,
@@ -76,8 +93,11 @@ const LogInPatient = () => {
                 navigate(`/profile/patient/${patientId}`)
                 // console.log("This is your token patient", tokenPatient) //Eliminar 
 
-            } else {
+            } else if (result.error) {
+                setHideAlert(true)
+                setShowEmailError(true)
                 setEmailError('Correo electrónico o contraseña incorrectos');
+                return;
             }
         } catch (error) {
             console.error('Hubo un error con la consulta', error);
@@ -89,29 +109,31 @@ const LogInPatient = () => {
             <div className='patientForm'>
                 <div className='title'>
                     <h1>Bienvenido paciente!</h1>
-                    <p className='subTitle'>Por favor, introduce tus datos para ingresar a tu cuenta</p>
+                    <p className='subTitle'>Por favor, introduce tus datos para ingresar</p>
                 </div>
 
                 <div className='mb-3'>
                     <input
-                        onChange={(e) => setEmail(e.target.value)}
+                        onChange={(e) => {
+                            setEmail(e.target.value)
+                        }}
                         onClick={handlerClickEmail}
                         onBlur={handlerBlurEmail}
-                        onKeyPress={handlerKeyPress}
+                        onKeyDown={handlerKeyPress}
                         type='email'
                         className='form-control'
                         id='exampleFormControlInput1'
                         placeholder='Correo electrónico'
                     />
-                    {clickedEmail && email.trim() === '' && <p className='errorMsg'>* El correo electrónico es obligatorio *</p>}
-                    {emailError && <p className='errorMsg'>{emailError}</p>}
+                    {clickedEmail && email.trim() === '' && !showEmailError && hideAlert && <p className='errorMsg'>{emailError}</p>}
+                    {emailError && showEmailError && hideAlert && <p className='errorMsg'>{emailError}</p>}
                 </div>
 
                 <input
                     onChange={(e) => setPassword(e.target.value)}
                     onClick={handlerClickPassword}
                     onBlur={handlerBlurPassword}
-                    onKeyPress={handlerKeyPress}
+                    onKeyDown={handlerKeyPress}
                     type='password'
                     id='inputPassword5'
                     className='form-control'

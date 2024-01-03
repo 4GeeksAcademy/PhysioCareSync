@@ -40,7 +40,9 @@ const getState = ({ getStore, getActions, setStore }) => {
 						}
 					});
 					if (!response.ok) {
-						throw new Error("An error occurred with the query")
+						console.error("An error occurred with the query")
+						return ({ error: "There was an error with the login action" })
+						// throw new Error("An error occurred with the query")
 					}
 					const data = await response.json();
 					console.log("Log In successful")
@@ -48,7 +50,8 @@ const getState = ({ getStore, getActions, setStore }) => {
 
 
 				} catch (error) {
-					console.error("There was an error with the login action", error)
+					console.error("An error occurred with the query")
+					return ({ error: "There was an error with the login action" })
 				}
 			},
 
@@ -98,7 +101,10 @@ const getState = ({ getStore, getActions, setStore }) => {
 						store.isTokenAuthentication == true
 						const emptyInformation = {}
 						setStore({ ...store, informationSpecialist: emptyInformation })
-						throw new Error("There was an error with the token confirmation in flux")
+
+						console.error("There was an error with the token confirmation in flux")
+
+						return ({ error: "There was an error with the token confirmation in flux" })
 					}
 
 
@@ -108,7 +114,9 @@ const getState = ({ getStore, getActions, setStore }) => {
 					setStore({ ...store, informationSpecialist: data.specialist })
 
 				} catch (error) {
-					console.log("Authentication issue you do not have access", error)
+					console.error("Authentication issue you do not have access", error)
+					return ({ error: "There was an error with the token confirmation in flux" })
+
 
 				}
 
