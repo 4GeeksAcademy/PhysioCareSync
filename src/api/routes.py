@@ -248,9 +248,9 @@ def create_preference():
                 }
             ],
             "back_urls": {
-                "success": "https://solid-space-broccoli-7v9r5r744rx9fwwjw-3000.app.github.dev/success",
-                "failure": "https://solid-space-broccoli-7v9r5r744rx9fwwjw-3000.app.github.dev/failure",
-                "pending": "https://solid-space-broccoli-7v9r5r744rx9fwwjw-3000.app.github.dev/pending",
+                "success": "https://probable-yodel-7vprv49qr9vhxq74-3000.app.github.dev/success",
+                "failure": "https://probable-yodel-7vprv49qr9vhxq74-3000.app.github.dev/failure",
+                "pending": "https://probable-yodel-7vprv49qr9vhxq74-3000.app.github.dev/pending",
             },
             "auto_return": "approved",
         }

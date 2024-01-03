@@ -2,8 +2,8 @@ import React from 'react'
 import { Context } from '../store/appContext'
 import { Link, useNavigate, useParams } from 'react-router-dom';
 import { useContext, useState, useEffect } from 'react'
-
-
+import Product from '../component/Product.jsx';
+import "../../styles/Product.css"
 
 const ProfileSpecialist = () => {
     const { store, actions } = useContext(Context)
@@ -19,8 +19,10 @@ const ProfileSpecialist = () => {
         }
     };
 
-
-    checkAccess();
+    useEffect(() => {
+        checkAccess();
+    },[])
+    
 
     const handleLogOut = async () => {
 
@@ -77,6 +79,8 @@ const ProfileSpecialist = () => {
                             {/* aqui toca seguir */}
                             <p className='email-specialist'>Correo electrónico: {store.informationSpecialist.email} </p>
                             <p className='date-register-specialist'> Fecha de registro en PhysioCareSync: {registerDate}</p>
+                                <Product/>
+
                             <div className='container-buttons-specialist'>
                                 {<Link to="/edit/specialist">
                                     <button className="button-edit-profile-specialist" type='button'>Editar Perfil </button>
