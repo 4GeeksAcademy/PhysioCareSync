@@ -18,7 +18,7 @@ const LogInSpecialist = () => {
     const [hideAlert, setHideAlert] = useState(true)
     const [loginSuccess, setLoginSuccess] = useState(false)
     const [checkLoginBotton, setCheckLoginBotton] = useState(true)
-
+    const goLogin=useNavigate()
 
 
 
@@ -30,6 +30,7 @@ const LogInSpecialist = () => {
     const handlerClickEmail = () => {
         setClickedEmail(false);
     };
+
 
     const handlerBlurEmail = () => {
         if (!email.trim()) {
@@ -73,6 +74,9 @@ const LogInSpecialist = () => {
         }
     };
 
+    const handlerLogOutSpecialist= ()=>{
+        goLogin("/login")
+    }
 
     const handlerLogInSpecialist = async () => {
         setCheckLoginBotton(false)
@@ -168,11 +172,10 @@ const LogInSpecialist = () => {
                         Ingresar
                     </button>
 
-                    <Link to={'/login'}>
-                        <button disabled={!checkLoginBotton} type="button" className="btn btn-outline-primary exitBtn">
+                        <button disabled={!checkLoginBotton} onClick={handlerLogOutSpecialist} type="button" className="btn btn-outline-primary exitBtn">
                             Salir
                         </button>
-                    </Link>
+                    
                 </div>
             </div>
         </div>

@@ -372,9 +372,9 @@ const getState = ({ getStore, getActions, setStore }) => {
 				const route = "/api/upload_certificates_specialist/"
 				store.messageUploadCertificates = "Subiendo información..."
 
-				for (var pair of formCertificates.entries()) {
-					console.log(pair[0] + ' ' + pair[1])
-				}
+				// for (var pair of formCertificates.entries()) {
+				// 	console.log(pair[0] + ' ' + pair[1])
+				// }
 
 				try {
 					const response = await fetch(API_URL + route + stringSpecialistId, {

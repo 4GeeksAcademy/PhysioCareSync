@@ -18,7 +18,7 @@ const LogInPatient = () => {
     const [hideAlert, setHideAlert] = useState(true)
     const [loginSuccess, setLoginSuccess] = useState(false)
     const [checkLoginBotton, setCheckLoginBotton] = useState(true)
-
+    const goLogin=useNavigate()
 
 
     const isEmailValid = (email) => {
@@ -53,6 +53,10 @@ const LogInPatient = () => {
         setHideAlert(true)
         setClickedPassword(false);
     };
+
+    const handlerLogOutPatient=()=>{
+        goLogin("/login")
+    }
 
     const handlerBlurPassword = () => {
         if (!password.trim()) {
@@ -178,11 +182,11 @@ const LogInPatient = () => {
                     <button disabled={!checkLoginBotton} onClick={handlerLogInPatient} type='button' className='btn btn-success saveBtn'>
                         Ingresar
                     </button>
-                    <Link to={'/login'}>
-                        <button disabled={!checkLoginBotton} type='button' className='btn btn-outline-primary exitBtn'>
+                    
+                        <button disabled={!checkLoginBotton} onClick={handlerLogOutPatient} type='button' className='btn btn-outline-primary exitBtn'>
                             Salir
                         </button>
-                    </Link>
+                
                 </div>
             </div>
         </div>

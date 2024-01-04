@@ -9,6 +9,10 @@ const EditSpecialist = () => {
     const [formInformationSpecialist, setFormInformationSpecialist] = useState({});
     const [finalImageSpecialist, setFinalImageSpecialist] = useState(null);
     const [finalImageCertificates, setFinalImageCertificates] = useState(null);
+    const [limitOfCertifications, setLimitOfCertifications] = useState(false)
+    const [numCertifications, setNumCertifications] = useState(0)
+    const [savingChanges, setSavingChanges] = useState(false)
+
 
     const formRef = useRef(null);
     const isMounted = useRef(true);
@@ -22,7 +26,29 @@ const EditSpecialist = () => {
 
     const handleUploadImageCertificate = (e) => {
         const imgCertificate = e.target.files;
-        setFinalImageCertificates(imgCertificate);
+        let limitCertificates = imgCertificate.length + store.informationSpecialist.certificates.length
+        let amountOfCertificates = 5 - store.informationSpecialist.certificates.length
+        setNumCertifications(amountOfCertificates)
+        console.log(amountOfCertificates)
+
+        if (imgCertificate){
+            if (imgCertificate.length > 5 || limitCertificates > 5) {
+                console.log("supera")
+                setLimitOfCertifications(true)
+                setTimeout(() => {
+                    setLimitOfCertifications(false)
+                }, 9000)
+            }
+            else {
+                console.log("no supera, si subiran mas certificados")
+                setFinalImageCertificates(imgCertificate);
+            }
+
+        }
+        else{
+            console.log("no hay certificados escogidos")
+        }
+
     };
 
     const handleEditInformation = (nameValue, value) => {
@@ -31,6 +57,7 @@ const EditSpecialist = () => {
     };
 
     const handleSubmitInformation = async (form, specialistId, imageSpecialist) => {
+        setSavingChanges(true)
         const formData = new FormData();
         if (!form.first_name) {
             formData.append("first_name", store.informationSpecialist.first_name || "")
@@ -89,30 +116,34 @@ const EditSpecialist = () => {
         });
 
 
-        if (!finalImageCertificates) {
-            store.messageUploadCertificates = "Ningún archivo ha sido seleccionado"
-            // setMsg("Ningún archivo ha sido seleccionado")
-            return;
-        }
+        // if (!finalImageCertificates) {
+        //     store.messageUploadCertificates = "Ningún archivo ha sido seleccionado"
+        //     return;
+        // }
 
         const formImages = new FormData();
         const formCertificates = new FormData();
-        formImages.append("img", imageSpecialist);
-        let countCertificates = 0
-
-        for (let i = 0; i < finalImageCertificates.length; i++) {
-            formCertificates.append(`certificates_url_${i + 1}`, finalImageCertificates[i]);
-            countCertificates = countCertificates + 1
-        }
-
-
-        formCertificates.append("num_certificates", countCertificates.toString())
+        formImages.append("img", imageSpecialist);  
         await actions.editSpecialistInformation(specialistId, finalSpecialistForm);
         await actions.editImagesSpecialist(formImages, specialistId);
-        await actions.editCertificatesSpecialist(formCertificates, specialistId)
+        let countCertificates = 0
+        if (finalImageCertificates==null){
+            console.log("no hay valores!, por lo tanto no se subiran certificados!")
+        }
+        else{
+            for (let i = 0; i < finalImageCertificates.length; i++) {
+                formCertificates.append(`certificates_url_${i + 1}`, finalImageCertificates[i]);
+                countCertificates = countCertificates + 1
+            }
+    
+            formCertificates.append("num_certificates", countCertificates.toString())
+            await actions.editCertificatesSpecialist(formCertificates, specialistId)
+        }
 
         if (isMounted.current && formRef.current) {
-            navigate('/professional-view', { state: { specialistData: formInformationSpecialist } });
+            setTimeout(()=>{
+                navigate('/professional-view', { state: { specialistData: formInformationSpecialist } });
+            },1000)
             setFinalImageCertificates(null);
             setFinalImageSpecialist(null);
             formRef.current.reset();
@@ -203,17 +234,18 @@ const EditSpecialist = () => {
                         onChange={(e) => (handleEditInformation(e.target.name, e.target.value))}
                     ></input>
 
-                    <label for="files">Certificado</label>
+                    <label>Certificado</label>
                     <input
                         className="input-edit-specialist" type='file' id="certificate" name="certificate"
                         accept='image/png, image/jpeg, image/jpg'
                         onChange={(e) => (handleUploadImageCertificate(e))}
                         multiple />
+                    {limitOfCertifications ? <span className='alert-message'> Supero la cantidad de certificaciones! {store.informationSpecialist.certificates.length==5? "Ya no puede agregar más certificaciones!":`Solo puede agregar ${numCertifications} ${numCertifications>1?"certificaciones":"certificación"} más,`} el límite son 5 certificaciones por especialista</span> : null}
 
-                    <button className="button-edit-specialist" type="button" onClick={() => handleSubmitInformation(formInformationSpecialist, store.informationSpecialist.id, finalImageSpecialist)}>Guardar Cambios</button>
+                    <button className={!savingChanges ?"button-edit-specialist":"button-edit-specialist-disabled"} type="button" onClick={() => handleSubmitInformation(formInformationSpecialist, store.informationSpecialist.id, finalImageSpecialist)}>{!savingChanges ? "Guardar Cambios" : "Guardando Cambios..."}</button>
                 </form>
 
-                {store.messageUploadCertificates && <span>{store.messageUploadCertificates} </span>}
+                {/* {store.messageUploadCertificates && <span>{store.messageUploadCertificates} </span>} */}
 
             </div>
 

@@ -11,8 +11,9 @@
 /* LAYOUT */
 
 .container-edit-specialist {
+    
     max-width: 800px;
-    margin: 0 auto;
+    margin: 3% auto;
     padding: var(--margin);
     background-color: #f8f9fa;
     border-radius: 10px;
@@ -22,7 +23,21 @@
 .form-edit-specialist {
     display: flex;
     flex-direction: column;
+   
 }
+
+.alert-message{
+    background-color: #f8d7da; /* Color de fondo rojo claro (puedes cambiarlo según tus preferencias) */
+    color: #721c24; /* Color del texto oscuro (puedes cambiarlo según tus preferencias) */
+    padding: 10px; /* Espaciado interno */
+    border: 1px solid #f5c6cb; /* Borde rojo claro */
+    border-radius: 5px; /* Esquinas redondeadas */
+    margin-top: -1%; /* Espaciado superior */
+    margin-bottom: 0.8%; /* Espaciado superior */
+    font-size: 14px; /* Tamaño del texto */
+}
+
+
 
 /* LABELS */
 
@@ -147,4 +162,17 @@
     margin-top: 10px;
     font-size: var(--font-size);
     color: #495057;
+}
+
+.button-edit-specialist-disabled{
+    background-color: #adadadc9; 
+    color: #fff;
+    padding: 12px;
+    font-size: var(--font-size);
+    cursor: not-allowed; 
+    border-radius: 5px;
+    border: none;
+    pointer-events: none; 
+
+
 }
