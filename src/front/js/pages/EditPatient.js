@@ -81,10 +81,10 @@ const EditPatient = () => {
 
         await actions.editPatient(finalPatientForm, patientId)
         await actions.editImagePatient(formImg, patientId)
-        
 
-        if (isMounted.current && formRef.current){
-            
+
+        if (isMounted.current && formRef.current) {
+
             const profileId = sessionStorage.getItem("patientId")
             setTimeout(() => {
                 navigate(`/profile/patient/${profileId}`)
@@ -92,7 +92,7 @@ const EditPatient = () => {
             setFinalImagePatient(null);
             formRef.current.reset()
         }
-        
+
     }
 
     const checkAccess = async () => {
@@ -107,7 +107,7 @@ const EditPatient = () => {
 
 
     useEffect(() => {
-        checkAccess();  
+        checkAccess();
         return () => {
             // Cuando el componente se desmonta, actualiza la ref
             isMounted.current = false;

@@ -2,6 +2,7 @@
 import React, { useContext, useEffect, useRef, useState } from 'react';
 import { Context } from '../store/appContext';
 import { useNavigate } from 'react-router-dom';
+import "../../styles/EditSpecialist.css"
 
 const EditSpecialist = () => {
     const { store, actions } = useContext(Context);
@@ -31,7 +32,7 @@ const EditSpecialist = () => {
         setNumCertifications(amountOfCertificates)
         console.log(amountOfCertificates)
 
-        if (imgCertificate){
+        if (imgCertificate) {
             if (imgCertificate.length > 5 || limitCertificates > 5) {
                 console.log("supera")
                 setLimitOfCertifications(true)
@@ -45,7 +46,7 @@ const EditSpecialist = () => {
             }
 
         }
-        else{
+        else {
             console.log("no hay certificados escogidos")
         }
 
@@ -123,27 +124,27 @@ const EditSpecialist = () => {
 
         const formImages = new FormData();
         const formCertificates = new FormData();
-        formImages.append("img", imageSpecialist);  
+        formImages.append("img", imageSpecialist);
         await actions.editSpecialistInformation(specialistId, finalSpecialistForm);
         await actions.editImagesSpecialist(formImages, specialistId);
         let countCertificates = 0
-        if (finalImageCertificates==null){
+        if (finalImageCertificates == null) {
             console.log("no hay valores!, por lo tanto no se subiran certificados!")
         }
-        else{
+        else {
             for (let i = 0; i < finalImageCertificates.length; i++) {
                 formCertificates.append(`certificates_url_${i + 1}`, finalImageCertificates[i]);
                 countCertificates = countCertificates + 1
             }
-    
+
             formCertificates.append("num_certificates", countCertificates.toString())
             await actions.editCertificatesSpecialist(formCertificates, specialistId)
         }
 
         if (isMounted.current && formRef.current) {
-            setTimeout(()=>{
+            setTimeout(() => {
                 navigate('/professional-view', { state: { specialistData: formInformationSpecialist } });
-            },1000)
+            }, 1000)
             setFinalImageCertificates(null);
             setFinalImageSpecialist(null);
             formRef.current.reset();
@@ -180,6 +181,8 @@ const EditSpecialist = () => {
                     ref={formRef}
                 >
                     {/* basic info */}
+                    <hr />
+                    <h4 className='basic-information'>Información basica</h4>
                     <label className='label-edit-specialist'>Nombre: </label>
                     <input
                         className="input-edit-specialist" type='text' id="first_name" name="first_name"
@@ -225,7 +228,8 @@ const EditSpecialist = () => {
                     ></input>
 
                     {/* specialist info application*/}
-
+                    <hr />
+                    <h4 className='profile-title'>Perfil profesional y académico</h4>
                     <label>Descripción del especialista</label>
                     <input
                         className="input-edit-specialist" type='text' id="description" name="description"
@@ -240,9 +244,9 @@ const EditSpecialist = () => {
                         accept='image/png, image/jpeg, image/jpg'
                         onChange={(e) => (handleUploadImageCertificate(e))}
                         multiple />
-                    {limitOfCertifications ? <span className='alert-message'> Supero la cantidad de certificaciones! {store.informationSpecialist.certificates.length==5? "Ya no puede agregar más certificaciones!":`Solo puede agregar ${numCertifications} ${numCertifications>1?"certificaciones":"certificación"} más,`} el límite son 5 certificaciones por especialista</span> : null}
+                    {limitOfCertifications ? <span className='alert-message'> Supero la cantidad de certificaciones! {store.informationSpecialist.certificates.length == 5 ? "Ya no puede agregar más certificaciones!" : `Solo puede agregar ${numCertifications} ${numCertifications > 1 ? "certificaciones" : "certificación"} más,`} el límite son 5 certificaciones por especialista</span> : null}
 
-                    <button className={!savingChanges ?"button-edit-specialist":"button-edit-specialist-disabled"} type="button" onClick={() => handleSubmitInformation(formInformationSpecialist, store.informationSpecialist.id, finalImageSpecialist)}>{!savingChanges ? "Guardar Cambios" : "Guardando Cambios..."}</button>
+                    <button className={!savingChanges ? "button-edit-specialist" : "button-edit-specialist-disabled"} type="button" onClick={() => handleSubmitInformation(formInformationSpecialist, store.informationSpecialist.id, finalImageSpecialist)}>{!savingChanges ? "Guardar Cambios" : "Guardando Cambios..."}</button>
                 </form>
 
                 {/* {store.messageUploadCertificates && <span>{store.messageUploadCertificates} </span>} */}

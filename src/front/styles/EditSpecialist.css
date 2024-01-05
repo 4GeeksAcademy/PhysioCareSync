@@ -57,6 +57,16 @@
     border-radius: 5px;
 }
 
+.basic-information{
+    margin-top:2%;
+    margin-bottom: 3%;
+}
+
+.profile-title{
+    margin-top:2%;
+    margin-bottom: 3%;
+}
+
 .input-edit-specialist:focus {
     border-color: var(--primary-color);
     box-shadow: 0 0 5px rgba(40, 167, 69, 0.5);

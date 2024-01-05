@@ -6,13 +6,14 @@ import NewUserBtn from "./NewUserBtn.jsx";
 import { Link, useNavigate } from "react-router-dom";
 import { Context } from "../store/appContext.js";
 import ProfileDropdown from "./ProfileDropdown.jsx";
+import DropdownMenu from "./DropdownMenu.jsx";
 
 
 export const Navbar = () => {
 
     const { store, actions } = useContext(Context)
     const navigate = useNavigate()
-    let tokenAuthentication
+
     const handleInicioClick = () => {
         console.log("Botón de Inicio clicado");
 
@@ -38,15 +39,18 @@ export const Navbar = () => {
 
     };
 
+    let tokenAuthentication
     const tokenPatient = sessionStorage.getItem('tokenPatient');
     if (!tokenPatient) {
         const tokenSpecialist = sessionStorage.getItem("tokenSpecialist")
         tokenAuthentication = tokenSpecialist
+
     }
     else {
         tokenAuthentication = tokenPatient
     }
 
+    console.log(store.informationSpecialist)
 
     return (
         <div className="bubbleContainer">
@@ -72,7 +76,9 @@ export const Navbar = () => {
                 {
                     !tokenAuthentication ?
                         <NewUserBtn onClick={handleRegisterClick} ></NewUserBtn> :
-                        <ProfileDropdown></ProfileDropdown>
+                        <ProfileDropdown imageProfile={store.informationSpecialist.img}>
+                            <DropdownMenu />
+                        </ProfileDropdown>
                 }
 
 
