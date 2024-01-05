@@ -187,7 +187,7 @@ def login_specialist():
             get_specialist_by_email.last_login_at=datetime.utcnow()
             db.session.commit()
 
-            return jsonify ({"accessToken": access_token,"specialist":serialized_specialist}),200
+            return jsonify ({"accessToken": access_token,"specialist":serialized_specialist, "ok":True}),200
         else:
             return jsonify({"error":"The password is wrong"}),400
 
@@ -479,7 +479,7 @@ def get_information_certificates():
 def webhook_mercadopago():
     try:
         
-        userID = request.json.get("specialistID")
+        userID = request.json.get("theid")
         print(f"Received  userID from Mercado Pago: {userID}")
 
         if userID:
@@ -502,7 +502,7 @@ def authorization_specialist(specialist_id):
             specialist.is_authorized = check_authorization
             db.session.commit()
             print(f"Updated is_authorized for specialist {specialist_id} to: {check_authorization}")
-            return jsonify({"message": "The specialist is authorized!", "specialist_information": specialist.serialize()}), 200
+            return jsonify({"message": "The specialist is authorized!", "specialist_information": specialist.serialize(), 'ok':True}), 200
         else:
             return jsonify({"error": "Invalid request parameters"}), 400
 

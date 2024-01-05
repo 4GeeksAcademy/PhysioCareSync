@@ -9,13 +9,13 @@ const Product = () => {
     const [preferenceIdLocal, setPreferenceIdLocal] = useState(null)
     const { store, actions } = useContext(Context)
     initMercadoPago('APP_USR-afa20cc4-0476-4a1d-859e-4730240c1b8e');
-    const {theid} = useParams()
+    const { theid } = useParams()
     console.log("Aquita tu user id:", theid)
-    
     const handleBuy = async () => {
-
+       
         const id = await actions.createPreference(theid)
         if (id) {
+            sessionStorage.setItem('specialistId', theid)
             setPreferenceIdLocal(store.preferenceId)
             console.log(store.preferenceId)
         }

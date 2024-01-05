@@ -111,7 +111,7 @@ const NewPatient = () => {
       };
 
       await actions.createNewPatient(newInputPatient);
-      navigate('/'); // Replace with the desired route
+      navigate('/login/loginPatient'); 
     } catch (error) {
       console.error('Hubo un error al crear el paciente', error);
     }

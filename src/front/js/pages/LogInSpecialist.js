@@ -67,10 +67,16 @@ const LogInSpecialist = () => {
                 await actions.accessConfirmationSpecialist();
                 sessionStorage.setItem("specialistId", store.informationSpecialist.id)
                 const specialistId = sessionStorage.getItem("specialistId")
-                navigate(`/profile/specialist/${specialistId}`)
-
-
-
+                sessionStorage.setItem("payStatus", store.informationSpecialist.is_authorized)
+                const payStatus = sessionStorage.getItem("payStatus")
+                console.log("Este es el estatus del pago de suscripción", payStatus)
+                if (payStatus === true) {
+                    alert("Hola")
+                    navigate(`/profile/paymentPage/${specialistId}`)
+                } else {
+                    alert("Cahu")
+                    navigate(`/profile/specialist/${specialistId}`)
+                }
             } else {
                 alert('Correo electrónico o contraseña incorrectos');
             }
