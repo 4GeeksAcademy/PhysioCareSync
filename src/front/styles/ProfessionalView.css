@@ -1,36 +1,15 @@
-
-
-.professional-view-container {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    cursor: pointer;
-    transition: all 0.3s ease-in-out;
-    width: 100%; /* El contenedor ocupa el ancho completo de la página */
-}
-
-.professional-view-container.show-full-info {
-    height: auto;
-    padding-bottom: 16px; /* Ajusta según sea necesario */
-}
-
-.professional-view-title {
-    text-align: center;
-}
-
 .professional-view-card {
-    border: 1px solid #ddd;
-    border-radius: 8px;
+    border: 1px solid #555;
+    border-radius: 12px;
     overflow: hidden;
-    margin: 16px;
-    max-width: 1000px; /* Ajusta el ancho máximo según sea necesario */
-    width: 100%; /* El card ocupa el ancho completo del contenedor */
-    display: flex; /* Para que los elementos dentro del card se distribuyan horizontalmente */
-}
-
-.professional-view-info {
-    padding: 16px;
-    flex-grow: 1; /* Para que ocupe todo el espacio disponible */
+    margin: 16px auto;
+    max-width: 900px;
+    width: 100%;
+    display: flex;
+    transition: all 0.3s ease-in-out;
+    cursor: pointer;
+    background: #333;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 }
 
 .profile-section {
@@ -39,27 +18,62 @@
 }
 
 .profile-image {
-    width: 100px; /* Ajusta el tamaño de la imagen según sea necesario */
-    height: 100px; /* Ajusta el tamaño de la imagen según sea necesario */
-    border-radius: 8px 0 0 8px; /* Bordes redondeados en la esquina superior izquierda */
+    width: 100px; /* Slightly smaller for a more subtle look */
+    height: 100px;
+    border-radius: 50%; /* Perfect circle for a clean aesthetic */
+    object-fit: cover;
     margin-right: 16px;
-}
-
+    border: 2px solid #fff; /* Subtle white border for visual separation */
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.15); /* Soft shadow for depth */
+  }
+  
+  /* Hover effect */
+  .profile-image:hover {
+    transform: scale(1.05); /* Subtle zoom on hover */
+    box-shadow: 0 8px 12px rgba(0, 0, 0, 0.25); /* Enhanced shadow for focus */
+  }
 .name-section {
     flex-grow: 1;
 }
 
-.cert-image {
-    max-width: 100%;
-    height: auto;
-    margin-top: 16px;
-}
-
 .specialist-info p {
     margin: 8px 0;
+    color: #eee;
 }
-.no-link {
-    text-decoration: none; /* Elimina la subrayado del enlace */
-    color: inherit; /* Utiliza el color del texto normal */
-    cursor: auto; /* Cambia el cursor de enlace a un cursor predeterminado */
+
+
+.professional-view-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 12px rgba(0, 0, 0, 0.2);
+}
+
+body {
+    margin: 0;
+    padding: 0;
+    height: 100vh;
+    font-family: 'Arial', sans-serif;
+}
+
+.professional-view-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    cursor: pointer;
+    transition: all 0.3s ease-in-out;
+    width: 100%;
+    min-height: 100vh;
+    background: #1a1a1a;
+    color: #fff;
+}
+
+.professional-view-list {
+    width: 100%;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-around;
+}
+
+.specialist-type {
+    font-weight: bold;
+    color: #61fbc0; /* Color verde */
   }
