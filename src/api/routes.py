@@ -1,7 +1,7 @@
 """
 This module takes care of starting the API Server, Loading the DB and Adding the endpoints
 """
-
+from flask import jsonify
 import secrets,json
 from datetime import datetime
 from flask import Flask, request, jsonify, url_for, Blueprint,current_app
@@ -298,18 +298,16 @@ def get_patient_by_id(patient_id):
     
 
 
-@api.route("/get_information_specialist/<int:specialist_id>",methods=["GET"])
+@api.route("/get_information_specialist/<int:specialist_id>", methods=["GET"])
 def get_specialist_by_id(specialist_id):
     specialist=Specialist.query.get(specialist_id)
     if specialist:
         specialist_serialize=specialist.serialize()
-
-
-        return jsonify({"specialist":specialist_serialize, "ok":True})
-
-    
+        print("Specialist information:", specialist_serialize)
+        return jsonify({"specialist": specialist_serialize, "ok": True})
     else:
-        return jsonify({"error":"The specialist does not exist"}),400
+        return jsonify({"error": "The specialist does not exist"}), 400
+
 
 
 
@@ -507,11 +505,67 @@ def get_all_specialists():
                 "phone_number": specialist.phone_number,
                 "country_origin": specialist.country_origin,
                 "img": specialist.img,
+                "is_nurse": specialist.is_nurse,
+                "is_physiotherapist": specialist.is_physiotherapist,
             }
 
             specialists_list.append(specialist_info)
 
         return jsonify({"specialists": specialists_list}), 200
 
+    except Exception as e:
+        return jsonify({"error": str(e)}), 500
+
+
+
+@api.route("/get_specialist_info/<int:specialist_id>", methods=["GET"])
+def get_specialist_info(specialist_id):
+    try:
+        specialist = Specialist.query.get(specialist_id)
+        
+        if specialist:
+            specialist_info = {
+                "id": specialist.id,
+                "first_name": specialist.first_name,
+                "last_name": specialist.last_name,
+                "email": specialist.email,
+                "description": specialist.description,
+                "language": specialist.language,
+                "phone_number": specialist.phone_number,
+                "country_origin": specialist.country_origin,
+                "img": specialist.img,
+                "is_authorized": specialist.is_authorized,
+                "is_physiotherapist": specialist.is_physiotherapist,
+                "is_nurse": specialist.is_nurse,
+            }
+
+            certificates_info = []
+            for certificate in specialist.certificates:
+                certificate_info = {
+                    "certificate_id": certificate.id,
+                    "certificates_url": certificate.certificates_url,
+                }
+                certificates_info.append(certificate_info)
+
+            specialist_info["certificates"] = certificates_info
+
+            return jsonify({"specialist_info": specialist_info}), 200
+        else:
+            return jsonify({"error": "Specialist not found"}), 404
+
+    except Exception as e:
+        return jsonify({"error": str(e)}), 500
+
+
+@api.route("/api/get_certificates_for_specialist/<int:specialist_id>", methods=["GET"])
+def get_certificates_for_specialist(specialist_id):
+    try:
+        specialist = Specialist.query.get(specialist_id)
+        if specialist:
+            certificates = Certificate.query.filter_by(specialist_id=specialist.id).all()
+            certificates_list = [{"id": certificate.id, "certificates_url": certificate.certificates_url} for certificate in certificates]
+            return jsonify(certificates_list), 200
+        else:
+            return jsonify({"error": "Specialist not found"}), 404
     except Exception as e:
         return jsonify({"error": str(e)}), 500

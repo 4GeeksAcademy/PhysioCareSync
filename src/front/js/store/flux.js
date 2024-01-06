@@ -81,27 +81,65 @@ const getState = ({ getStore, getActions, setStore }) => {
         }
       },
 
-      loadAllSpecialists: async () => {
+
+
+
+	  loadAllSpecialists: async () => {
 		const store = getStore();
-	
+	  
+		if (store.loadingAllSpecialists) {
+		  return;
+		}
+	  
 		try {
+		  setStore({ ...store, loadingAllSpecialists: true });
+	  
 		  const response = await fetch(API_URL + "/api/get_all_specialists");
 		  if (!response.ok) {
-			throw new Error("Error loading all specialists");
+			throw new Error(`Error loading all specialists. Status: ${response.status}`);
 		  }
-	
+	  
 		  const data = await response.json();
+	  
 	
-		  // Actualiza la lista de especialistas en el estado global
 		  setStore({ ...store, specialistsList: data.specialists });
-	
 		  console.log("All specialists loaded successfully", data);
-	
+	  
 		} catch (error) {
 		  console.error("Error loading all specialists:", error);
-        }
-      },
+		  
+	  
+		} finally {
+		  setStore({ ...store, loadingAllSpecialists: false });
+		}
+	  },
 
+	  loadSpecialistById: async (specialistId) => {
+		try {
+			const response = await fetch(API_URL + `/api/get_specialist_info/${encodeURIComponent(specialistId)}`);
+	
+			if (!response.ok) {
+				const errorMessage = `Error loading specialist with ID ${specialistId}. Status: ${response.status}`;
+				console.error(errorMessage);
+				throw new Error(errorMessage);
+			}
+	
+			const data = await response.json();
+	
+			if (!data || data.error) {
+				const errorMessage = data ? `Error loading specialist with ID ${specialistId}: ${data.error}` : `Empty response for specialist with ID ${specialistId}`;
+				console.error(errorMessage);
+				throw new Error(errorMessage);
+			}
+	
+			return data.specialist_info; 
+		} catch (error) {
+			console.error(`Error loading specialist with ID ${specialistId}: ${error.message}`);
+			throw new Error(`Error loading specialist with ID ${specialistId}: ${error.message}`);
+		}
+	},
+	
+	  
 
 			loginPatient: async (patient) => {
 				try {
