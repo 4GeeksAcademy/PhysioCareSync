@@ -27,14 +27,15 @@ const ProfileSpecialist = () => {
 
 
     const handleLogOut = async () => {
-
         const confirm = window.confirm('¿Estás seguro de que quieres cerrar sesión?');
         if (confirm) {
             navigate('/');
-            store.isTokenAuthentication == false
-            await actions.deleteTokenSpecialist()
+            // Use the assignment operator (=) instead of the comparison operator (==)
+            store.isTokenAuthentication = false;
+            await actions.deleteTokenSpecialist();
         }
     }
+    
 
     const token = sessionStorage.getItem('tokenSpecialist');
     const specialistId = sessionStorage.getItem("specialistId")

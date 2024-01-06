@@ -2,7 +2,7 @@ import React from "react";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 import ScrollToTop from "./component/scrollToTop";
 import { BackendURL } from "./component/backendURL";
-import FullProfile from "./component/FullProfile";
+import ProfessionalDetailView from './component/ProfessionalDetailView';
 
 import { Home } from "./pages/home";
 import { Demo } from "./pages/demo";
@@ -31,6 +31,7 @@ import PaySuccess from "./pages/PaySuccess.jsx";
 import PayError from "./pages/PayError.jsx";
 import PayPending from "./pages/PayPending.jsx";
 import PaymentPage from "./pages/PaymentPage.js";
+
 
 
 
@@ -69,8 +70,11 @@ const Layout = () => {
                         <Route element={<Single />} path="/single/:theid" />
                         <Route element={<FormSpecialist />} path="/formSpecialist" />
                         <Route element={<ProfessionalView />} path="/professional-view" />
+
                         <Route element={<FullProfile />} path="/professional-view/:id" />
                         <Route element={<PaymentPage/>} path="profile/paymentPage/:theid"/>
+
+                        <Route element={<ProfessionalDetailView />} path="/professional-view/:id" />  
                         <Route element={<h1>Not found!</h1>} />
                     </Routes>
                 </ScrollToTop>
