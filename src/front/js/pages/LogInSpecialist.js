@@ -48,7 +48,6 @@ const LogInSpecialist = () => {
                 return;
             }
 
-            // Validación del formato del correo electrónico
             if (!isEmailValid(email)) {
                 alert('El formato del correo electrónico es incorrecto');
                 return;
@@ -67,10 +66,17 @@ const LogInSpecialist = () => {
                 await actions.accessConfirmationSpecialist();
                 sessionStorage.setItem("specialistId", store.informationSpecialist.id)
                 const specialistId = sessionStorage.getItem("specialistId")
-                navigate(`/profile/specialist/${specialistId}`)
-
-
-
+                sessionStorage.setItem("payStatus", store.informationSpecialist.is_authorized)
+                const payStatus = sessionStorage.getItem("payStatus")
+                console.log("Este es el estatus del pago de suscripción", payStatus)
+                if (payStatus === "true") {
+                    alert("Hola")
+                    navigate(`/profile/specialist/${specialistId}`)
+                    
+                } else {
+                    alert("Chau")
+                    navigate(`/profile/paymentPage/${specialistId}`)
+                }
             } else {
                 alert('Correo electrónico o contraseña incorrectos');
             }

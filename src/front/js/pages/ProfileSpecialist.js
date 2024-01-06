@@ -4,23 +4,27 @@ import { Link, useNavigate, useParams } from 'react-router-dom';
 import { useContext, useState, useEffect } from 'react'
 
 
-
 const ProfileSpecialist = () => {
     const { store, actions } = useContext(Context)
     const navigate = useNavigate();
     const params = useParams()
+    sessionStorage.setItem("payStatus", store.informationSpecialist.is_authorized)
+    const payStatus = sessionStorage.getItem("payStatus")
 
     const checkAccess = async () => {
         await actions.accessConfirmationSpecialist();
         const token = sessionStorage.getItem('tokenSpecialist');
+
         if (!token && store.isTokenAuthentication == true) {
             alert("You do not have access to this page, please log in or create an account");
             navigate('/');
         }
     };
 
+    useEffect(() => {
+        checkAccess();
+    }, [])
 
-    checkAccess();
 
     const handleLogOut = async () => {
         const confirm = window.confirm('¿Estás seguro de que quieres cerrar sesión?');
@@ -54,8 +58,9 @@ const ProfileSpecialist = () => {
 
     return (
         <div>
+
             {
-                token && isAuthenticatedSpecialistId == specialistId ? (
+                token && isAuthenticatedSpecialistId == specialistId && payStatus === "true" ? (
                     <div className='container-profile-specialist'>
                         <div className='container-img-profile-specialist'>
                             <img className='image-specialist' src={store.informationSpecialist.img ? store.informationSpecialist.img : profileImageEmpty} />
@@ -78,6 +83,7 @@ const ProfileSpecialist = () => {
                             {/* aqui toca seguir */}
                             <p className='email-specialist'>Correo electrónico: {store.informationSpecialist.email} </p>
                             <p className='date-register-specialist'> Fecha de registro en PhysioCareSync: {registerDate}</p>
+
                             <div className='container-buttons-specialist'>
                                 {<Link to="/edit/specialist">
                                     <button className="button-edit-profile-specialist" type='button'>Editar Perfil </button>
@@ -88,7 +94,7 @@ const ProfileSpecialist = () => {
 
                     </div>) :
                     (<div>
-                        <h1>No puede acceder a la información porque no existe un inicio de sesión</h1>
+                        <h1>No puede acceder a la información porque no existe un inicio de sesión o no se ha pagado la suscripción</h1>
                     </div>)
             }
 

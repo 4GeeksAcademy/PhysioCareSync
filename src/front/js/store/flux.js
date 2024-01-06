@@ -216,7 +216,7 @@ const getState = ({ getStore, getActions, setStore }) => {
 
 					store.isTokenAuthentication == false
 					const data = await response.json();
-					console.log("Still have access this is the information you need from back end", data)
+					console.log("Still have access, this is the information you need from back end", data)
 					setStore({ ...store, informationSpecialist: data.specialist })
 
 				} catch (error) {
@@ -234,6 +234,7 @@ const getState = ({ getStore, getActions, setStore }) => {
 			deleteTokenSpecialist: async () => {
 				sessionStorage.removeItem('tokenSpecialist')
 				sessionStorage.removeItem("specialistId")
+				sessionStorage.removeItem("payStatus")
 			},
 
 			loginSpecialist: async (specialist) => {
@@ -319,15 +320,17 @@ const getState = ({ getStore, getActions, setStore }) => {
 			  },
 			  
 
-			createPreference: async () => {
+			createPreference: async (theid) => {
 				try {
+					console.log("Aquí está el id del actions", theid)
 					const response = await fetch(API_URL + "/api/create_preference", {
 					method: "POST",
 					headers: {
 						"Content-Type": "application/json",
 					},
 					body: JSON.stringify({
-						description: "Bananita contenta",
+						theid: theid,
+						description: "Suscripción única",
 						price: 100,
 						quantity: 1,
 					}),
@@ -485,6 +488,27 @@ const getState = ({ getStore, getActions, setStore }) => {
 					console.error("There is an error getting the specialist info:", error)
 				}
 
+
+			},
+
+			authorizeSpacialist: async (specialistId) => {
+				try{
+					const response = await fetch(API_URL + `/api/authorize_specialist/${specialistId}`,{
+						method: "PUT",
+						headers:{
+							'Content-Type': 'application/json'
+						},
+						body: JSON.stringify({ is_authorized: true })
+					})
+					if(!response.ok){
+						throw new Error("There was an error with the response from backend")
+					}
+					const data = await response.json()
+					console.log("Authorizatiion success", data)
+
+				}catch(error){
+					console.error("There was a problem with the request in flux", error)
+				}
 
 			},
 

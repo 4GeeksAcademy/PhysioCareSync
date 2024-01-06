@@ -19,8 +19,10 @@ const ProfilePatient = () => {
       navigate('/');
     }
   };
+  useEffect(() => {
+    checkAccess();
 
-  checkAccess();
+  },[])
 
   const handleLogOut = async () => {
 
