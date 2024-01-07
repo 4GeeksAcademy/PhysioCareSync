@@ -26,7 +26,6 @@ export const Home = () => {
     navigate('/edit/specialist');  // Redirige a la página EditSpecialist
   };
 
-  console.log(store.informationSpecialist)
 
   //steps in order to get the information in the navbar of specialist
   let tokenAuthenticationPatient
@@ -44,16 +43,24 @@ export const Home = () => {
     await actions.accessConfirmationSpecialist();
   };
 
+  const checkAccessPatient = async () => {
+    await actions.accessConfirmationPatient();
+  };
 
-  if (tokenAuthenticationSpecialist) {
+
+
+  if (tokenAuthenticationSpecialist && store.isTokenAuthentication == true) {
+    console.log("aqui entre a pesar de cerrar sesion especialista")
     useEffect(() => {
-      console.log("gola")
       checkAccessSpecialist()
     }, [])
   }
-
-  //steps in order to get the information in the navbar of patient
-
+  else if (tokenAuthenticationPatient && store.isTokenAuthentication == true) {
+    console.log("aqui entre a pesar de cerrar sesion paciente")
+    useEffect(() => {
+      checkAccessPatient()
+    }, [])
+  }
 
 
   return (

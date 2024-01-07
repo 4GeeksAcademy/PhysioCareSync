@@ -18,7 +18,7 @@ const LogInSpecialist = () => {
     const [hideAlert, setHideAlert] = useState(true)
     const [loginSuccess, setLoginSuccess] = useState(false)
     const [checkLoginBotton, setCheckLoginBotton] = useState(true)
-    const goLogin=useNavigate()
+    const goLogin = useNavigate()
 
 
 
@@ -74,7 +74,7 @@ const LogInSpecialist = () => {
         }
     };
 
-    const handlerLogOutSpecialist= ()=>{
+    const handlerLogOutSpecialist = () => {
         goLogin("/login")
     }
 
@@ -84,6 +84,7 @@ const LogInSpecialist = () => {
             if (email.trim() === '' || password.trim() === '') {
                 setHideAlert(true)
                 setShowEmailError(true)
+                setCheckLoginBotton(true)
                 setEmailError('Debe de ingresar los datos requeridos en el campo');
                 return;
             }
@@ -172,10 +173,10 @@ const LogInSpecialist = () => {
                         Ingresar
                     </button>
 
-                        <button disabled={!checkLoginBotton} onClick={handlerLogOutSpecialist} type="button" className="btn btn-outline-primary exitBtn">
-                            Salir
-                        </button>
-                    
+                    <button disabled={!checkLoginBotton} onClick={handlerLogOutSpecialist} type="button" className="btn btn-outline-primary exitBtn">
+                        Salir
+                    </button>
+
                 </div>
             </div>
         </div>

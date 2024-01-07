@@ -175,18 +175,15 @@
   margin-left: -7%;
 }
 
-
-
 .container-edit-profile{
   cursor: pointer;
-
 }
 
 .container-logout{
- 
   cursor: pointer;
-
 }
+
+
 .button-logout-navbar{
   display: flex;
   color: #003ce0;

@@ -50,7 +50,6 @@ export const Navbar = () => {
         tokenAuthentication = tokenPatient
     }
 
-    console.log(store.informationSpecialist)
 
     return (
         <div className="bubbleContainer">
@@ -73,12 +72,18 @@ export const Navbar = () => {
                         <LogInBtn onClick={handleLoginClick}></LogInBtn> :
                         <></>
                 }
+
                 {
                     !tokenAuthentication ?
                         <NewUserBtn onClick={handleRegisterClick} ></NewUserBtn> :
-                        <ProfileDropdown imageProfile={store.informationSpecialist.img}>
-                            <DropdownMenu />
-                        </ProfileDropdown>
+                        (tokenPatient
+                            ? <ProfileDropdown imageProfile={store.informationPatient.img}>
+                                <DropdownMenu />
+                            </ProfileDropdown>
+                            :
+                            <ProfileDropdown imageProfile={store.informationSpecialist.img}>
+                                <DropdownMenu />
+                            </ProfileDropdown>)
                 }
 
 

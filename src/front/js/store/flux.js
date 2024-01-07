@@ -123,13 +123,16 @@ const getState = ({ getStore, getActions, setStore }) => {
 			},
 
 			deleteTokenPatient: async () => {
+				const store = getStore()
 				sessionStorage.removeItem('tokenPatient')
 				sessionStorage.removeItem("patientId")
+				store.isTokenAuthentication == false
 			},
-
 			deleteTokenSpecialist: async () => {
+				const store = getStore()
 				sessionStorage.removeItem('tokenSpecialist')
 				sessionStorage.removeItem("specialistId")
+				store.isTokenAuthentication == false
 			},
 
 			loginSpecialist: async (specialist) => {

@@ -18,7 +18,7 @@ const LogInPatient = () => {
     const [hideAlert, setHideAlert] = useState(true)
     const [loginSuccess, setLoginSuccess] = useState(false)
     const [checkLoginBotton, setCheckLoginBotton] = useState(true)
-    const goLogin=useNavigate()
+    const goLogin = useNavigate()
 
 
     const isEmailValid = (email) => {
@@ -54,7 +54,7 @@ const LogInPatient = () => {
         setClickedPassword(false);
     };
 
-    const handlerLogOutPatient=()=>{
+    const handlerLogOutPatient = () => {
         goLogin("/login")
     }
 
@@ -84,6 +84,7 @@ const LogInPatient = () => {
             if (email.trim() === '' || password.trim() === '') {
                 setHideAlert(true)
                 setShowEmailError(true)
+                setCheckLoginBotton(true)
                 setEmailError('Debe de ingresar los datos requeridos en el campo');
                 setPasswordEmpty("Debe de ingresar los datos requeridos en el campo")
                 return;
@@ -182,11 +183,11 @@ const LogInPatient = () => {
                     <button disabled={!checkLoginBotton} onClick={handlerLogInPatient} type='button' className='btn btn-success saveBtn'>
                         Ingresar
                     </button>
-                    
-                        <button disabled={!checkLoginBotton} onClick={handlerLogOutPatient} type='button' className='btn btn-outline-primary exitBtn'>
-                            Salir
-                        </button>
-                
+
+                    <button disabled={!checkLoginBotton} onClick={handlerLogOutPatient} type='button' className='btn btn-outline-primary exitBtn'>
+                        Salir
+                    </button>
+
                 </div>
             </div>
         </div>
