@@ -1,9 +1,10 @@
 import React, { useContext, useEffect } from 'react';
 import { Context } from '../store/appContext';
-import { Link, useNavigate, useParams } from 'react-router-dom';
+import { useParams } from 'react-router-dom';
 
 
-const OpenChat = () => {
+const OpenChat = ({phone}) => {
+  
     const {store, actions} = useContext(Context);
     const {specialistId} = useParams();
 
@@ -17,10 +18,10 @@ const OpenChat = () => {
         const phoneNumber = store.viewSpecialist ? store.viewSpecialist.phone_number : " ";
 
         if(phoneNumber){
-            const whatsAppURL = `https://wa.me/${phoneNumber}`
+            const whatsAppURL = `https://web.whatsapp.com/send?phone=${phone}&text=Hola! Encontré tu perfil en PhysioCareSync. Me gustaría obtener mas información para agendar una cita`
         window.open(whatsAppURL)
         }else{
-            console.error("No phone number available for this sspecialist.")
+            console.error("No phone number available for this specialist.")
         }
         
     }

@@ -6,7 +6,9 @@ import SnackBarLogin from '../component/SnackBarLogin';
 
 const LogInPatient = () => {
     const navigate = useNavigate();
+
     const { store, actions } = useContext(Context);
+
 
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');

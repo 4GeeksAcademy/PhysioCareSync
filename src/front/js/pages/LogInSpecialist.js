@@ -81,11 +81,13 @@ const LogInSpecialist = () => {
     const handlerLogInSpecialist = async () => {
         setCheckLoginBotton(false)
         try {
+
             if (email.trim() === '' || password.trim() === '') {
                 setHideAlert(true)
                 setShowEmailError(true)
                 setCheckLoginBotton(true)
                 setEmailError('Debe de ingresar los datos requeridos en el campo');
+
                 return;
             }
 
@@ -103,6 +105,7 @@ const LogInSpecialist = () => {
                 await actions.accessConfirmationSpecialist();
                 sessionStorage.setItem("specialistId", store.informationSpecialist.id)
                 const specialistId = sessionStorage.getItem("specialistId")
+
                 snackRef.current.show()
                 setTimeout(() => {
                     navigate(`/profile/specialist/${specialistId}`)
@@ -115,6 +118,19 @@ const LogInSpecialist = () => {
                 snackRef.current.show()
                 setCheckLoginBotton(true)
                 return;
+
+                sessionStorage.setItem("payStatus", store.informationSpecialist.is_authorized)
+                const payStatus = sessionStorage.getItem("payStatus")
+                console.log("Este es el estatus del pago de suscripción", payStatus)
+                if (payStatus === "true") {
+                    alert("Hola")
+                    navigate(`/profile/specialist/${specialistId}`)
+                    
+                } else {
+                    alert("Chau")
+                    navigate(`/profile/paymentPage/${specialistId}`)
+                }
+         
             }
         } catch (error) {
             console.error('Hubo un error con la consulta', error);

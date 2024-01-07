@@ -19,10 +19,14 @@ const ProfilePatient = () => {
       navigate('/');
     }
   };
+  useEffect(() => {
+    checkAccess();
+
 
   useEffect(() => {
     checkAccess();
   }, [])
+
 
   const handleLogOut = async () => {
 
@@ -65,7 +69,7 @@ const ProfilePatient = () => {
               <h5>Información personal</h5>
               <p className='language-patient'> Idiomas conocidos: {store.informationPatient.language ? store.informationPatient.language : "En edición de perfil ingrese los idiomas que sabe hablar"} </p>
               <p className='country-origin-patient'> País de origen: {store.informationPatient.country_origin ? store.informationPatient.country_origin : "En edición de perfil ingrese el pais donde nacio "}</p>
-              <p className='phone-number-patient'>Número de celular: {store.informationPatient.phone_number ? store.informationPatient.phone_number : "Aún no tiene guardado un número de celular, porfavor inserte uno para que pueda comunicarse con los pacientes"} </p>
+              <p className='phone-number-patient'>Número de celular: {store.informationPatient.phone_number ? store.informationPatient.phone_number : "Aún no tiene guardado un número de celular, porfavor inserte uno."} </p>
               <h5>Información de la cuenta</h5>
               <p className='email-patient'>Correo electrónico: {store.informationPatient.email} </p>
               <p className='date-register-patient'> Fecha de registro en PhysioCareSync: {registerDate}</p>
