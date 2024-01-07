@@ -34,7 +34,6 @@ import PaymentPage from "./pages/PaymentPage.js";
 
 
 
-
 //create your first component
 const Layout = () => {
     //the basename is used when your project is published in a subdirectory and not in the root of the domain
@@ -71,7 +70,6 @@ const Layout = () => {
                         <Route element={<FormSpecialist />} path="/formSpecialist" />
                         <Route element={<ProfessionalView />} path="/professional-view" />
 
-                        <Route element={<FullProfile />} path="/professional-view/:id" />
                         <Route element={<PaymentPage/>} path="profile/paymentPage/:theid"/>
 
                         <Route element={<ProfessionalDetailView />} path="/professional-view/:id" />  

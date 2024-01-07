@@ -2,6 +2,7 @@ import React, { useContext, useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import { Context } from '../store/appContext';
 import '../../styles/NewProfessionalDetailView.css'; // Cambiar el nombre del archivo de estilos
+import OpenChat from './OpenChat.jsx';
 
 const NewProfessionalDetailView = () => {
   const { actions } = useContext(Context);
@@ -43,6 +44,13 @@ const NewProfessionalDetailView = () => {
               <img src={specialist.img} alt="Perfil" className="new-profile-image" />
             </div>
           )}
+
+
+
+          <OpenChat phone= {specialist.phone_number}/>
+
+
+
           <div className="new-name-section">
             <p>
               <strong>{specialist.first_name} {specialist.last_name}</strong>

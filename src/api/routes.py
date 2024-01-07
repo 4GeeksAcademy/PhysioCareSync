@@ -250,9 +250,9 @@ def create_preference():
                 }
             ],
             "back_urls": {
-                "success": "https://probable-yodel-7vprv49qr9vhxq74-3000.app.github.dev/success",
-                "failure": "https://probable-yodel-7vprv49qr9vhxq74-3000.app.github.dev/failure",
-                "pending": "https://probable-yodel-7vprv49qr9vhxq74-3000.app.github.dev/pending",
+                "success": "https://redesigned-giggle-7v9r5r744p79hxg7j-3000.app.github.dev/success",
+                "failure": "https://redesigned-giggle-7v9r5r744p79hxg7j-3000.app.github.dev/failure",
+                "pending": "https://redesigned-giggle-7v9r5r744p79hxg7j-3000.app.github.dev/pending",
             },
             "auto_return": "approved",
         }
