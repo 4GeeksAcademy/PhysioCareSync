@@ -22,7 +22,11 @@ const ProfilePatient = () => {
   useEffect(() => {
     checkAccess();
 
-  },[])
+
+  useEffect(() => {
+    checkAccess();
+  }, [])
+
 
   const handleLogOut = async () => {
 

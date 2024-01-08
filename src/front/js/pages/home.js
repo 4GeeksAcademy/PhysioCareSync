@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useContext, useEffect } from "react";
 import { useNavigate } from 'react-router-dom';  // Importa useNavigate
 import "../../styles/home.css";
 import LogInBtn from "../component/LogInBtn.jsx";
@@ -6,10 +6,12 @@ import NewUserBtn from "../component/NewUserBtn.jsx";
 import Product from "../component/Product.jsx";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faUser, faSignInAlt, faInfoCircle } from "@fortawesome/free-solid-svg-icons";
+import { Context } from "../store/appContext.js";
 
 
 export const Home = () => {
   const navigate = useNavigate();  // Inicializa useNavigate
+  const { actions, store } = useContext(Context)
 
   const handleLoginClick = () => {
     console.log("Botón de iniciar sesión clicado");
@@ -24,7 +26,43 @@ export const Home = () => {
     navigate('/edit/specialist');  // Redirige a la página EditSpecialist
   };
 
-  
+
+  //steps in order to get the information in the navbar of specialist
+  let tokenAuthenticationPatient
+  let tokenAuthenticationSpecialist
+  const tokenPatient = sessionStorage.getItem('tokenPatient');
+  if (!tokenPatient) {
+    const tokenSpecialist = sessionStorage.getItem('tokenSpecialist');
+    tokenAuthenticationSpecialist = tokenSpecialist
+  }
+  else if (tokenPatient) {
+    tokenAuthenticationPatient = tokenPatient
+  }
+
+  const checkAccessSpecialist = async () => {
+    await actions.accessConfirmationSpecialist();
+  };
+
+  const checkAccessPatient = async () => {
+    await actions.accessConfirmationPatient();
+  };
+
+
+
+  if (tokenAuthenticationSpecialist && store.isTokenAuthentication == true) {
+    console.log("aqui entre a pesar de cerrar sesion especialista")
+    useEffect(() => {
+      checkAccessSpecialist()
+    }, [])
+  }
+  else if (tokenAuthenticationPatient && store.isTokenAuthentication == true) {
+    console.log("aqui entre a pesar de cerrar sesion paciente")
+    useEffect(() => {
+      checkAccessPatient()
+    }, [])
+  }
+
+
   return (
     <div className="mushoChoiceDrivenUserExpe">
       <section className="typefullSize">
@@ -36,7 +74,7 @@ export const Home = () => {
                 Su hogar para servicios profesionales de atención médica.
               </h3>
             </div>
-            
+
             <LogInBtn className="ctaButton"></LogInBtn>
           </div>
         </div>
@@ -104,7 +142,7 @@ export const Home = () => {
             <div className="copy">
               <h1 className="heading1">"¡Regístrate como Especialista Ahora!"</h1>
             </div>
-              <NewUserBtn></NewUserBtn>
+            <NewUserBtn></NewUserBtn>
             <button className="buttonCombo" onClick={handleSignUpClick}>
               <div className="button2">
                 <div className="textContainer">
@@ -121,7 +159,7 @@ export const Home = () => {
           <div className="headingText">
             <h1 className="heading">Profesionales mejor calificados</h1>
             <h3 className="subheading">
-            Navega a través de nuestros profesionales registrados.
+              Navega a través de nuestros profesionales registrados.
             </h3>
           </div>
         </section>

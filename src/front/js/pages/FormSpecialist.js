@@ -2,37 +2,64 @@
 import React, { useContext, useEffect, useRef, useState } from 'react';
 import { Context } from '../store/appContext';
 import { useNavigate } from 'react-router-dom';
+import "../../styles/EditSpecialist.css"
 
 const EditSpecialist = () => {
-  const { store, actions } = useContext(Context);
-  const navigate = useNavigate();
-  const [formInformationSpecialist, setFormInformationSpecialist] = useState({});
-  const [finalImageSpecialist, setFinalImageSpecialist] = useState(null);
-  const [finalImageCertificate, setFinalImageCertificate] = useState(null);
+    const { store, actions } = useContext(Context);
+    const navigate = useNavigate();
+    const [formInformationSpecialist, setFormInformationSpecialist] = useState({});
+    const [finalImageSpecialist, setFinalImageSpecialist] = useState(null);
+    const [finalImageCertificates, setFinalImageCertificates] = useState(null);
+    const [limitOfCertifications, setLimitOfCertifications] = useState(false)
+    const [numCertifications, setNumCertifications] = useState(0)
+    const [savingChanges, setSavingChanges] = useState(false)
 
-  const formRef = useRef(null);
-  const isMounted = useRef(true);
-  const goToHome = useNavigate();
 
-  const handleUploadImageProfile = (e) => {
-    e.preventDefault();
-    const imgProfile = e.target.files[0];
-    setFinalImageSpecialist(imgProfile);
-  };
+    const formRef = useRef(null);
+    const isMounted = useRef(true);
+    const goToHome = useNavigate();
 
-  const handleUploadImageCertificate = (e) => {
-    e.preventDefault();
-    const imgCertificate = e.target.files[0];
-    setFinalImageCertificate(imgCertificate);
-  };
+    const handleUploadImageProfile = (e) => {
+        e.preventDefault();
+        const imgProfile = e.target.files[0];
+        setFinalImageSpecialist(imgProfile);
+    };
 
-  const handleEditInformation = (nameValue, value) => {
-    setFormInformationSpecialist({ ...formInformationSpecialist, [nameValue]: value });
-    console.log(formInformationSpecialist);
-  };
+    const handleUploadImageCertificate = (e) => {
+        const imgCertificate = e.target.files;
+        let limitCertificates = imgCertificate.length + store.informationSpecialist.certificates.length
+        let amountOfCertificates = 5 - store.informationSpecialist.certificates.length
+        setNumCertifications(amountOfCertificates)
+        console.log(amountOfCertificates)
 
-  const handleSubmitInformation = async (form, specialistId, imageSpecialist, imageCertificate) => {
-    const formData = new FormData();
+        if (imgCertificate) {
+            if (imgCertificate.length > 5 || limitCertificates > 5) {
+                console.log("supera")
+                setLimitOfCertifications(true)
+                setTimeout(() => {
+                    setLimitOfCertifications(false)
+                }, 9000)
+            }
+            else {
+                console.log("no supera, si subiran mas certificados")
+                setFinalImageCertificates(imgCertificate);
+            }
+
+        }
+        else {
+            console.log("no hay certificados escogidos")
+        }
+
+    };
+
+    const handleEditInformation = (nameValue, value) => {
+        setFormInformationSpecialist({ ...formInformationSpecialist, [nameValue]: value });
+        console.log(formInformationSpecialist);
+    };
+
+    const handleSubmitInformation = async (form, specialistId, imageSpecialist) => {
+        setSavingChanges(true)
+        const formData = new FormData();
         if (!form.first_name) {
             formData.append("first_name", store.informationSpecialist.first_name || "")
         }
@@ -84,49 +111,67 @@ const EditSpecialist = () => {
 
         const finalSpecialistForm = {};
 
-        
+
         formData.forEach((value, key) => {
             finalSpecialistForm[key] = value;
         });
 
-        
 
-       const formImages = new FormData();
-       formImages.append("img", imageSpecialist);
-       formImages.append("certificate", imageCertificate);
+        // if (!finalImageCertificates) {
+        //     store.messageUploadCertificates = "Ningún archivo ha sido seleccionado"
+        //     return;
+        // }
 
-       await actions.editSpecialistInformation(specialistId, finalSpecialistForm);
-       await actions.editImagesSpecialist(formImages, specialistId);
+        const formImages = new FormData();
+        const formCertificates = new FormData();
+        formImages.append("img", imageSpecialist);
+        await actions.editSpecialistInformation(specialistId, finalSpecialistForm);
+        await actions.editImagesSpecialist(formImages, specialistId);
+        let countCertificates = 0
+        if (finalImageCertificates == null) {
+            console.log("no hay valores!, por lo tanto no se subiran certificados!")
+        }
+        else {
+            for (let i = 0; i < finalImageCertificates.length; i++) {
+                formCertificates.append(`certificates_url_${i + 1}`, finalImageCertificates[i]);
+                countCertificates = countCertificates + 1
+            }
 
-       if (isMounted.current && formRef.current) {
-       navigate('/professional-view', { state: { specialistData: formInformationSpecialist } });
-       setFinalImageCertificate(null);
-       setFinalImageSpecialist(null);
-       formRef.current.reset();
-  }
-};
-    
-      const checkAccess = async () => {
+            formCertificates.append("num_certificates", countCertificates.toString())
+            await actions.editCertificatesSpecialist(formCertificates, specialistId)
+        }
+
+        if (isMounted.current && formRef.current) {
+            setTimeout(() => {
+                navigate('/professional-view', { state: { specialistData: formInformationSpecialist } });
+            }, 1000)
+            setFinalImageCertificates(null);
+            setFinalImageSpecialist(null);
+            formRef.current.reset();
+        }
+    };
+
+    const checkAccess = async () => {
         await actions.accessConfirmationSpecialist();
         const token = sessionStorage.getItem("tokenSpecialist");
         if (token === null) {
-          console.log("El token se venció, ingrese nuevamente");
-          goToHome("/");
+            console.log("El token se venció, ingrese nuevamente");
+            goToHome("/");
         }
-      };
-    
-      useEffect(() => {
+    };
+
+    useEffect(() => {
         checkAccess();
         return () => {
-          // Cuando el componente se desmonta, actualiza la ref
-          isMounted.current = false;
-    
-          // Resetear el formulario si la referencia existe
-          if (formRef.current) {
-            formRef.current.reset();
-          }
+            // Cuando el componente se desmonta, actualiza la ref
+            isMounted.current = false;
+
+            // Resetear el formulario si la referencia existe
+            if (formRef.current) {
+                formRef.current.reset();
+            }
         };
-      }, []);
+    }, []);
 
     return (
         <div>
@@ -136,6 +181,8 @@ const EditSpecialist = () => {
                     ref={formRef}
                 >
                     {/* basic info */}
+                    <hr />
+                    <h4 className='basic-information'>Información basica</h4>
                     <label className='label-edit-specialist'>Nombre: </label>
                     <input
                         className="input-edit-specialist" type='text' id="first_name" name="first_name"
@@ -181,7 +228,8 @@ const EditSpecialist = () => {
                     ></input>
 
                     {/* specialist info application*/}
-
+                    <hr />
+                    <h4 className='profile-title'>Perfil profesional y académico</h4>
                     <label>Descripción del especialista</label>
                     <input
                         className="input-edit-specialist" type='text' id="description" name="description"
@@ -195,11 +243,13 @@ const EditSpecialist = () => {
                         className="input-edit-specialist" type='file' id="certificate" name="certificate"
                         accept='image/png, image/jpeg, image/jpg'
                         onChange={(e) => (handleUploadImageCertificate(e))}
-                    ></input>
+                        multiple />
+                    {limitOfCertifications ? <span className='alert-message'> Supero la cantidad de certificaciones! {store.informationSpecialist.certificates.length == 5 ? "Ya no puede agregar más certificaciones!" : `Solo puede agregar ${numCertifications} ${numCertifications > 1 ? "certificaciones" : "certificación"} más,`} el límite son 5 certificaciones por especialista</span> : null}
 
-                    <button className="button-edit-specialist" type="button" onClick={() => handleSubmitInformation(formInformationSpecialist, store.informationSpecialist.id, finalImageSpecialist, finalImageCertificate)}>Guardar Cambios</button>
+                    <button className={!savingChanges ? "button-edit-specialist" : "button-edit-specialist-disabled"} type="button" onClick={() => handleSubmitInformation(formInformationSpecialist, store.informationSpecialist.id, finalImageSpecialist)}>{!savingChanges ? "Guardar Cambios" : "Guardando Cambios..."}</button>
                 </form>
 
+                {/* {store.messageUploadCertificates && <span>{store.messageUploadCertificates} </span>} */}
 
             </div>
 

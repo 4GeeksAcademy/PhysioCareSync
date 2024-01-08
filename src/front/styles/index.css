@@ -26,6 +26,15 @@ body {
   --color-gainsboro: #d0dbd6;
   --color-lightseagreen: #00a795;
 
+  /* profile navbar */
+
+  --bg:#242526;
+  --bg-accent:#484a4d;
+  --nav-size:80px;
+  --border:1px solid #07beac;
+  --border-radius:8px;
+  --speed:500ms;
+
   /* Gaps */
   --gap-21xl: 40px;
   --gap-base: 16px;

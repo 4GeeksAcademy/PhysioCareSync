@@ -90,8 +90,11 @@ def signup_patient():
         
         password_hash=bcrypt.generate_password_hash(password).decode("utf-8")
         new_patient=Patient(first_name=first_name,last_name=last_name,email=email,password=password_hash)
+       
+
         db.session.add(new_patient)
         db.session.commit()
+        
         
         return jsonify ({"message":"Patient was created Succesfully!","patient_id":new_patient.id,"first_name": first_name,"last_name": last_name, "email":email}),200
 
@@ -431,14 +434,11 @@ def upload_certificates_by_specialist(specialist_id_certificate):
         specialist=Specialist.query.get(specialist_id_certificate)
         num_certificates=int(request.form.get("num_certificates"))
         print(num_certificates)
-        certificate_paths=[]
         folder_name="PhysioCareSync"
         for i in range(1,num_certificates+1):
             certificate_key=f"certificates_url_{i}"
-            print(certificate_key)
             new_certificate=request.files.get(certificate_key)
             if new_certificate and specialist:
-                print("entre a la condicion!")
                 res_certificate=cloudinary.uploader.upload(new_certificate,folder=folder_name)
                 certificate_path=res_certificate["secure_url"]
                 new_certificate_instance=Certificates(certificates_url=certificate_path,specialist=specialist)
@@ -449,8 +449,6 @@ def upload_certificates_by_specialist(specialist_id_certificate):
     
     except Exception as e:
         return jsonify({"error":e}),400
-
-
 
 
 @api.route("/get_certificates")

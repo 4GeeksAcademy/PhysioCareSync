@@ -14,6 +14,8 @@ const EditPatient = () => {
     const goToHome = useNavigate()
     const navigate = useNavigate()
     const formRef = useRef(null)
+    const [savingChanges, setSavingChanges] = useState(false)
+    const isMounted = useRef(true);
 
     const handleEditInformation = (nameValue, value) => {
         setInformationPatient({ ...formInformationPatient, [nameValue]: value })
@@ -27,9 +29,9 @@ const EditPatient = () => {
 
 
     const handleSubmitInformation = async (form, patientId, finalImagePatient) => {
+        setSavingChanges(true)
         const formImg = new FormData()
         formImg.append("img", finalImagePatient)
-
         const formData = new FormData()
         if (!form.first_name) {
             formData.append("first_name", store.informationPatient.first_name || "")
@@ -79,10 +81,18 @@ const EditPatient = () => {
 
         await actions.editPatient(finalPatientForm, patientId)
         await actions.editImagePatient(formImg, patientId)
-        setFinalImagePatient(null);
-        const profileId = sessionStorage.getItem("patientId")
-        navigate(`/profile/patient/${profileId}`)
-        formRef.current.reset()
+
+
+        if (isMounted.current && formRef.current) {
+
+            const profileId = sessionStorage.getItem("patientId")
+            setTimeout(() => {
+                navigate(`/profile/patient/${profileId}`)
+            }, 1000)
+            setFinalImagePatient(null);
+            formRef.current.reset()
+        }
+
     }
 
     const checkAccess = async () => {
@@ -96,7 +106,19 @@ const EditPatient = () => {
     }
 
 
-    checkAccess()
+    useEffect(() => {
+        checkAccess();
+        return () => {
+            // Cuando el componente se desmonta, actualiza la ref
+            isMounted.current = false;
+
+            // Resetear el formulario si la referencia existe
+            if (formRef.current) {
+                formRef.current.reset();
+            }
+        };
+
+    }, [])
 
 
     return (
@@ -150,7 +172,7 @@ const EditPatient = () => {
                         onChange={(e) => (handleEditInformation(e.target.name, e.target.value))}
                     ></input>
 
-                    <button className="button-edit-patient" type="button" onClick={() => handleSubmitInformation(formInformationPatient, store.informationPatient.id, finalImagePatient)}>Guardar Cambios</button>
+                    <button className={!savingChanges ? "button-edit-patient" : "button-edit-patient-disabled"} type="button" onClick={() => handleSubmitInformation(formInformationPatient, store.informationPatient.id, finalImagePatient)}> {!savingChanges ? "Guardar Cambios" : "Guardando Cambios..."}</button>
                 </form>
             </div>
 

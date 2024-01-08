@@ -3,6 +3,7 @@ import { useNavigate } from "react-router-dom";
 const API_URL = process.env.BACKEND_URL;
 
 const getState = ({ getStore, getActions, setStore }) => {
+
   return {
     store: {
       // ... otros estados
@@ -26,7 +27,9 @@ const getState = ({ getStore, getActions, setStore }) => {
       informationPatient: [],
       informationSpecialist: [],
       isTokenAuthentication: false,
-      specialistsList: []
+      specialistsList: [],
+			informationSpecialistSetCertificates: [],
+			messageUploadCertificates: null,
     },
     actions: {
       getSpecialistInformation: () => {
@@ -141,6 +144,7 @@ const getState = ({ getStore, getActions, setStore }) => {
 	
 	  
 
+
 			loginPatient: async (patient) => {
 				try {
 					const response = await fetch(API_URL + "/api/token_patient", {
@@ -151,15 +155,18 @@ const getState = ({ getStore, getActions, setStore }) => {
 						}
 					});
 					if (!response.ok) {
-						throw new Error("An error occurred with the query")
+						console.error("An error occurred with the query")
+						return ({ error: "There was an error with the login action" })
+						// throw new Error("An error occurred with the query")
 					}
 					const data = await response.json();
-					console.log("Log In successful") 
+					console.log("Log In successful")
 					return data
 
 
 				} catch (error) {
-					console.error("There was an error with the login action", error)
+					console.error("An error occurred with the query")
+					return ({ error: "There was an error with the login action" })
 				}
 			},
 
@@ -210,7 +217,10 @@ const getState = ({ getStore, getActions, setStore }) => {
 						store.isTokenAuthentication == true
 						const emptyInformation = {}
 						setStore({ ...store, informationSpecialist: emptyInformation })
-						throw new Error("There was an error with the token confirmation in flux")
+
+						console.error("There was an error with the token confirmation in flux")
+
+						return ({ error: "There was an error with the token confirmation in flux" })
 					}
 
 
@@ -220,21 +230,29 @@ const getState = ({ getStore, getActions, setStore }) => {
 					setStore({ ...store, informationSpecialist: data.specialist })
 
 				} catch (error) {
-					console.log("Authentication issue you do not have access", error)
+					console.error("Authentication issue you do not have access", error)
+					return ({ error: "There was an error with the token confirmation in flux" })
+
 
 				}
 
 			},
 
 			deleteTokenPatient: async () => {
+				const store = getStore()
 				sessionStorage.removeItem('tokenPatient')
 				sessionStorage.removeItem("patientId")
+				store.isTokenAuthentication == false
 			},
-
 			deleteTokenSpecialist: async () => {
+				const store = getStore()
 				sessionStorage.removeItem('tokenSpecialist')
 				sessionStorage.removeItem("specialistId")
+
+				store.isTokenAuthentication == false
+
 				sessionStorage.removeItem("payStatus")
+
 			},
 
 			loginSpecialist: async (specialist) => {
@@ -246,15 +264,18 @@ const getState = ({ getStore, getActions, setStore }) => {
 							'Content-Type': 'application/json'
 						}
 					});
+
 					if (!response.ok) {
-						throw new Error("An error occurred with the query")
+						console.error("An error occurred with the query")
+						return ({ error: "There was an error with the login action" })
 					}
 					const data = await response.json();
 					console.log("Log In successful")
 					return data
 
 				} catch (error) {
-					console.error("There was an error with the login action", error)
+					console.error("Authentication issue you do not have access", error)
+					return ({ error: "There was an error with the token confirmation in flux" })
 				}
 			},
 
@@ -324,6 +345,7 @@ const getState = ({ getStore, getActions, setStore }) => {
 				try {
 					console.log("Aquí está el id del actions", theid)
 					const response = await fetch(API_URL + "/api/create_preference", {
+
 					method: "POST",
 					headers: {
 						"Content-Type": "application/json",
@@ -334,27 +356,28 @@ const getState = ({ getStore, getActions, setStore }) => {
 						price: 100,
 						quantity: 1,
 					}),
+
 					});
 
 					if (response.ok) {
-					console.log("El response vino ok del back end y tiene esta info: ", response)
-					const data = await response.json();
-					const { id } = data;
-					console.log("ESTE ES EL FAMOSO ID: ", id)
-					let store = getStore()
-					setStore({...store , preferenceId: id})
-					let store2 = getStore()
-					console.log("Este es el contenido de id en el store: ",store2.preferenceId)
-					return id;
+						console.log("El response vino ok del back end y tiene esta info: ", response)
+						const data = await response.json();
+						const { id } = data;
+						console.log("ESTE ES EL FAMOSO ID: ", id)
+						let store = getStore()
+						setStore({ ...store, preferenceId: id })
+						let store2 = getStore()
+						console.log("Este es el contenido de id en el store: ", store2.preferenceId)
+						return id;
 					} else {
-					console.error("Error creating preference, o sea response.ok dio false en flux.js");
+						console.error("Error creating preference, o sea response.ok dio false en flux.js");
 					}
 				} catch (error) {
 					console.error(error);
 				}
 
-			  },
-			
+			},
+
 
 			editPatient: async (newInformationForm, patientId) => {
 				console.log(newInformationForm)
@@ -441,8 +464,10 @@ const getState = ({ getStore, getActions, setStore }) => {
 				} catch (error) {
 				  console.log("There was an error, check it out", error);
 				}
+
 			  },
 			
+
 			editImagesSpecialist: async (formImage, specialistId) => {
 				const store = getStore()
 				const nameRoute = "/api/update_img_specialist/"
@@ -473,18 +498,56 @@ const getState = ({ getStore, getActions, setStore }) => {
 				}
 			},
 
+			editCertificatesSpecialist: async (formCertificates, specialistId) => {
+				const store = getStore()
+				const stringSpecialistId = String(specialistId)
+				const route = "/api/upload_certificates_specialist/"
+				store.messageUploadCertificates = "Subiendo información..."
+
+				// for (var pair of formCertificates.entries()) {
+				// 	console.log(pair[0] + ' ' + pair[1])
+				// }
+
+				try {
+					const response = await fetch(API_URL + route + stringSpecialistId, {
+						method: "POST",
+						body: formCertificates,
+						headers: {
+							"Accept": "application/json"
+						}
+					})
+
+					if (response.ok) {
+						const jsonResponse = await response.json()
+						store.messageUploadCertificates = "Subida de información exitosa"
+						setStore({ ...store, informationSpecialistSetCertificates: jsonResponse.specialist_information })
+						console.log(jsonResponse.specialist_information)
+					}
+
+					else {
+						throw new Error("The request was failed! check it out!")
+					}
+
+				}
+
+				catch (error) {
+					store.messageUploadCertificates = "Subida de información fallida"
+					console.log("There was an error, check it out", error)
+				}
+			},
+
 			getSpecialistInfo: async (id_specilist) => {
-				try{
+				try {
 					const response = await fetch(API_URL + `get_information_specialist/${id_specilist}`)
-					if(!response.ok){
+					if (!response.ok) {
 						throw new Error("Function can't get the information")
 					}
 					const data = await response.json()
 					const store = getStore();
-					setStore({...store, viewSpecialist:data})
+					setStore({ ...store, viewSpecialist: data })
 					console.log("This is the specialist information", data)
 
-				}catch(error){
+				} catch (error) {
 					console.error("There is an error getting the specialist info:", error)
 				}
 

@@ -1,7 +1,8 @@
 
-import React, { useContext, useState } from 'react';
+import React, { useContext, useRef, useState } from 'react';
 import { Context } from '../store/appContext';
 import { Link, useNavigate } from 'react-router-dom';
+import SnackBarLogin from '../component/SnackBarLogin';
 
 const LogInSpecialist = () => {
     const navigate = useNavigate();
@@ -12,6 +13,14 @@ const LogInSpecialist = () => {
 
     const [clickedEmail, setClickedEmail] = useState(false);
     const [clickedPassword, setClickedPassword] = useState(false);
+    const [emailError, setEmailError] = useState('');
+    const [showEmailError, setShowEmailError] = useState(false)
+    const [hideAlert, setHideAlert] = useState(true)
+    const [loginSuccess, setLoginSuccess] = useState(false)
+    const [checkLoginBotton, setCheckLoginBotton] = useState(true)
+    const goLogin = useNavigate()
+
+
 
     const isEmailValid = (email) => {
         const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
@@ -22,34 +31,63 @@ const LogInSpecialist = () => {
         setClickedEmail(false);
     };
 
+
     const handlerBlurEmail = () => {
         if (!email.trim()) {
+            setHideAlert(true)
             setClickedEmail(true);
+            setShowEmailError(false)
+            setEmailError('El correo electrónico es obligatorio');
         } else if (!isEmailValid(email)) {
+            setHideAlert(true)
             setClickedEmail(true);
-            alert('El formato del correo electrónico es incorrecto');
+            setShowEmailError(true)
+            setEmailError('El formato del correo electrónico es incorrecto');
+        }
+        else {
+            setHideAlert(true)
+            setClickedEmail(false);
+            setEmailError('');
         }
     };
 
     const handlerClickPassword = () => {
+        setHideAlert(true)
         setClickedPassword(false);
     };
 
     const handlerBlurPassword = () => {
         if (!password.trim()) {
+            setHideAlert(true)
             setClickedPassword(true);
         }
     };
 
-    const handlerLogInSpecialist = async () => {
-        try {
-            if (email === '' || password === '') {
-                alert('Todos los campos son obligatorios');
-                return;
-            }
+    const handlerKeyPress = (event) => {
+        if ((event.keyCode >= 65 && event.keyCode <= 90) || (event.keyCode >= 97 && event.keyCode <= 122)) {
+            setHideAlert(false)
+        }
 
-            if (!isEmailValid(email)) {
-                alert('El formato del correo electrónico es incorrecto');
+        if (event.key === 'Enter') {
+            setHideAlert(false)
+            handlerLogInPatient();
+        }
+    };
+
+    const handlerLogOutSpecialist = () => {
+        goLogin("/login")
+    }
+
+    const handlerLogInSpecialist = async () => {
+        setCheckLoginBotton(false)
+        try {
+
+            if (email.trim() === '' || password.trim() === '') {
+                setHideAlert(true)
+                setShowEmailError(true)
+                setCheckLoginBotton(true)
+                setEmailError('Debe de ingresar los datos requeridos en el campo');
+
                 return;
             }
 
@@ -59,13 +97,28 @@ const LogInSpecialist = () => {
             };
 
             const result = await actions.loginSpecialist(loginSpecialist);
-            console.log('Este es el resultado:', result.specialist);
-            if (result && result.accessToken) {
+            if (result.specialist && result.accessToken) {
+                setLoginSuccess(true)
                 const token = result.accessToken;
+                console.log('Este es el resultado:', result.specialist);
                 sessionStorage.setItem('tokenSpecialist', token)
                 await actions.accessConfirmationSpecialist();
                 sessionStorage.setItem("specialistId", store.informationSpecialist.id)
                 const specialistId = sessionStorage.getItem("specialistId")
+
+                snackRef.current.show()
+                setTimeout(() => {
+                    navigate(`/profile/specialist/${specialistId}`)
+                }, 2000)
+
+            } else if (result.error) {
+                setHideAlert(true)
+                setShowEmailError(true)
+                setEmailError('Correo electrónico o contraseña incorrectos');
+                snackRef.current.show()
+                setCheckLoginBotton(true)
+                return;
+
                 sessionStorage.setItem("payStatus", store.informationSpecialist.is_authorized)
                 const payStatus = sessionStorage.getItem("payStatus")
                 console.log("Este es el estatus del pago de suscripción", payStatus)
@@ -77,16 +130,25 @@ const LogInSpecialist = () => {
                     alert("Chau")
                     navigate(`/profile/paymentPage/${specialistId}`)
                 }
-            } else {
-                alert('Correo electrónico o contraseña incorrectos');
+         
             }
         } catch (error) {
             console.error('Hubo un error con la consulta', error);
         }
     };
 
+    const snackRef = useRef(null)
+    const snackBarType = {
+        fail: "fail",
+        success: "success",
+    }
+
     return (
         <div>
+            {loginSuccess ?
+                <SnackBarLogin type={snackBarType.success} ref={snackRef} message="Usted inicio sesión correctamente!" /> :
+                <SnackBarLogin type={snackBarType.fail} ref={snackRef} message="Intente nuevamente ingresando sus datos correctamente!" />}
+
             <div className="patientForm">
                 <div className="title">
                     <h1>Bienvenido especialista!</h1>
@@ -98,37 +160,39 @@ const LogInSpecialist = () => {
                         onChange={(e) => setEmail(e.target.value)}
                         onClick={handlerClickEmail}
                         onBlur={handlerBlurEmail}
+                        onKeyDown={handlerKeyPress}
                         type="email"
                         className="form-control"
                         id="exampleFormControlInput1"
                         placeholder="Correo electrónico"
                     />
-                    {clickedEmail && <p className="errorMsg">* El correo electrónico es obligatorio o el formato es incorrecto *</p>}
+                    {clickedEmail && email.trim() === '' && !showEmailError && hideAlert && <p className='errorMsg'>{emailError}</p>}
+                    {emailError && showEmailError && hideAlert && <p className='errorMsg'>{emailError}</p>}
                 </div>
 
                 <input
                     onChange={(e) => setPassword(e.target.value)}
                     onClick={handlerClickPassword}
                     onBlur={handlerBlurPassword}
+                    onKeyDown={handlerKeyPress}
                     type="password"
                     id="inputPassword5"
                     className="form-control"
                     aria-describedby="passwordHelpBlock"
                     placeholder="Contraseña"
                 />
-                {clickedPassword && <p className="errorMsg">* La contraseña es obligatoria *</p>}
+                {clickedPassword && password.trim() === '' && <p className='errorMsg'>La contraseña es obligatoria</p>}
                 <br></br>
 
                 <div className="createNewBtn">
-                    <button onClick={handlerLogInSpecialist} type="button" className="btn btn-success saveBtn">
+                    <button disabled={!checkLoginBotton} onClick={handlerLogInSpecialist} type="button" className="btn btn-success saveBtn">
                         Ingresar
                     </button>
 
-                    <Link to={'/login'}>
-                        <button type="button" className="btn btn-outline-primary exitBtn">
-                            Salir
-                        </button>
-                    </Link>
+                    <button disabled={!checkLoginBotton} onClick={handlerLogOutSpecialist} type="button" className="btn btn-outline-primary exitBtn">
+                        Salir
+                    </button>
+
                 </div>
             </div>
         </div>
