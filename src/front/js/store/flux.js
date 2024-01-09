@@ -294,7 +294,7 @@ const getState = ({ getStore, getActions, setStore }) => {
 					}
 					const data = await response.json();
 					console.log("User created successfully", data)
-
+					return data;
 
 				} catch (error) {
 					console.error("There was an error tryinig to create the Patient", error)
