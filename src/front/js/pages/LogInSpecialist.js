@@ -105,6 +105,17 @@ const LogInSpecialist = () => {
                 await actions.accessConfirmationSpecialist();
                 sessionStorage.setItem("specialistId", store.informationSpecialist.id)
                 const specialistId = sessionStorage.getItem("specialistId")
+                sessionStorage.setItem("payStatus", store.informationSpecialist.is_authorized)
+                const payStatus = sessionStorage.getItem("payStatus")
+                console.log("Este es el estatus del pago de suscripción", payStatus)
+                if (payStatus === "true") {
+                    alert("Hola")
+                    navigate(`/profile/specialist/${specialistId}`)
+                    
+                } else {
+                    alert("Chau")
+                    navigate(`/profile/paymentPage/${specialistId}`)
+                }
 
                 snackRef.current.show()
                 setTimeout(() => {
@@ -118,18 +129,6 @@ const LogInSpecialist = () => {
                 snackRef.current.show()
                 setCheckLoginBotton(true)
                 return;
-
-                sessionStorage.setItem("payStatus", store.informationSpecialist.is_authorized)
-                const payStatus = sessionStorage.getItem("payStatus")
-                console.log("Este es el estatus del pago de suscripción", payStatus)
-                if (payStatus === "true") {
-                    alert("Hola")
-                    navigate(`/profile/specialist/${specialistId}`)
-                    
-                } else {
-                    alert("Chau")
-                    navigate(`/profile/paymentPage/${specialistId}`)
-                }
          
             }
         } catch (error) {
