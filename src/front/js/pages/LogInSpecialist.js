@@ -108,13 +108,17 @@ const LogInSpecialist = () => {
                 sessionStorage.setItem("payStatus", store.informationSpecialist.is_authorized)
                 const payStatus = sessionStorage.getItem("payStatus")
                 console.log("Este es el estatus del pago de suscripción", payStatus)
-                if (payStatus === "true") {
-                    alert("Hola")
-                    navigate(`/profile/specialist/${specialistId}`)
-                    
-                } else {
-                    alert("Chau")
-                    navigate(`/profile/paymentPage/${specialistId}`)
+                if (payStatus === "true" && loginSuccess) {
+                    snackRef.current.show()
+                    setTimeout(() => {
+                        navigate(`/profile/specialist/${specialistId}`)
+                    }, 3000)
+
+                } else if(payStatus !== "true" && loginSuccess){
+                    snackRef.current.show()
+                    setTimeout(() => {
+                        navigate(`/profile/paymentPage/${specialistId}`)
+                    })
                 }
 
                 snackRef.current.show()
@@ -129,7 +133,7 @@ const LogInSpecialist = () => {
                 snackRef.current.show()
                 setCheckLoginBotton(true)
                 return;
-         
+
             }
         } catch (error) {
             console.error('Hubo un error con la consulta', error);
