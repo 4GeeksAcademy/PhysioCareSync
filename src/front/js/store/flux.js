@@ -399,6 +399,7 @@ const getState = ({ getStore, getActions, setStore }) => {
 						const data = await response.json()
 						console.log("Changes of user upload succesfully")
 						setStore({ ...store, informationPatient: data.patient })
+						return data;
 					}
 
 					else {

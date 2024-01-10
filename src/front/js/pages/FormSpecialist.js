@@ -147,7 +147,7 @@ const EditSpecialist = () => {
         if (isMounted.current && formRef.current) {
             setTimeout(() => {
                 navigate(`/profile/specialist/${specialistId}`, { state: { specialistData: formInformationSpecialist } });
-            }, 3000)
+            }, 2000)
             setFinalImageCertificates(null);
             setFinalImageSpecialist(null);
             formRef.current.reset();
