@@ -302,6 +302,7 @@ const getState = ({ getStore, getActions, setStore }) => {
 			},
 
 			createNewSpecialist: async (newSpecialist) => {
+				const store = getStore();
 				try {
 				  const response = await fetch(API_URL + "/api/signup_specialist", {
 					method: "POST",
@@ -316,7 +317,6 @@ const getState = ({ getStore, getActions, setStore }) => {
 				  }
 			  
 				  const data = await response.json();
-			  
 				  // Actualiza la lista de especialistas en el estado global
 				  const updatedSpecialistsList = [...store.specialistsList, data];
 				  setStore({ ...store, specialistsList: updatedSpecialistsList });

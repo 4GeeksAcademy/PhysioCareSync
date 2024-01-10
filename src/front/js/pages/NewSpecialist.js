@@ -1,8 +1,9 @@
-import React, { useContext, useState } from 'react';
+import React, { useContext, useRef, useState } from 'react';
 import { Context } from '../store/appContext';
 import { useNavigate, Link } from 'react-router-dom';
 import zxcvbn from 'zxcvbn';
 import '../../styles/NewSpecialist.css'; 
+import SnackBarLogin from '../component/SnackBarLogin';
 
 const NewSpecialist = () => {
   const { store, actions } = useContext(Context);
@@ -14,6 +15,7 @@ const NewSpecialist = () => {
   const [password, setPassword] = useState('');
   const [isPhysio, setIsPhysio] = useState(false);
   const [isNurse, setIsNurse] = useState(false);
+  const [signupSuccess, setSignupSuccess] = useState(false);
 
   // Estados de dinamización
   const [clickedFirstName, setClickedFirstName] = useState(false);
@@ -54,7 +56,6 @@ const NewSpecialist = () => {
       setClickedEmail(true);
     } else if (!isEmailValid(email)) {
       setClickedEmail(true);
-      alert('El formato del correo electrónico es incorrecto');
     }
   };
 
@@ -101,7 +102,7 @@ const NewSpecialist = () => {
         password === '' ||
         !isEmailValid(email)
       ) {
-        alert('Todos los campos son requeridos o el formato del correo es incorrecto');
+        snackRef.current.show();
         return;
       }
 
@@ -117,14 +118,33 @@ const NewSpecialist = () => {
         language: null,
       };
 
-      await actions.createNewSpecialist(newInputSpecialist);
-      navigate('/login/loginSpecialist');
+      const result =  await actions.createNewSpecialist(newInputSpecialist);
+      if(result.specialist_id){
+        setSignupSuccess(true)
+        snackRef.current.show()
+        setTimeout(() => {
+          navigate('/login/loginSpecialist');
+
+        }, 3000)
+      }else if(result.error){
+        console.log("Error al crear el paciente", result.error)
+        snackRef.current.show();
+      }
     } catch (error) {
       console.error('Hubo un error al crear el usuario especialista', error);
     }
   };
 
+  const snackRef = useRef(null)
+  const snackBarType = {
+      fail: "fail",
+      success: "success",
+  }
+
   return (
+    <div>{signupSuccess ?
+      <SnackBarLogin type={snackBarType.success} ref={snackRef} message="El usuario especialista se ha creado correctamente" /> :
+      <SnackBarLogin type={snackBarType.fail} ref={snackRef} message="No se puede crear el usuario especialista correctamente" />}
     <div className='patientForm'>
       <div className='title'>
         <h1>Bienvenido especialista!</h1>
@@ -227,6 +247,7 @@ const NewSpecialist = () => {
           </button>
         </Link>
       </div>
+    </div>
     </div>
   );
 };

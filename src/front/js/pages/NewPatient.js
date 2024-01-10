@@ -121,7 +121,7 @@ const NewPatient = () => {
 
       }, 3000)
       } else if(result.error){
-        console.log("Error aal crear el paciente", result.error)
+        console.log("Error al crear el paciente", result.error)
         snackRef.current.show();
         return;
       }
@@ -140,7 +140,7 @@ const NewPatient = () => {
     <div>
       {signupSuccess ? 
       <SnackBarLogin type={snackBarType.success} ref={snackRef} message="El usuario paciente se ha creado correctamente" /> :
-      <SnackBarLogin type={snackBarType.fail} ref={snackRef} message="No se puede crear el usuario corresctamente" />}
+      <SnackBarLogin type={snackBarType.fail} ref={snackRef} message="No se puede crear el usuario paciente correctamente" />}
     <div className='patientForm'>
       <div className='title'>
         <h1>Bienvenido paciente!</h1>
