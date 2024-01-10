@@ -458,6 +458,7 @@ const getState = ({ getStore, getActions, setStore }) => {
 					const jsonResponse = await response.json();
 					console.log("Changes upload successfully");
 					getActions().setSpecialistInformation(jsonResponse.specialist);
+					return jsonResponse
 				  } else {
 					throw new Error("The request was failed! Check it out!");
 				  }

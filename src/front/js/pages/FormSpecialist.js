@@ -3,6 +3,8 @@ import React, { useContext, useEffect, useRef, useState } from 'react';
 import { Context } from '../store/appContext';
 import { useNavigate } from 'react-router-dom';
 import "../../styles/EditSpecialist.css"
+import SnackBarLogin from '../component/SnackBarLogin';
+
 
 const EditSpecialist = () => {
     const { store, actions } = useContext(Context);
@@ -13,7 +15,7 @@ const EditSpecialist = () => {
     const [limitOfCertifications, setLimitOfCertifications] = useState(false)
     const [numCertifications, setNumCertifications] = useState(0)
     const [savingChanges, setSavingChanges] = useState(false)
-
+    const [editSuccess, setEditSuccess] = useState(false);
 
     const formRef = useRef(null);
     const isMounted = useRef(true);
@@ -116,16 +118,17 @@ const EditSpecialist = () => {
             finalSpecialistForm[key] = value;
         });
 
-
-        // if (!finalImageCertificates) {
-        //     store.messageUploadCertificates = "Ningún archivo ha sido seleccionado"
-        //     return;
-        // }
-
         const formImages = new FormData();
         const formCertificates = new FormData();
         formImages.append("img", imageSpecialist);
-        await actions.editSpecialistInformation(specialistId, finalSpecialistForm);
+        const result = await actions.editSpecialistInformation(specialistId, finalSpecialistForm);
+        if (result.specialist) {
+            setEditSuccess(true)
+            snackRef.current.show()
+        } else if (result.error) {
+            console.log("Error al acualizar los datos del usuario")
+            snackRef.current.show()
+        }
         await actions.editImagesSpecialist(formImages, specialistId);
         let countCertificates = 0
         if (finalImageCertificates == null) {
@@ -143,8 +146,8 @@ const EditSpecialist = () => {
 
         if (isMounted.current && formRef.current) {
             setTimeout(() => {
-                navigate('/professional-view', { state: { specialistData: formInformationSpecialist } });
-            }, 1000)
+                navigate(`/profile/specialist/${specialistId}`, { state: { specialistData: formInformationSpecialist } });
+            }, 3000)
             setFinalImageCertificates(null);
             setFinalImageSpecialist(null);
             formRef.current.reset();
@@ -173,8 +176,16 @@ const EditSpecialist = () => {
         };
     }, []);
 
+    const snackRef = useRef(null)
+    const snackBarType = {
+        fail: "fail",
+        success: "success"
+    }
+
     return (
-        <div>
+        <div>{editSuccess ?
+        <SnackBarLogin type={snackBarType.success} ref={snackRef} message="Tu perfil se ha actualizado correctamente" /> :
+      <SnackBarLogin type={snackBarType.fail} ref={snackRef} message="Hubo un error al actualizar tu perfil" />}
             <div className='container-edit-specialist'>
                 <form
                     id="contact-form" className='form-edit-specialist'

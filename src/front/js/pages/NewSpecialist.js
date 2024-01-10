@@ -138,7 +138,7 @@ const NewSpecialist = () => {
   const snackRef = useRef(null)
   const snackBarType = {
       fail: "fail",
-      success: "success",
+      success: "success"
   }
 
   return (
