@@ -253,9 +253,9 @@ def create_preference():
                 }
             ],
             "back_urls": {
-                "success": "https://redesigned-giggle-7v9r5r744p79hxg7j-3000.app.github.dev/success",
-                "failure": "https://redesigned-giggle-7v9r5r744p79hxg7j-3000.app.github.dev/failure",
-                "pending": "https://redesigned-giggle-7v9r5r744p79hxg7j-3000.app.github.dev/pending",
+                "success": "https://jubilant-eureka-r4gr6r7vvpv5f5x79-3000.app.github.dev/success",
+                "failure": "https://jubilant-eureka-r4gr6r7vvpv5f5x79-3000.app.github.dev/failure",
+                "pending": "https://jubilant-eureka-r4gr6r7vvpv5f5x79-3000.app.github.dev/pending",
             },
             "auto_return": "approved",
         }
@@ -525,6 +525,7 @@ def get_all_specialists():
                 "img": specialist.img,
                 "is_nurse": specialist.is_nurse,
                 "is_physiotherapist": specialist.is_physiotherapist,
+                "is_authorized": specialist.is_authorized
             }
 
             specialists_list.append(specialist_info)

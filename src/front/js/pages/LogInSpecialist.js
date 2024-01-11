@@ -105,11 +105,21 @@ const LogInSpecialist = () => {
                 await actions.accessConfirmationSpecialist();
                 sessionStorage.setItem("specialistId", store.informationSpecialist.id)
                 const specialistId = sessionStorage.getItem("specialistId")
+                sessionStorage.setItem("payStatus", store.informationSpecialist.is_authorized)
+                const payStatus = sessionStorage.getItem("payStatus")
+                console.log("Este es el estatus del pago de suscripción", payStatus)
+                if (payStatus === "true") {
+                    snackRef.current.show()
+                    setTimeout(() => {
+                        navigate(`/profile/specialist/${specialistId}`)
+                    }, 3000)
 
-                snackRef.current.show()
-                setTimeout(() => {
-                    navigate(`/profile/specialist/${specialistId}`)
-                }, 2000)
+                } else if(payStatus === "false"){
+                    snackRef.current.show()
+                    setTimeout(() => {
+                        navigate(`/profile/paymentPage/${specialistId}`)
+                    })
+                }
 
             } else if (result.error) {
                 setHideAlert(true)
@@ -119,18 +129,6 @@ const LogInSpecialist = () => {
                 setCheckLoginBotton(true)
                 return;
 
-                sessionStorage.setItem("payStatus", store.informationSpecialist.is_authorized)
-                const payStatus = sessionStorage.getItem("payStatus")
-                console.log("Este es el estatus del pago de suscripción", payStatus)
-                if (payStatus === "true") {
-                    alert("Hola")
-                    navigate(`/profile/specialist/${specialistId}`)
-                    
-                } else {
-                    alert("Chau")
-                    navigate(`/profile/paymentPage/${specialistId}`)
-                }
-         
             }
         } catch (error) {
             console.error('Hubo un error con la consulta', error);
