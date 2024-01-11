@@ -4,168 +4,150 @@ const API_URL = process.env.BACKEND_URL;
 
 const getState = ({ getStore, getActions, setStore }) => {
 
-  return {
-    store: {
-      // ... otros estados
-      specialistsList: [],
-      informationSpecialist: null, // Agrega esta línea si no está ya definida
-      message: null,
-      demo: [
-        {
-          title: "FIRST",
-          background: "white",
-          initial: "white"
-        },
-        {
-          title: "SECOND",
-          background: "white",
-          initial: "white"
-        }
-      ],
-      isAuthenticated: false,
-      preferenceId: null,
-      informationPatient: [],
-      informationSpecialist: [],
-      isTokenAuthentication: false,
-      specialistsList: [],
+	return {
+		store: {
+			// ... otros estados
+			specialistsList: [],
+			informationSpecialist: null, // Agrega esta línea si no está ya definida
+			message: null,
+			demo: [
+				{
+					title: "FIRST",
+					background: "white",
+					initial: "white"
+				},
+				{
+					title: "SECOND",
+					background: "white",
+					initial: "white"
+				}
+			],
+			isAuthenticated: false,
+			preferenceId: null,
+			informationPatient: [],
+			informationSpecialist: [],
+			isTokenAuthentication: false,
+			specialistsList: [],
 			informationSpecialistSetCertificates: [],
 			messageUploadCertificates: null,
-    },
-    actions: {
-      getSpecialistInformation: () => {
-        const store = getStore();
-        return store.informationSpecialist;
-      },
-      // Agrega estas funciones si no están ya definidas
-      addSpecialist: (specialist) => {
-        const store = getStore();
-        setStore({ ...store, specialistsList: [...store.specialistsList, specialist] });
-      },
-      setSpecialistInformation: (information) => {
-        const store = getStore();
-        // Store specialist information in localStorage
-        localStorage.setItem('informationSpecialist', JSON.stringify(information));
-        setStore({ ...store, informationSpecialist: information });
-      },
-      accessConfirmationSpecialist: async () => {
-        const store = getStore();
+			loadingListSpecialist: true,
+		},
+		actions: {
+			getSpecialistInformation: () => {
+				const store = getStore();
+				return store.informationSpecialist;
+			},
+			addSpecialist: (specialist) => {
+				const store = getStore();
+				setStore({ ...store, specialistsList: [...store.specialistsList, specialist] });
+			},
+			setSpecialistInformation: (information) => {
+				const store = getStore();
+				localStorage.setItem('informationSpecialist', JSON.stringify(information));
+				setStore({ ...store, informationSpecialist: information });
+			},
+			accessConfirmationSpecialist: async () => {
+				const store = getStore();
 
-        try {
-          const token = sessionStorage.getItem('tokenSpecialist');
-          const response = await fetch(API_URL + "/api/private_specialist", {
-            method: 'GET',
-            headers: {
-              'Authorization': `Bearer ${token}`,
-              'Content-Type': 'application/json'
-            }
-          });
+				try {
+					const token = sessionStorage.getItem('tokenSpecialist');
+					const response = await fetch(API_URL + "/api/private_specialist", {
+						method: 'GET',
+						headers: {
+							'Authorization': `Bearer ${token}`,
+							'Content-Type': 'application/json'
+						}
+					});
 
-          if (!response.ok) {
-            getActions().deleteTokenSpecialist();
-            store.isTokenAuthentication = true;
-            const emptyInformation = {};
-            localStorage.removeItem('informationSpecialist'); // Remove from localStorage
-            setStore({ ...store, informationSpecialist: emptyInformation });
-            throw new Error("There was an error with the token confirmation in flux");
-          }
+					if (!response.ok) {
+						getActions().deleteTokenSpecialist();
+						store.isTokenAuthentication = true;
+						const emptyInformation = {};
+						localStorage.removeItem('informationSpecialist');
+						setStore({ ...store, informationSpecialist: emptyInformation });
+						throw new Error("There was an error with the token confirmation in flux");
+					}
 
-          store.isTokenAuthentication = false;
+					store.isTokenAuthentication = false;
 
-          const data = await response.json();
+					const data = await response.json();
 
-          // Store specialist information in localStorage
-          localStorage.setItem('informationSpecialist', JSON.stringify(data.specialist));
+					localStorage.setItem('informationSpecialist', JSON.stringify(data.specialist));
 
-          console.log("Still have access; this is the information you need from the back end", data);
-          setStore({ ...store, informationSpecialist: data.specialist });
+					console.log("Still have access; this is the information you need from the back end", data);
+					setStore({ ...store, informationSpecialist: data.specialist });
 
-        } catch (error) {
-          console.log("Authentication issue; you do not have access", error);
-        }
-      },
+				} catch (error) {
+					console.log("Authentication issue; you do not have access", error);
+				}
+			},
 
 
 
 
-	  loadAllSpecialists: async () => {
-		const store = getStore();
-	  
-		if (store.loadingAllSpecialists) {
-		  return;
-		}
-	  
-		try {
-		  setStore({ ...store, loadingAllSpecialists: true });
-	  
-		  const response = await fetch(API_URL + "/api/get_all_specialists");
-		  if (!response.ok) {
-			throw new Error(`Error loading all specialists. Status: ${response.status}`);
-		  }
-	  
-		  const data = await response.json();
-	  
-	
-		  setStore({ ...store, specialistsList: data.specialists });
-		  console.log("All specialists loaded successfully", data);
-	  
-		} catch (error) {
-		  console.error("Error loading all specialists:", error);
-		  
-	  
-		} finally {
-		  setStore({ ...store, loadingAllSpecialists: false });
-		}
-	  },
+			loadAllSpecialists: async (page, limit) => {
+				const store = getStore();
 
-	  loadSpecialistById: async (specialistId) => {
-		try {
-			const response = await fetch(API_URL + `/api/get_specialist_info/${encodeURIComponent(specialistId)}`);
-	
-			if (!response.ok) {
-				const errorMessage = `Error loading specialist with ID ${specialistId}. Status: ${response.status}`;
-				console.error(errorMessage);
-				throw new Error(errorMessage);
-			}
-	
-			const data = await response.json();
-	
-			if (!data || data.error) {
-				const errorMessage = data ? `Error loading specialist with ID ${specialistId}: ${data.error}` : `Empty response for specialist with ID ${specialistId}`;
-				console.error(errorMessage);
-				throw new Error(errorMessage);
-			}
-	
-			return data.specialist_info; 
-		} catch (error) {
-			console.error(`Error loading specialist with ID ${specialistId}: ${error.message}`);
-			throw new Error(`Error loading specialist with ID ${specialistId}: ${error.message}`);
-		}
-	},
-	
-	loadCertificates: async () => {
-		try {
-		  const response = await fetch(`${API_URL}/get_certificates`);
-	
-		  if (!response.ok) {
-			const errorMessage = `Error loading certificates. Status: ${response.status}`;
-			console.error(errorMessage);
-			throw new Error(errorMessage);
-		  }
-	
-		  const data = await response.json();
-	
-		  if (!data || data.error) {
-			const errorMessage = data ? `Error loading certificates: ${data.error}` : 'Empty response for certificates';
-			console.error(errorMessage);
-			throw new Error(errorMessage);
-		  }
-	
-		  return data; // Devuelve directamente la lista de certificados
-		} catch (error) {
-		  console.error(`Error loading certificates: ${error.message}`);
-		  throw new Error(`Error loading certificates: ${error.message}`);
-		}
-	  },
+				if (store.loadingAllSpecialists) {
+					return;
+				}
+
+				const urlSpecialistPage = `/api/specialist?page=${page}&limit=${limit}`
+				try {
+					setStore({ ...store, loadingAllSpecialists: true });
+
+					const response = await fetch(API_URL + urlSpecialistPage, {
+						method: "GET",
+						headers: {
+							'Content-type': 'application/json',
+						},
+
+
+					});
+					if (!response.ok) {
+						throw new Error(`Error loading all specialists. Status: ${response.status}`);
+					}
+
+					const data = await response.json();
+
+
+					setStore({ ...store, specialistsList: data });
+					store.loadingListSpecialist = true
+
+
+				} catch (error) {
+					console.error("Error loading all specialists:", error);
+
+
+				} finally {
+					setStore({ ...store, loadingAllSpecialists: false });
+				}
+			},
+
+			loadSpecialistById: async (specialistId) => {
+				try {
+					const response = await fetch(API_URL + `/api/get_specialist_info/${encodeURIComponent(specialistId)}`);
+
+					if (!response.ok) {
+						const errorMessage = `Error loading specialist with ID ${specialistId}. Status: ${response.status}`;
+						console.error(errorMessage);
+						throw new Error(errorMessage);
+					}
+
+					const data = await response.json();
+
+					if (!data || data.error) {
+						const errorMessage = data ? `Error loading specialist with ID ${specialistId}: ${data.error}` : `Empty response for specialist with ID ${specialistId}`;
+						console.error(errorMessage);
+						throw new Error(errorMessage);
+					}
+
+					return data.specialist_info;
+				} catch (error) {
+					console.error(`Error loading specialist with ID ${specialistId}: ${error.message}`);
+					throw new Error(`Error loading specialist with ID ${specialistId}: ${error.message}`);
+				}
+			},
 
 
 			loginPatient: async (patient) => {
@@ -196,32 +178,32 @@ const getState = ({ getStore, getActions, setStore }) => {
 			accessConfirmationPatient: async () => {
 				const store = getStore();
 				try {
-				  const token = sessionStorage.getItem('tokenPatient');
-				  const response = await fetch(API_URL + "/api/private_patient", {
-					method: 'GET',
-					headers: {
-					  'Authorization': `Bearer ${token}`,
-					  'Content-Type': 'application/json'
+					const token = sessionStorage.getItem('tokenPatient');
+					const response = await fetch(API_URL + "/api/private_patient", {
+						method: 'GET',
+						headers: {
+							'Authorization': `Bearer ${token}`,
+							'Content-Type': 'application/json'
+						}
+					});
+
+					if (!response.ok) {
+						store.isTokenAuthentication = true;
+						getActions().deleteTokenPatient();
+						const emptyInformation = {};
+						setStore({ ...store, informationPatient: emptyInformation });
+						throw new Error("There was an error with the token confirmation in flux");
 					}
-				  });
-			  
-				  if (!response.ok) {
-					store.isTokenAuthentication = true;
-					getActions().deleteTokenPatient();
-					const emptyInformation = {};
-					setStore({ ...store, informationPatient: emptyInformation });
-					throw new Error("There was an error with the token confirmation in flux");
-				  }
-				  store.isTokenAuthentication = false;
-				  const data = await response.json();
-				  console.log("Still have access this is the information you need from back end");
-				  setStore({ ...store, informationPatient: data.patient });
-			  
+					store.isTokenAuthentication = false;
+					const data = await response.json();
+					console.log("Still have access this is the information you need from back end");
+					setStore({ ...store, informationPatient: data.patient });
+
 				} catch (error) {
-				  console.log("Authentication issue you do not have access", error);
+					console.log("Authentication issue you do not have access", error);
 				}
-			  },
-			  
+			},
+
 
 			accessConfirmationSpecialist: async () => {
 				const store = getStore()
@@ -327,58 +309,59 @@ const getState = ({ getStore, getActions, setStore }) => {
 			createNewSpecialist: async (newSpecialist) => {
 				const store = getStore();
 				try {
-				  const response = await fetch(API_URL + "/api/signup_specialist", {
-					method: "POST",
-					body: JSON.stringify(newSpecialist),
-					headers: {
-					  "Content-Type": "application/json",
-					},
-				  });
-			  
-				  if (!response.ok) {
-					throw new Error("There was a problem with the function in flux");
-				  }
-			  
-				  const data = await response.json();
-				  // Actualiza la lista de especialistas en el estado global
-				  const updatedSpecialistsList = [...store.specialistsList, data];
-				  setStore({ ...store, specialistsList: updatedSpecialistsList });
-			  
-				  console.log("User created successfully", data);
-				  return data;
+					const response = await fetch(API_URL + "/api/signup_specialist", {
+						method: "POST",
+						body: JSON.stringify(newSpecialist),
+						headers: {
+							"Content-Type": "application/json",
+						},
+					});
+
+					if (!response.ok) {
+						throw new Error("There was a problem with the function in flux");
+					}
+
+					const data = await response.json();
+
+					// Actualiza la lista de especialistas en el estado global
+					const updatedSpecialistsList = [...store.specialistsList, data];
+					setStore({ ...store, specialistsList: updatedSpecialistsList });
+
+					return data;
+
 				} catch (error) {
-				  console.error("There was an error trying to create the Specialist", error);
+					console.error("There was an error trying to create the Specialist", error);
 				}
-			  },
-			  
-			  
+			},
+
+
 
 			setSpecialistInformation: (information) => {
 				const store = getStore();
 				setStore({ ...store, informationSpecialist: information });
-			  },
-			  
-			  getSpecialistInformation: () => {
+			},
+
+			getSpecialistInformation: () => {
 				const store = getStore();
 				return store.informationSpecialist;
-			  },
-			  
+			},
+
 
 			createPreference: async (theid) => {
 				try {
 					console.log("Aquí está el id del actions", theid)
 					const response = await fetch(API_URL + "/api/create_preference", {
 
-					method: "POST",
-					headers: {
-						"Content-Type": "application/json",
-					},
-					body: JSON.stringify({
-						theid: theid,
-						description: "Suscripción única",
-						price: 100,
-						quantity: 1,
-					}),
+						method: "POST",
+						headers: {
+							"Content-Type": "application/json",
+						},
+						body: JSON.stringify({
+							theid: theid,
+							description: "Suscripción única",
+							price: 100,
+							quantity: 1,
+						}),
 
 					});
 
@@ -470,12 +453,22 @@ const getState = ({ getStore, getActions, setStore }) => {
 
 			editSpecialistInformation: async (specialist_id, formInformation) => {
 				try {
-				  const response = await fetch(API_URL + `/api/update_information_specialist/${specialist_id}`, {
-					method: "PUT",
-					body: JSON.stringify(formInformation),
-					headers: {
-					  "Content-Type": "application/json"
+					const response = await fetch(API_URL + `/api/update_information_specialist/${specialist_id}`, {
+						method: "PUT",
+						body: JSON.stringify(formInformation),
+						headers: {
+							"Content-Type": "application/json"
+						}
+					});
+
+					if (response.ok) {
+						const jsonResponse = await response.json();
+						console.log("Changes upload successfully");
+						getActions().setSpecialistInformation(jsonResponse.specialist);
+					} else {
+						throw new Error("The request was failed! Check it out!");
 					}
+
 				  });
 			  
 				  if (response.ok) {
@@ -487,11 +480,11 @@ const getState = ({ getStore, getActions, setStore }) => {
 					throw new Error("The request was failed! Check it out!");
 				  }
 				} catch (error) {
-				  console.log("There was an error, check it out", error);
+					console.log("There was an error, check it out", error);
 				}
 
-			  },
-			
+			},
+
 
 			editImagesSpecialist: async (formImage, specialistId) => {
 				const store = getStore()
@@ -580,21 +573,21 @@ const getState = ({ getStore, getActions, setStore }) => {
 			},
 
 			authorizeSpacialist: async (specialistId) => {
-				try{
-					const response = await fetch(API_URL + `/api/authorize_specialist/${specialistId}`,{
+				try {
+					const response = await fetch(API_URL + `/api/authorize_specialist/${specialistId}`, {
 						method: "PUT",
-						headers:{
+						headers: {
 							'Content-Type': 'application/json'
 						},
 						body: JSON.stringify({ is_authorized: true })
 					})
-					if(!response.ok){
+					if (!response.ok) {
 						throw new Error("There was an error with the response from backend")
 					}
 					const data = await response.json()
 					console.log("Authorizatiion success", data)
 
-				}catch(error){
+				} catch (error) {
 					console.error("There was a problem with the request in flux", error)
 				}
 

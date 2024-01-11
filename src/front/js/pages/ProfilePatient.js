@@ -20,6 +20,8 @@ const ProfilePatient = () => {
     }
   };
 
+
+  
   useEffect(() => {
     checkAccess();
   }, [])
