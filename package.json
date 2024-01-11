@@ -77,17 +77,18 @@
 	},
 	"dependencies": {
 		"@fortawesome/fontawesome-svg-core": "^6.5.1",
+		"@fortawesome/free-brands-svg-icons": "^6.5.1",
 		"@fortawesome/free-solid-svg-icons": "^6.5.1",
 		"@fortawesome/react-fontawesome": "^0.2.0",
-
 		"@mercadopago/sdk-react": "^0.0.16",
-		"mercadopago": "^2.0.5",
 		"cloudinary": "^1.41.1",
 		"cloudinary-react": "^1.8.1",
 		"cors": "^2.8.5",
+		"mercadopago": "^2.0.5",
 		"prop-types": "^15.6.1",
 		"react": "^16.8.4",
 		"react-dom": "^16.8.4",
+		"react-modal": "^3.16.1",
 		"react-polyfills": "0.0.1",
 		"react-router-dom": "^6.3.0",
 		"zxcvbn": "^4.4.2"

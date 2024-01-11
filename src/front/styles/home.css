@@ -752,6 +752,9 @@
   min-width: 320px;
   z-index: 0;
 }
+
+
+
 .typefullSize {
   align-self: stretch;
   background-color: var(--color-gray-300);
@@ -1152,6 +1155,5 @@
   box-sizing: border-box;
   gap: var(--gap-21xl);
 }
-
 
 
