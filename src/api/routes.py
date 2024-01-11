@@ -525,6 +525,7 @@ def get_all_specialists():
                 "img": specialist.img,
                 "is_nurse": specialist.is_nurse,
                 "is_physiotherapist": specialist.is_physiotherapist,
+                "is_authorized": specialist.is_authorized
             }
 
             specialists_list.append(specialist_info)

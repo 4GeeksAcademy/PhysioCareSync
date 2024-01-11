@@ -50,9 +50,6 @@ const ProfileSpecialist = () => {
         navigate('/')
     }
 
-
-
-
     const isAuthenticatedSpecialistId = store.informationSpecialist.length ? store.informationSpecialist.id : parseInt(theid)
     console.log(isAuthenticatedSpecialistId)
 
@@ -96,14 +93,18 @@ const ProfileSpecialist = () => {
                         </div>
 
                     </div>) : payStatus === "false" && token ?
-                    (<div>
-                        <h1>No puede acceder a la información porque no se ha pagado la suscripción</h1>
-                        
+                    (<div className='conditionalMsg'>
+
+                        <h1 className='headMsg'>Importante!</h1>
+                        <p>No se puede acceder a la información porque no se ha pagado la suscripción, por favor realiza tu pago.</p>
+                        <h2><i className="fa-solid fa-dollar-sign fa-beat-fade"></i></h2>
                         <button onClick={handlerReturn} type="button" className="btn btn-primary">Ir a ventana de pago</button>
                     </div>) 
                     :
-                    (<div>
-                        <h1>No puede acceder a la información porque la sesión ha expirado</h1>
+                    (
+                    <div className='conditionalMsg'>
+                        <h1 className='headMsg'>Atención!</h1>
+                        <p>No puede acceder a la información porque la sesión ha expirado.</p>
                         
                         <button onClick={handlerHome} type="button" className="btn btn-primary">Ir a la página de inicio</button>
                     </div>)
