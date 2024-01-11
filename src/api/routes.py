@@ -6,6 +6,7 @@ import secrets,json
 from datetime import datetime
 from flask import Flask, request, jsonify, url_for, Blueprint,current_app
 import cloudinary
+from math import ceil
 from api.models import db, Patient, Specialist,Certificates
 
 # Import the cloudinary.api for managing assets
@@ -253,7 +254,7 @@ def create_preference():
                 }
             ],
             "back_urls": {
-                "success": "https://redesigned-giggle-7v9r5r744p79hxg7j-3000.app.github.dev/success",
+                "success": "https://didactic-winner-x4v4wr5v9pqh6p5v-3000.app.github.dev/success",
                 "failure": "https://redesigned-giggle-7v9r5r744p79hxg7j-3000.app.github.dev/failure",
                 "pending": "https://redesigned-giggle-7v9r5r744p79hxg7j-3000.app.github.dev/pending",
             },
@@ -511,7 +512,6 @@ def get_all_specialists():
     try:
         specialists = Specialist.query.all()
         specialists_list = []
-
         for specialist in specialists:
             specialist_info = {
                 "id": specialist.id,
@@ -575,15 +575,52 @@ def get_specialist_info(specialist_id):
         return jsonify({"error": str(e)}), 500
 
 
-@api.route("/api/get_certificates_for_specialist/<int:specialist_id>", methods=["GET"])
+@api.route("get_certificates_for_specialist/<int:specialist_id>", methods=["GET"])
 def get_certificates_for_specialist(specialist_id):
     try:
         specialist = Specialist.query.get(specialist_id)
         if specialist:
-            certificates = Certificate.query.filter_by(specialist_id=specialist.id).all()
+            certificates = Certificates.query.filter_by(specialist_id=specialist.id).all()
             certificates_list = [{"id": certificate.id, "certificates_url": certificate.certificates_url} for certificate in certificates]
             return jsonify(certificates_list), 200
         else:
             return jsonify({"error": "Specialist not found"}), 404
     except Exception as e:
         return jsonify({"error": str(e)}), 500
+
+
+@api.route("specialist",methods=["GET"])
+def get_specialist():
+    page=request.args.get("page",default=1,type=int)
+    limit=request.args.get("limit",default=10,type=int)
+    offset=(page-1)*limit
+    total_pages=ceil(Specialist.query.count()/limit)
+    total_records=Specialist.query.count()
+    prev_url=None
+    if page>1:
+        prev_url=url_for("api.get_specialist",page=page-1,limit=limit)
+    
+    next_url=None
+    if page<total_pages:
+        next_url=url_for("api.get_specialist",page=page+1,limit=limit)
+
+    specialists=Specialist.query.offset(offset).limit(limit).all()
+
+    return jsonify({
+        "message":"ok",
+        "previous":prev_url,
+        "next":next_url,
+        "total_records":total_records,
+        "total_pages":total_pages,
+        "current_page":page,
+        "specialists":[specialist.serialize() for specialist in specialists]
+    })
+
+
+
+
+
+
+# # Generar rutas de paginación automáticamente
+# for page in range(1, total_pages + 1):
+#     app.add_url_rule(f"/api/patients/page{page}", f"page{page}", partial(get_patients, page=page))

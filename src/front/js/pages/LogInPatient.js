@@ -117,7 +117,7 @@ const LogInPatient = () => {
                 setHideAlert(true)
                 setShowEmailError(true)
                 setLoginSuccess(false)
-                setEmailError('Correo electrónico o contraseña incorrectos');
+                // setEmailError('Correo electrónico o contraseña incorrectos');
                 setPasswordEmpty("")
                 snackRef.current.show()
                 setCheckLoginBotton(true)

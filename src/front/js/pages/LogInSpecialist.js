@@ -18,6 +18,7 @@ const LogInSpecialist = () => {
     const [hideAlert, setHideAlert] = useState(true)
     const [loginSuccess, setLoginSuccess] = useState(false)
     const [checkLoginBotton, setCheckLoginBotton] = useState(true)
+    const [passwordEmpty, setPasswordEmpty] = useState("")
     const goLogin = useNavigate()
 
 
@@ -66,6 +67,7 @@ const LogInSpecialist = () => {
     const handlerKeyPress = (event) => {
         if ((event.keyCode >= 65 && event.keyCode <= 90) || (event.keyCode >= 97 && event.keyCode <= 122)) {
             setHideAlert(false)
+            setPasswordEmpty("")
         }
 
         if (event.key === 'Enter') {
@@ -86,8 +88,10 @@ const LogInSpecialist = () => {
                 setHideAlert(true)
                 setShowEmailError(true)
                 setCheckLoginBotton(true)
+                console.log("entre a que no hay conbtra o email")
+                snackRef.current.show()
                 setEmailError('Debe de ingresar los datos requeridos en el campo');
-
+                setPasswordEmpty("Debe de ingresar los datos requeridos en el campo")
                 return;
             }
 
@@ -105,32 +109,29 @@ const LogInSpecialist = () => {
                 await actions.accessConfirmationSpecialist();
                 sessionStorage.setItem("specialistId", store.informationSpecialist.id)
                 const specialistId = sessionStorage.getItem("specialistId")
-
                 snackRef.current.show()
                 setTimeout(() => {
-                    navigate(`/profile/specialist/${specialistId}`)
+                    // navigate(`/profile/specialist/${specialistId}`)
+                    sessionStorage.setItem("payStatus", store.informationSpecialist.is_authorized)
+                    const payStatus = sessionStorage.getItem("payStatus")
+                    console.log("Este es el estatus del pago de suscripción", payStatus)
+                    if (payStatus === "true") {
+                        navigate(`/profile/specialist/${specialistId}`)
+
+                    } else {
+
+                        navigate(`/profile/paymentPage/${specialistId}`)
+                    }
                 }, 2000)
 
             } else if (result.error) {
                 setHideAlert(true)
                 setShowEmailError(true)
-                setEmailError('Correo electrónico o contraseña incorrectos');
+                setPasswordEmpty("")
+                // setEmailError('Correo electrónico o contraseña incorrectos');
                 snackRef.current.show()
                 setCheckLoginBotton(true)
                 return;
-
-                sessionStorage.setItem("payStatus", store.informationSpecialist.is_authorized)
-                const payStatus = sessionStorage.getItem("payStatus")
-                console.log("Este es el estatus del pago de suscripción", payStatus)
-                if (payStatus === "true") {
-                    alert("Hola")
-                    navigate(`/profile/specialist/${specialistId}`)
-                    
-                } else {
-                    alert("Chau")
-                    navigate(`/profile/paymentPage/${specialistId}`)
-                }
-         
             }
         } catch (error) {
             console.error('Hubo un error con la consulta', error);
@@ -181,7 +182,8 @@ const LogInSpecialist = () => {
                     aria-describedby="passwordHelpBlock"
                     placeholder="Contraseña"
                 />
-                {clickedPassword && password.trim() === '' && <p className='errorMsg'>La contraseña es obligatoria</p>}
+                {clickedPassword && password.trim() === '' && !showEmailError && hideAlert && <p className='errorMsg'>La contraseña es obligatoria</p>}
+                {showEmailError && hideAlert && <p className='errorMsg'>{passwordEmpty}</p>}
                 <br></br>
 
                 <div className="createNewBtn">

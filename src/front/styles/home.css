@@ -52,12 +52,12 @@
 }
 
 .icon-button-image:hover{
-    background-color:var(--color-lightseagreen);
+  background-color:var(--color-lightseagreen);
   filter:brightness(1.05)
 }
 
 .dropdown{
-  position: absolute;
+  position: absolute !important;
   top: 50px;
   width: 500px;
   transform: translateX(-45%);
@@ -137,7 +137,7 @@
 
 .container-language{
   padding:5px;
-  margin-left: 480%;
+  margin-left: 445%;
   margin-top: 25%;
   display:flex;
   align-items:center;
@@ -147,7 +147,7 @@
 }
 
 .icon-right{
-  margin-right: -10%;
+  margin-right: -7%;
 }
 
 .container-my-profile{

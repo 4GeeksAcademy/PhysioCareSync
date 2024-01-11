@@ -37,10 +37,11 @@ const ProfileSpecialist = () => {
             await actions.deleteTokenSpecialist();
         }
     }
-    
+
 
     const token = sessionStorage.getItem('tokenSpecialist');
     const specialistId = sessionStorage.getItem("specialistId")
+
     const { theid } = params
 
 
@@ -82,7 +83,6 @@ const ProfileSpecialist = () => {
 
                             <h5>Información de la cuenta</h5>
 
-                            {/* aqui toca seguir */}
                             <p className='email-specialist'>Correo electrónico: {store.informationSpecialist.email} </p>
                             <p className='date-register-specialist'> Fecha de registro en PhysioCareSync: {registerDate}</p>
 

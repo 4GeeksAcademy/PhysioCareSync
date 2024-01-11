@@ -26,7 +26,7 @@ import EditSpecialist from "./pages/EditSpecialist.js";
 import ProfilePatient from "./pages/ProfilePatient.js";
 import ProfileSpecialist from "./pages/ProfileSpecialist.js";
 import FormSpecialist from "./pages/FormSpecialist.js";
-import ProfessionalView from "./pages/ProfessionalView"; 
+import ProfessionalView from "./pages/ProfessionalView";
 import PaySuccess from "./pages/PaySuccess.jsx";
 import PayError from "./pages/PayError.jsx";
 import PayPending from "./pages/PayPending.jsx";
@@ -68,11 +68,13 @@ const Layout = () => {
                         <Route element={<ProfileSpecialist />} exact path="profile/specialist/:theid" />
                         <Route element={<Single />} path="/single/:theid" />
                         <Route element={<FormSpecialist />} path="edit/formSpecialist" />
-                        <Route element={<ProfessionalView />} path="/professional-view" />
+                        <Route element={<ProfessionalView />} path="/professionalView" />
+                        {/* <Route element={<ProfessionalView />} path=" /professional-view?page=4&limit=5" /> */}
 
-                        <Route element={<PaymentPage/>} path="profile/paymentPage/:theid"/>
 
-                        <Route element={<ProfessionalDetailView />} path="/professional-view/:id" />  
+                        <Route element={<PaymentPage />} path="profile/paymentPage/:theid" />
+
+                        <Route element={<ProfessionalDetailView />} path="/professional-view/:id" />
                         <Route element={<h1>Not found!</h1>} />
                     </Routes>
                 </ScrollToTop>
