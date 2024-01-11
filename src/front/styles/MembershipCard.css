@@ -1,0 +1,93 @@
+.newProperty1DefaultAlt {
+    max-width: 400px;
+    margin: 50px auto;
+    background-color: #fff;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    border-radius: 10px;
+    overflow: hidden;
+  }
+  
+  .newCopyComponent {
+    text-align: center;
+    padding: 20px;
+  }
+  
+  .newTitle {
+    font-size: 1.5em;
+    margin: 10px 0;
+  }
+  
+  .newShortDescription {
+    color: #888;
+  }
+  
+  .newPrice1 {
+    margin: 20px 0;
+  }
+  
+  .newPrice2 {
+    display: flex;
+    justify-content: center;
+    align-items: baseline;
+  }
+  
+  .newB {
+    font-size: 1.5em;
+  }
+  
+  .newB2 {
+    font-size: 0.8em;
+    margin-left: 2px;
+  }
+  
+  .newFeatureList1 {
+    margin-top: 20px;
+  }
+  
+  .newListItem {
+    margin: 8px 0;
+    display: flex;
+    justify-content: space-between;
+  }
+  
+  .newCheckcircleIcon,
+  .newCheckcircleIcon5 {
+    margin-right: 5px;
+  }
+  
+  .newTag {
+    text-align: center;
+    margin-top: 10px;
+  }
+  
+  .newBestDeal {
+    background-color: #27ae60;
+    color: #fff;
+    padding: 5px 10px;
+    border-radius: 5px;
+  }
+  
+  .newButton1 {
+    background-color: #3498db;
+    color: #fff;
+    border: none;
+    padding: 10px 20px;
+    margin-top: 20px;
+    cursor: pointer;
+    border-radius: 5px;
+    transition: background-color 0.3s ease-in-out;
+  }
+  
+  .newButton1:hover {
+    background-color: #2980b9;
+  }
+  .membershipCardContainer {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;  /* Alinea verticalmente */
+    margin: 20px;  /* Ajusta según sea necesario */
+  }
+  
+  /* Otros estilos según sea necesario */
+  

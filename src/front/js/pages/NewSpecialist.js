@@ -3,6 +3,7 @@ import { Context } from '../store/appContext';
 import { useNavigate, Link } from 'react-router-dom';
 import zxcvbn from 'zxcvbn';
 import '../../styles/NewSpecialist.css'; 
+import Footer from "../component/footer";
 
 const NewSpecialist = () => {
   const { store, actions } = useContext(Context);
@@ -125,6 +126,7 @@ const NewSpecialist = () => {
   };
 
   return (
+    <div className="page-container">
     <div className='patientForm'>
       <div className='title'>
         <h1>Bienvenido especialista!</h1>
@@ -228,7 +230,11 @@ const NewSpecialist = () => {
         </Link>
       </div>
     </div>
+    <Footer />
+    </div>
+
   );
 };
+
 
 export default NewSpecialist;

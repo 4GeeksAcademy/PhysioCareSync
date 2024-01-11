@@ -1,8 +1,8 @@
-
 import React, { useContext, useRef, useState } from 'react';
 import { Context } from '../store/appContext';
 import { Link, useNavigate } from 'react-router-dom';
 import SnackBarLogin from '../component/SnackBarLogin';
+import Footer from "../component/footer";
 
 const LogInSpecialist = () => {
     const navigate = useNavigate();
@@ -14,13 +14,11 @@ const LogInSpecialist = () => {
     const [clickedEmail, setClickedEmail] = useState(false);
     const [clickedPassword, setClickedPassword] = useState(false);
     const [emailError, setEmailError] = useState('');
-    const [showEmailError, setShowEmailError] = useState(false)
-    const [hideAlert, setHideAlert] = useState(true)
-    const [loginSuccess, setLoginSuccess] = useState(false)
-    const [checkLoginBotton, setCheckLoginBotton] = useState(true)
-    const goLogin = useNavigate()
-
-
+    const [showEmailError, setShowEmailError] = useState(false);
+    const [hideAlert, setHideAlert] = useState(true);
+    const [loginSuccess, setLoginSuccess] = useState(false);
+    const [checkLoginBotton, setCheckLoginBotton] = useState(true);
+    const goLogin = useNavigate();
 
     const isEmailValid = (email) => {
         const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
@@ -31,63 +29,59 @@ const LogInSpecialist = () => {
         setClickedEmail(false);
     };
 
-
     const handlerBlurEmail = () => {
         if (!email.trim()) {
-            setHideAlert(true)
+            setHideAlert(true);
             setClickedEmail(true);
-            setShowEmailError(false)
+            setShowEmailError(false);
             setEmailError('El correo electrónico es obligatorio');
         } else if (!isEmailValid(email)) {
-            setHideAlert(true)
+            setHideAlert(true);
             setClickedEmail(true);
-            setShowEmailError(true)
+            setShowEmailError(true);
             setEmailError('El formato del correo electrónico es incorrecto');
-        }
-        else {
-            setHideAlert(true)
+        } else {
+            setHideAlert(true);
             setClickedEmail(false);
             setEmailError('');
         }
     };
 
     const handlerClickPassword = () => {
-        setHideAlert(true)
+        setHideAlert(true);
         setClickedPassword(false);
     };
 
     const handlerBlurPassword = () => {
         if (!password.trim()) {
-            setHideAlert(true)
+            setHideAlert(true);
             setClickedPassword(true);
         }
     };
 
     const handlerKeyPress = (event) => {
         if ((event.keyCode >= 65 && event.keyCode <= 90) || (event.keyCode >= 97 && event.keyCode <= 122)) {
-            setHideAlert(false)
+            setHideAlert(false);
         }
 
         if (event.key === 'Enter') {
-            setHideAlert(false)
+            setHideAlert(false);
             handlerLogInPatient();
         }
     };
 
     const handlerLogOutSpecialist = () => {
-        goLogin("/login")
-    }
+        goLogin("/login");
+    };
 
     const handlerLogInSpecialist = async () => {
-        setCheckLoginBotton(false)
+        setCheckLoginBotton(false);
         try {
-
             if (email.trim() === '' || password.trim() === '') {
-                setHideAlert(true)
-                setShowEmailError(true)
-                setCheckLoginBotton(true)
-                setEmailError('Debe de ingresar los datos requeridos en el campo');
-
+                setHideAlert(true);
+                setShowEmailError(true);
+                setCheckLoginBotton(true);
+                setEmailError('Debe ingresar los datos requeridos en el campo');
                 return;
             }
 
@@ -98,55 +92,52 @@ const LogInSpecialist = () => {
 
             const result = await actions.loginSpecialist(loginSpecialist);
             if (result.specialist && result.accessToken) {
-                setLoginSuccess(true)
+                setLoginSuccess(true);
                 const token = result.accessToken;
                 console.log('Este es el resultado:', result.specialist);
-                sessionStorage.setItem('tokenSpecialist', token)
+                sessionStorage.setItem('tokenSpecialist', token);
                 await actions.accessConfirmationSpecialist();
-                sessionStorage.setItem("specialistId", store.informationSpecialist.id)
-                const specialistId = sessionStorage.getItem("specialistId")
+                sessionStorage.setItem("specialistId", store.informationSpecialist.id);
+                const specialistId = sessionStorage.getItem("specialistId");
 
-                snackRef.current.show()
+                snackRef.current.show();
                 setTimeout(() => {
-                    navigate(`/profile/specialist/${specialistId}`)
-                }, 2000)
-
+                    navigate(`/profile/specialist/${specialistId}`);
+                }, 2000);
             } else if (result.error) {
-                setHideAlert(true)
-                setShowEmailError(true)
+                setHideAlert(true);
+                setShowEmailError(true);
                 setEmailError('Correo electrónico o contraseña incorrectos');
-                snackRef.current.show()
-                setCheckLoginBotton(true)
+                snackRef.current.show();
+                setCheckLoginBotton(true);
                 return;
 
-                sessionStorage.setItem("payStatus", store.informationSpecialist.is_authorized)
-                const payStatus = sessionStorage.getItem("payStatus")
-                console.log("Este es el estatus del pago de suscripción", payStatus)
+                sessionStorage.setItem("payStatus", store.informationSpecialist.is_authorized);
+                const payStatus = sessionStorage.getItem("payStatus");
+                console.log("Este es el estatus del pago de suscripción", payStatus);
                 if (payStatus === "true") {
-                    alert("Hola")
-                    navigate(`/profile/specialist/${specialistId}`)
-                    
+                    alert("Hola");
+                    navigate(`/profile/specialist/${specialistId}`);
                 } else {
-                    alert("Chau")
-                    navigate(`/profile/paymentPage/${specialistId}`)
+                    alert("Chau");
+                    navigate(`/profile/paymentPage/${specialistId}`);
                 }
-         
             }
         } catch (error) {
             console.error('Hubo un error con la consulta', error);
         }
     };
 
-    const snackRef = useRef(null)
+    const snackRef = useRef(null);
     const snackBarType = {
         fail: "fail",
         success: "success",
-    }
+    };
 
     return (
-        <div>
+        <div className="page-container2">
             {loginSuccess ?
-                <SnackBarLogin type={snackBarType.success} ref={snackRef} message="Usted inicio sesión correctamente!" /> :
+                <SnackBarLogin type={snackBarType.success} ref={snackRef} message="Usted inició sesión correctamente!" /> :
                 <SnackBarLogin type={snackBarType.fail} ref={snackRef} message="Intente nuevamente ingresando sus datos correctamente!" />}
 
             <div className="patientForm">
@@ -182,7 +173,7 @@ const LogInSpecialist = () => {
                     placeholder="Contraseña"
                 />
                 {clickedPassword && password.trim() === '' && <p className='errorMsg'>La contraseña es obligatoria</p>}
-                <br></br>
+                <br />
 
                 <div className="createNewBtn">
                     <button disabled={!checkLoginBotton} onClick={handlerLogInSpecialist} type="button" className="btn btn-success saveBtn">
@@ -192,7 +183,6 @@ const LogInSpecialist = () => {
                     <button disabled={!checkLoginBotton} onClick={handlerLogOutSpecialist} type="button" className="btn btn-outline-primary exitBtn">
                         Salir
                     </button>
-
                 </div>
             </div>
         </div>

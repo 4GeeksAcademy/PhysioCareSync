@@ -7,6 +7,8 @@ import Product from "../component/Product.jsx";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faUser, faSignInAlt, faInfoCircle } from "@fortawesome/free-solid-svg-icons";
 import { Context } from "../store/appContext.js";
+import MembershipCard from "../component/MembershipCard.js";
+import Footer from "../component/footer";
 
 
 export const Home = () => {
@@ -84,6 +86,7 @@ export const Home = () => {
           src="https://www.kolabtree.com/blog/wp-content/uploads/2021/08/instructor-assisting-senior-woman-exercising.jpg"
         />
       </section>
+      <MembershipCard />
       <section className="property1comprehensive">
         <div className="headingWrapper">
           <div className="headingContainer">
@@ -210,6 +213,7 @@ export const Home = () => {
           </div>
         </section>
       </div>
+      <Footer />
     </div>
   );
 

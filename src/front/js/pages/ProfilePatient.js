@@ -19,8 +19,6 @@ const ProfilePatient = () => {
       navigate('/');
     }
   };
-  useEffect(() => {
-    checkAccess();
 
 
   useEffect(() => {

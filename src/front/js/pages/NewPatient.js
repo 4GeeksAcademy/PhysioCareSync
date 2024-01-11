@@ -3,6 +3,7 @@ import { Context } from '../store/appContext';
 import { Link, useNavigate } from 'react-router-dom';
 import zxcvbn from 'zxcvbn'; // Importa la biblioteca de fortaleza de contraseña
 import '../../styles/NewPatient.css';
+import Footer from "../component/footer";
 
 const NewPatient = () => {
   const navigate = useNavigate();
@@ -118,6 +119,7 @@ const NewPatient = () => {
   };
 
   return (
+    <div className="page-container">
     <div className='patientForm'>
       <div className='title'>
         <h1>Bienvenido paciente!</h1>
@@ -204,6 +206,9 @@ const NewPatient = () => {
         </Link>
       </div>
     </div>
+    <Footer />
+    </div>
+
   );
 };
 
