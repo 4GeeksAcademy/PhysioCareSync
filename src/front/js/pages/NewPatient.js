@@ -1,9 +1,11 @@
-import React, { useContext, useState } from 'react';
+import React, { useContext, useRef, useState } from 'react';
 import { Context } from '../store/appContext';
 import { Link, useNavigate } from 'react-router-dom';
 import zxcvbn from 'zxcvbn'; // Importa la biblioteca de fortaleza de contraseña
 import '../../styles/NewPatient.css';
 import Footer from "../component/footer";
+import SnackBarLogin from '../component/SnackBarLogin';
+
 
 const NewPatient = () => {
   const navigate = useNavigate();
@@ -13,6 +15,8 @@ const NewPatient = () => {
   const [lastName, setLastName] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const [signupSuccess, setSignupSuccess] = useState(false)
+
 
   // Estados de dinamización
   const [clickedFirstName, setClickedFirstName] = useState(false);
@@ -53,7 +57,6 @@ const NewPatient = () => {
       setClickedEmail(true);
     } else if (!isEmailValid(email)) {
       setClickedEmail(true);
-      alert('El formato del correo electrónico es incorrecto');
     }
   };
 
@@ -100,7 +103,7 @@ const NewPatient = () => {
         password === '' ||
         !isEmailValid(email)
       ) {
-        alert('Todos los campos son requeridos o el formato del correo es incorrecto');
+        snackRef.current.show();
         return;
       }
 
@@ -111,15 +114,39 @@ const NewPatient = () => {
         last_name: lastName,
       };
 
-      await actions.createNewPatient(newInputPatient);
-      navigate('/login/loginPatient'); 
+      const result = await actions.createNewPatient(newInputPatient);
+      if(result.patient_id && result.email){
+      setSignupSuccess(true)
+      snackRef.current.show()
+      setTimeout(() => {
+        navigate('/login/loginPatient'); 
+
+      }, 3000)
+      } else if(result.error){
+        console.log("Error al crear el paciente", result.error)
+        snackRef.current.show();
+        return;
+      }
     } catch (error) {
       console.error('Hubo un error al crear el paciente', error);
     }
   };
 
+  const snackRef = useRef(null)
+  const snackBarType = {
+      fail: "fail",
+      success: "success",
+  }
+
   return (
+
     <div className="page-container">
+
+    <div>
+      {signupSuccess ? 
+      <SnackBarLogin type={snackBarType.success} ref={snackRef} message="El usuario paciente se ha creado correctamente" /> :
+      <SnackBarLogin type={snackBarType.fail} ref={snackRef} message="No se puede crear el usuario paciente correctamente" />}
+
     <div className='patientForm'>
       <div className='title'>
         <h1>Bienvenido paciente!</h1>
@@ -162,7 +189,7 @@ const NewPatient = () => {
           id="exampleFormControlInput3"
           placeholder="Correo electrónico"
         />
-        {clickedEmail && <p className='errorMsg'>* El correo electrónico es obligatorio *</p>}
+        {clickedEmail && <p className='errorMsg'>* El correo electrónico es obligatorio y debe tener el formato correcto *</p>}
       </div>
 
       <div>
@@ -207,6 +234,7 @@ const NewPatient = () => {
       </div>
     </div>
     <Footer />
+    </div>
     </div>
 
   );
