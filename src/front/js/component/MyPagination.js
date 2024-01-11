@@ -4,7 +4,9 @@ import { Pagination } from 'react-bootstrap'
 const MyPagination = ({ total, current, onChangePage, valueDisabled }) => {
 
     const [numberLimit, setNumberLimit] = useState(3)
+    const [limitPaginationNumber, setLimitPaginationNumber] = useState(numberLimit)
     console.log(current)
+    console.log("este es el numberlimit", numberLimit)
     const handleNextClick = () => {
         onChangePage(current + 1)
     }
@@ -12,14 +14,23 @@ const MyPagination = ({ total, current, onChangePage, valueDisabled }) => {
     useEffect(() => {
         if (current < 3) {
             setNumberLimit(3)
+            setLimitPaginationNumber(3)
         }
         if (current >= 3) {
-            if (numberLimit >= total) {
-                return
+
+            if (current === total) {
+                setNumberLimit(current)
+                setLimitPaginationNumber(current)
             }
-            else {
-                setNumberLimit((prev) => prev + 1)
-            }
+            else if (current < total)
+                setNumberLimit(current + 1)
+                setLimitPaginationNumber(current + 1)
+        }
+        if (current === 4) {
+            setNumberLimit(5)
+        }
+        if (current + 3 >= total) {
+            setLimitPaginationNumber(total)
         }
 
     }, [current])
@@ -48,9 +59,7 @@ const MyPagination = ({ total, current, onChangePage, valueDisabled }) => {
         }
         else if (current >= total) {
             items.push(<Pagination.Next disabled key="next" onClick={() => onChangePage(current + 1)} />)
-
         }
-
     }
     else {
         if (current > 1) {
@@ -58,25 +67,46 @@ const MyPagination = ({ total, current, onChangePage, valueDisabled }) => {
         }
         else if (current <= 1) {
             items.push(<Pagination.Prev disabled key="prev" onClick={() => onChangePage(current - 1)} />)
-
         }
-
-        // aqui condicion que puse para que se ponga el ..,..
         if (total >= 4) {
-            for (let page = 1; page <= numberLimit; page++) {
-                items.push(<Pagination.Item key={page} data-page={page} active={page === current} onClick={() => onChangePage(page)}>
-                    {page}
-                </Pagination.Item>)
+            if (current >= 5) {
+                items = items.concat([
+                    <Pagination.Item key={1} data-page={1} active={1 === current} onClick={() => onChangePage(1)}>
+                        {1}
+                    </Pagination.Item>,
+                    <Pagination.Ellipsis key="ellipsis-1" />
+                ])
+                for (let page = numberLimit - 2; page <= limitPaginationNumber; page++) {
+                    items.push(<Pagination.Item key={page} data-page={page} active={page === current} onClick={() => onChangePage(page)}>
+                        {page}
+                    </Pagination.Item>)
+                }
+                if (current + 3 >= total) {
+                }
+                else {
+                    items.push(<Pagination.Ellipsis key="ellipsis-2" />);
+                    items.push(<Pagination.Item onClick={() => onChangePage(total)}>{total} </Pagination.Item >);
+                }
             }
-            if (numberLimit < total - 1) {
-                items.push(<Pagination.Ellipsis key="ellipsis" />);
-            }
-            if (numberLimit >= total) {
+            else {
+                for (let page = 1; page <= numberLimit; page++) {
+                    items.push(<Pagination.Item key={page} data-page={page} active={page === current} onClick={() => onChangePage(page)}>
+                        {page}
+                    </Pagination.Item>)
+                }
+                if (numberLimit < total - 1) {
+                    items.push(<Pagination.Ellipsis key="ellipsis" />);
+                }
+                if (numberLimit >= total) {
 
-            } else {
-                items.push(<Pagination.Item>{total}</Pagination.Item>);
+                } else {
+                    items.push(<Pagination.Item onClick={() => onChangePage(total)}>{total}</Pagination.Item>);
+                }
             }
+
+
         }
+
 
         // aqui otra condicion !!!! para el tema del elipsis
 

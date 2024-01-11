@@ -14,7 +14,7 @@ const ProfessionalView = () => {
   const navigate = useNavigate();
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
-  const limit = 5
+  const limit = 4
   //cambiar el imit a 10!
   const [page, setPage] = useState(1)
   const history = useNavigate();
@@ -119,7 +119,6 @@ const ProfessionalView = () => {
   return (
 
     <div className="professional-view-container">
-
       <h1 className="professional-view-title">Especialistas</h1>
       <div className="professional-view-list">
         {store.loadingListSpecialist ?
