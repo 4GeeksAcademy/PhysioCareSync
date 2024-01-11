@@ -1,5 +1,5 @@
 import React, { useContext, useEffect } from "react";
-import { useNavigate } from 'react-router-dom';  // Importa useNavigate
+import { useNavigate } from 'react-router-dom';
 import "../../styles/home.css";
 import LogInBtn from "../component/LogInBtn.jsx";
 import NewUserBtn from "../component/NewUserBtn.jsx";
@@ -10,9 +10,8 @@ import { Context } from "../store/appContext.js";
 import MembershipCard from "../component/MembershipCard.js";
 import Footer from "../component/footer";
 
-
 export const Home = () => {
-  const navigate = useNavigate();  // Inicializa useNavigate
+  const navigate = useNavigate();
   const { actions, store } = useContext(Context)
 
   const handleLoginClick = () => {
@@ -25,11 +24,9 @@ export const Home = () => {
 
   const handleSignUpClick = () => {
     console.log("Botón de registrarse clicado");
-    navigate('/edit/specialist');  // Redirige a la página EditSpecialist
+    navigate('/edit/specialist');
   };
 
-
-  //steps in order to get the information in the navbar of specialist
   let tokenAuthenticationPatient
   let tokenAuthenticationSpecialist
   const tokenPatient = sessionStorage.getItem('tokenPatient');
@@ -49,8 +46,6 @@ export const Home = () => {
     await actions.accessConfirmationPatient();
   };
 
-
-
   if (tokenAuthenticationSpecialist && store.isTokenAuthentication == true) {
     console.log("aqui entre a pesar de cerrar sesion especialista")
     useEffect(() => {
@@ -64,7 +59,6 @@ export const Home = () => {
     }, [])
   }
 
-
   return (
     <div className="mushoChoiceDrivenUserExpe">
       <section className="typefullSize">
@@ -76,7 +70,6 @@ export const Home = () => {
                 Su hogar para servicios profesionales de atención médica.
               </h3>
             </div>
-
             <LogInBtn className="ctaButton"></LogInBtn>
           </div>
         </div>
@@ -156,67 +149,9 @@ export const Home = () => {
           </div>
         </div>
       </section>
-
-      <div className="typesimpleSquare">
-        <section className="copyComponent">
-          <div className="headingText">
-            <h1 className="heading">Profesionales mejor calificados</h1>
-            <h3 className="subheading">
-              Navega a través de nuestros profesionales registrados.
-            </h3>
-          </div>
-        </section>
-        <section className="teamList">
-          <div className="teamMember">
-            <img
-              className="avatarAisplashavatarsIcon"
-              alt=""
-              src="https://images.pexels.com/photos/614810/pexels-photo-614810.jpeg?auto=compress&cs=tinysrgb&dpr=1&w=500"
-            />
-            <div className="info">
-              <div className="name">Dr. Alejandro Ramirez</div>
-              <div className="jobTitle">Especialista en Fisioterapia</div>
-            </div>
-          </div>
-          <div className="teamMember">
-            <img
-              className="avatarAisplashavatarsIcon"
-              alt=""
-              src="https://images.unsplash.com/photo-1438761681033-6461ffad8d80?q=80&w=1000&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8Mnx8cGVyc29uYXxlbnwwfHwwfHx8MA%3D%3D"
-            />
-            <div className="info">
-              <div className="name">Dr. Isabella Rodriguez</div>
-              <div className="jobTitle">Fisioterapeuta Ortopédico</div>
-            </div>
-          </div>
-          <div className="teamMember">
-            <img
-              className="avatarAisplashavatarsIcon"
-              alt=""
-              src="https://covalto-production-website.s3.amazonaws.com/Hero_Mobile_Cuenta_Personas_V1_1_8046e424ea.webp"
-            />
-            <div className="info">
-              <div className="name">Dr. Juan Carlos Martinez</div>
-              <div className="jobTitle">Fisioterapeuta pediátrico</div>
-            </div>
-          </div>
-          <div className="teamMember">
-            <img
-              className="avatarAisplashavatarsIcon"
-              alt=""
-              src="https://pymstatic.com/5844/conversions/personas-emocionales-wide.jpg"
-            />
-            <div className="info">
-              <div className="name">Dr. Sofia Fernandez</div>
-              <div className="jobTitle">Fisioterapeuta Geriátrico</div>
-            </div>
-          </div>
-        </section>
-      </div>
       <Footer />
     </div>
   );
-
 };
 
 export default Home;
