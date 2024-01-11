@@ -108,23 +108,18 @@ const LogInSpecialist = () => {
                 sessionStorage.setItem("payStatus", store.informationSpecialist.is_authorized)
                 const payStatus = sessionStorage.getItem("payStatus")
                 console.log("Este es el estatus del pago de suscripción", payStatus)
-                if (payStatus === "true" && loginSuccess) {
+                if (payStatus === "true") {
                     snackRef.current.show()
                     setTimeout(() => {
                         navigate(`/profile/specialist/${specialistId}`)
                     }, 3000)
 
-                } else if(payStatus !== "true" && loginSuccess){
+                } else if(payStatus === "false"){
                     snackRef.current.show()
                     setTimeout(() => {
                         navigate(`/profile/paymentPage/${specialistId}`)
                     })
                 }
-
-                snackRef.current.show()
-                setTimeout(() => {
-                    navigate(`/profile/specialist/${specialistId}`)
-                }, 2000)
 
             } else if (result.error) {
                 setHideAlert(true)

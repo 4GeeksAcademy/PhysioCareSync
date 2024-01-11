@@ -1,23 +1,34 @@
-import React from 'react'
+import React, { useState, useRef } from 'react'
 import { Context } from '../store/appContext'
-import { Link, useNavigate, useParams } from 'react-router-dom';
-import { useContext, useState, useEffect } from 'react'
+import { useNavigate, useParams } from 'react-router-dom';
+import { useContext, useEffect } from 'react'
+import SnackBarLogin from '../component/SnackBarLogin';
 
 
 const ProfileSpecialist = () => {
+    const snackRef = useRef(null)
+    const snackBarType = {
+        fail: "fail",
+        success: "success",
+    }
     const { store, actions } = useContext(Context)
     const navigate = useNavigate();
     const params = useParams()
+    const [missingToken, setMissingToken] = useState(false)
     sessionStorage.setItem("payStatus", store.informationSpecialist.is_authorized)
     const payStatus = sessionStorage.getItem("payStatus")
+
 
     const checkAccess = async () => {
         await actions.accessConfirmationSpecialist();
         const token = sessionStorage.getItem('tokenSpecialist');
 
         if (!token && store.isTokenAuthentication == true) {
-            alert("You do not have access to this page, please log in or create an account");
-            navigate('/');
+            setMissingToken(true)
+            snackRef.current.show()
+            setTimeout(() => {
+                navigate('/');
+            }, 2000)
         }
     };
 
@@ -25,18 +36,6 @@ const ProfileSpecialist = () => {
         checkAccess();
 
     }, []);
-
-
-
-    const handleLogOut = async () => {
-        const confirm = window.confirm('¿Estás seguro de que quieres cerrar sesión?');
-        if (confirm) {
-            navigate('/');
-            // Use the assignment operator (=) instead of the comparison operator (==)
-            store.isTokenAuthentication = false;
-            await actions.deleteTokenSpecialist();
-        }
-    }
     
    
     const token = sessionStorage.getItem('tokenSpecialist');
@@ -45,6 +44,10 @@ const ProfileSpecialist = () => {
 
  const handlerReturn = () => {
         navigate(`/profile/paymentPage/${specialistId}`)
+    }
+
+    const handlerHome = () => {
+        navigate('/')
     }
 
 
@@ -59,10 +62,11 @@ const ProfileSpecialist = () => {
     const [registerDate] = registerSpecialistLocalTime.split(",")
     const handleInformationProfesional = store.informationSpecialist.is_physiotherapist == true ? "Fisioterapia" : "Enfermeria"
 
-
-
     return (
         <div>
+            {missingToken ?
+            <SnackBarLogin type={snackBarType.success} ref={snackRef} message="Usted inicio sesión correctamente!" /> :
+        <SnackBarLogin type={snackBarType.fail} ref={snackRef} message="Intente nuevamente ingresando sus datos correctamente!" />}
 
             {
                 token && isAuthenticatedSpecialistId == specialistId && payStatus === "true" ? (
@@ -85,22 +89,26 @@ const ProfileSpecialist = () => {
 
                             <h5>Información de la cuenta</h5>
 
-                            {/* aqui toca seguir */}
                             <p className='email-specialist'>Correo electrónico: {store.informationSpecialist.email} </p>
                             <p className='date-register-specialist'> Fecha de registro en PhysioCareSync: {registerDate}</p>
 
                         
                         </div>
 
-                    </div>) :
+                    </div>) : payStatus === "false" && token ?
                     (<div>
-                        <h1>No puede acceder a la información porque no existe un inicio de sesión o no se ha pagado la suscripción</h1>
+                        <h1>No puede acceder a la información porque no se ha pagado la suscripción</h1>
                         
                         <button onClick={handlerReturn} type="button" className="btn btn-primary">Ir a ventana de pago</button>
+                    </div>) 
+                    :
+                    (<div>
+                        <h1>No puede acceder a la información porque la sesión ha expirado</h1>
+                        
+                        <button onClick={handlerHome} type="button" className="btn btn-primary">Ir a la página de inicio</button>
                     </div>)
+
             }
-
-
 
         </div>
     )
