@@ -150,8 +150,6 @@ const getState = ({ getStore, getActions, setStore }) => {
 			},
 
 
-
-
 			loginPatient: async (patient) => {
 				try {
 					const response = await fetch(API_URL + "/api/token_patient", {

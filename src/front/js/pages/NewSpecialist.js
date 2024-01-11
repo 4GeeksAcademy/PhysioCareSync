@@ -3,7 +3,9 @@ import { Context } from '../store/appContext';
 import { useNavigate, Link } from 'react-router-dom';
 import zxcvbn from 'zxcvbn';
 import '../../styles/NewSpecialist.css'; 
+import Footer from "../component/footer";
 import SnackBarLogin from '../component/SnackBarLogin';
+
 
 const NewSpecialist = () => {
   const { store, actions } = useContext(Context);
@@ -142,9 +144,13 @@ const NewSpecialist = () => {
   }
 
   return (
+
+    <div className="page-container">
+
     <div>{signupSuccess ?
       <SnackBarLogin type={snackBarType.success} ref={snackRef} message="El usuario especialista se ha creado correctamente" /> :
       <SnackBarLogin type={snackBarType.fail} ref={snackRef} message="No se puede crear el usuario especialista correctamente" />}
+
     <div className='patientForm'>
       <div className='title'>
         <h1>Bienvenido especialista!</h1>
@@ -248,8 +254,11 @@ const NewSpecialist = () => {
         </Link>
       </div>
     </div>
+    <Footer />
+    </div>
     </div>
   );
 };
+
 
 export default NewSpecialist;

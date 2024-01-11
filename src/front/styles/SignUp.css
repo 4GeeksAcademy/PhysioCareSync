@@ -1,0 +1,39 @@
+/* SignUp.css */
+
+.signup-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-top: 50px;
+  }
+  
+  .signup-button {
+    margin: 10px;
+    padding: 15px 25px;
+    font-size: 18px;
+    text-align: center;
+    text-decoration: none;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: background-color 0.3s ease-in-out, color 0.3s ease-in-out;
+  }
+  
+  .signup-button-patient {
+    background-color: #61fbc0;
+    color: #ffffff;
+    border: 2px solid #61fbc0;
+  }
+  
+  .signup-button-specialist {
+    background-color: #007bff;
+    color: #ffffff;
+    border: 2px solid #007bff;
+  }
+  
+  .signup-button:hover {
+    background-color: #ffffff;
+    color: #000000;
+  }
+  
+
+  
