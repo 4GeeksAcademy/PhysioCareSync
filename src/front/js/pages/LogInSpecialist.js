@@ -124,6 +124,22 @@ const LogInSpecialist = () => {
                     }
                 }, 2000)
 
+                sessionStorage.setItem("payStatus", store.informationSpecialist.is_authorized)
+                const payStatus = sessionStorage.getItem("payStatus")
+                console.log("Este es el estatus del pago de suscripción", payStatus)
+                if (payStatus === "true") {
+                    snackRef.current.show()
+                    setTimeout(() => {
+                        navigate(`/profile/specialist/${specialistId}`)
+                    }, 3000)
+
+                } else if(payStatus === "false"){
+                    snackRef.current.show()
+                    setTimeout(() => {
+                        navigate(`/profile/paymentPage/${specialistId}`)
+                    })
+                }
+
             } else if (result.error) {
                 setHideAlert(true)
                 setShowEmailError(true)
@@ -132,6 +148,7 @@ const LogInSpecialist = () => {
                 snackRef.current.show()
                 setCheckLoginBotton(true)
                 return;
+
             }
         } catch (error) {
             console.error('Hubo un error con la consulta', error);

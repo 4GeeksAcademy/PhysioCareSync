@@ -525,6 +525,7 @@ def get_all_specialists():
                 "img": specialist.img,
                 "is_nurse": specialist.is_nurse,
                 "is_physiotherapist": specialist.is_physiotherapist,
+                "is_authorized": specialist.is_authorized
             }
 
             specialists_list.append(specialist_info)
@@ -621,6 +622,3 @@ def get_specialist():
 
 
 
-# # Generar rutas de paginación automáticamente
-# for page in range(1, total_pages + 1):
-#     app.add_url_rule(f"/api/patients/page{page}", f"page{page}", partial(get_patients, page=page))

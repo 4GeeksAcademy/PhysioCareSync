@@ -116,29 +116,28 @@ const ProfessionalView = () => {
         {store.loadingListSpecialist ?
           store.specialistsList.specialists.map((specialist) => (
             (
-              < div key={specialist.id} className="professional-view-card" onClick={() => handleNavigate(specialist.id)}>
-                <div className="profile-section">
-                  {specialist.img && (
-                    <div className="professional-view-image">
-                      <img src={specialist.img} alt="Perfil" className="profile-image" />
-                    </div>
-                  )}
-                  <div className="name-section">
-                    <p>
-                      <strong>{specialist.first_name} {specialist.last_name}</strong>
-                    </p>
-                    <div className="specialist-info">
-                      <span className="specialist-type">
-                        {specialist.is_physiotherapist ? 'Fisioterapeuta' : specialist.is_nurse ? 'Enfermero/a' : 'Otro'}
-                      </span>
-                      <p>
-                        <strong>País:</strong> {specialist.country_origin}
-                      </p>
-                      <p>
-                        <strong>Descripción:</strong> {truncateDescription(specialist.description, 100)}
-                      </p>
-                    </div>
-                  </div>
+              store.specialistsList.filter((specialist) => specialist.is_authorized).map((specialist) => (
+          <div key={specialist.id} className="professional-view-card" onClick={() => handleNavigate(specialist.id)}>
+            <div className="profile-section">
+              {specialist.img && (
+                <div className="professional-view-image">
+                  <img src={specialist.img} alt="Perfil" className="profile-image" />
+                </div>
+              )}
+              <div className="name-section">
+                <p>
+                  <strong>{specialist.first_name} {specialist.last_name}</strong>
+                </p>
+                <div className="specialist-info">
+                  <span className="specialist-type">
+                    {specialist.is_physiotherapist ? 'Fisioterapeuta' : specialist.is_nurse ? 'Enfermero/a' : 'Otro'}
+                  </span>
+                  <p>
+                    <strong>País:</strong> {specialist.country_origin}
+                  </p>
+                  <p>
+                    <strong>Descripción:</strong> {truncateDescription(specialist.description, 100)}
+                  </p>
                 </div>
               </div>
             )

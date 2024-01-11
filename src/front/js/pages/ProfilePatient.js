@@ -72,12 +72,7 @@ const ProfilePatient = () => {
               <h5>Información de la cuenta</h5>
               <p className='email-patient'>Correo electrónico: {store.informationPatient.email} </p>
               <p className='date-register-patient'> Fecha de registro en PhysioCareSync: {registerDate}</p>
-              <div className='container-buttons'>
-                {<Link to="/edit/patient">
-                  <button className="button-edit-profile" type='button'>Editar Perfil </button>
-                </Link>}
-                <button type='button' className='button-logout-profile' onClick={() => handleLogOut()}>Cerrar Sesión </button>
-              </div>
+              
             </div>
 
           </div>) :

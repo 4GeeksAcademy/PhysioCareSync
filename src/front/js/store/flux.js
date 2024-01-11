@@ -301,7 +301,7 @@ const getState = ({ getStore, getActions, setStore }) => {
 					}
 					const data = await response.json();
 					console.log("User created successfully", data)
-
+					return data;
 
 				} catch (error) {
 					console.error("There was an error tryinig to create the Patient", error)
@@ -309,6 +309,7 @@ const getState = ({ getStore, getActions, setStore }) => {
 			},
 
 			createNewSpecialist: async (newSpecialist) => {
+				const store = getStore();
 				try {
 					const response = await fetch(API_URL + "/api/signup_specialist", {
 						method: "POST",
@@ -328,8 +329,8 @@ const getState = ({ getStore, getActions, setStore }) => {
 					const updatedSpecialistsList = [...store.specialistsList, data];
 					setStore({ ...store, specialistsList: updatedSpecialistsList });
 
-					console.log("User created successfully", data);
 					return data;
+
 				} catch (error) {
 					console.error("There was an error trying to create the Specialist", error);
 				}
@@ -406,6 +407,7 @@ const getState = ({ getStore, getActions, setStore }) => {
 						const data = await response.json()
 						console.log("Changes of user upload succesfully")
 						setStore({ ...store, informationPatient: data.patient })
+						return data;
 					}
 
 					else {
@@ -468,6 +470,17 @@ const getState = ({ getStore, getActions, setStore }) => {
 					} else {
 						throw new Error("The request was failed! Check it out!");
 					}
+
+				  });
+			  
+				  if (response.ok) {
+					const jsonResponse = await response.json();
+					console.log("Changes upload successfully");
+					getActions().setSpecialistInformation(jsonResponse.specialist);
+					return jsonResponse
+				  } else {
+					throw new Error("The request was failed! Check it out!");
+				  }
 				} catch (error) {
 					console.log("There was an error, check it out", error);
 				}
