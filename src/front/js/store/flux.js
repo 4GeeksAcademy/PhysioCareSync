@@ -37,14 +37,12 @@ const getState = ({ getStore, getActions, setStore }) => {
 				const store = getStore();
 				return store.informationSpecialist;
 			},
-			// Agrega estas funciones si no están ya definidas
 			addSpecialist: (specialist) => {
 				const store = getStore();
 				setStore({ ...store, specialistsList: [...store.specialistsList, specialist] });
 			},
 			setSpecialistInformation: (information) => {
 				const store = getStore();
-				// Store specialist information in localStorage
 				localStorage.setItem('informationSpecialist', JSON.stringify(information));
 				setStore({ ...store, informationSpecialist: information });
 			},
@@ -65,7 +63,7 @@ const getState = ({ getStore, getActions, setStore }) => {
 						getActions().deleteTokenSpecialist();
 						store.isTokenAuthentication = true;
 						const emptyInformation = {};
-						localStorage.removeItem('informationSpecialist'); // Remove from localStorage
+						localStorage.removeItem('informationSpecialist');
 						setStore({ ...store, informationSpecialist: emptyInformation });
 						throw new Error("There was an error with the token confirmation in flux");
 					}
@@ -74,7 +72,6 @@ const getState = ({ getStore, getActions, setStore }) => {
 
 					const data = await response.json();
 
-					// Store specialist information in localStorage
 					localStorage.setItem('informationSpecialist', JSON.stringify(data.specialist));
 
 					console.log("Still have access; this is the information you need from the back end", data);

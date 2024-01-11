@@ -3,7 +3,6 @@ import { Context } from '../store/appContext';
 import { useNavigate, useParams, useLocation } from 'react-router-dom';
 import '../../styles/ProfessionalView.css';
 import MyPagination from '../component/MyPagination';
-import 'bootstrap/dist/css/bootstrap.min.css';
 import Loader from '../component/Loader';
 
 
@@ -14,11 +13,9 @@ const ProfessionalView = () => {
   const navigate = useNavigate();
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
-  const limit = 4
-  //cambiar el imit a 10!
+  const limit = 10
   const [page, setPage] = useState(1)
   const history = useNavigate();
-  const location = useLocation()
 
 
 
@@ -55,9 +52,7 @@ const ProfessionalView = () => {
 
   const handleChangePage = useCallback((page) => {
     setPage(page)
-    // history(`/professional-view?page=${page}&limit=${limit}`);
-    // history("/professionalView")
-    // window.location.reload();
+    navigate(`/professionalView?page=${page}&limit=${limit}`)
   }, [history, limit]);
 
   useEffect(() => {
@@ -112,9 +107,6 @@ const ProfessionalView = () => {
     return <p>Error: {error}</p>;
   }
 
-  console.log(store.loadingListSpecialist)
-
-
 
   return (
 
@@ -152,9 +144,7 @@ const ProfessionalView = () => {
             )
 
           )) :
-          // aqui cambiar el lenght a 10!!!
-          (Array.from({ length: 5 }).map((_, index) => < SkeletonLoading key={index} />))}
-
+          (Array.from({ length: 10 }).map((_, index) => < SkeletonLoading key={index} />))}
       </div>
 
       {

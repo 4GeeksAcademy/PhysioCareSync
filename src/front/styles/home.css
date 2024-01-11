@@ -108,15 +108,10 @@
 .container-image-dropdown {
   padding: 2.5rem;
   cursor: default;
-  /* margin-left: -5.5%; */
 }
 
-.icon-right{
-  /* margin-left: auto; */
-}
 
 .container-language-dropdown {
-  /* padding: 1rem; */
   cursor: default;
   font-weight:600;
   font-size: 18px;
@@ -136,12 +131,12 @@
 }
 
 .container-language{
-  padding:5px;
-  margin-left: 445%;
+  padding:5px !important;
+  margin-left: 445% !important;
   margin-top: 25%;
   display:flex;
-  align-items:center;
-  justify-content: center;
+  align-items:center !important;
+  justify-content: center !important;
   cursor: default;
   
 }

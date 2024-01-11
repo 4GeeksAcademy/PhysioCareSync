@@ -69,7 +69,6 @@ const Layout = () => {
                         <Route element={<Single />} path="/single/:theid" />
                         <Route element={<FormSpecialist />} path="edit/formSpecialist" />
                         <Route element={<ProfessionalView />} path="/professionalView" />
-                        {/* <Route element={<ProfessionalView />} path=" /professional-view?page=4&limit=5" /> */}
 
 
                         <Route element={<PaymentPage />} path="profile/paymentPage/:theid" />
