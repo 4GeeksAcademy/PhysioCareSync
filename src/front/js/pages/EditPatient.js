@@ -2,7 +2,7 @@ import React, { useContext, useEffect, useRef, useState } from 'react'
 import "../../styles/EditPatient.css"
 import { Context } from '../store/appContext'
 import { useNavigate } from 'react-router-dom'
-import SnackBarLogin from '../component/SnackBarLogin'
+
 
 const EditPatient = () => {
 
@@ -16,7 +16,6 @@ const EditPatient = () => {
     const formRef = useRef(null)
     const [savingChanges, setSavingChanges] = useState(false)
     const isMounted = useRef(true);
-    const [editSuccess, setEditSuccess] = useState(false);
 
     const handleEditInformation = (nameValue, value) => {
         setInformationPatient({ ...formInformationPatient, [nameValue]: value })
@@ -80,14 +79,7 @@ const EditPatient = () => {
             finalPatientForm[key] = value
         });
 
-        const result = await actions.editPatient(finalPatientForm, patientId)
-        if (result.patient) {
-            setEditSuccess(true)
-            snackRef.current.show()
-        } else if (result.error) {
-            console.log("Error al actualizar los datos de usuario")
-            snackRef.current.show()
-        }
+        await actions.editPatient(finalPatientForm, patientId)
         await actions.editImagePatient(formImg, patientId)
 
 
@@ -96,7 +88,7 @@ const EditPatient = () => {
             const profileId = sessionStorage.getItem("patientId")
             setTimeout(() => {
                 navigate(`/profile/patient/${profileId}`)
-            }, 2000)
+            }, 1000)
             setFinalImagePatient(null);
             formRef.current.reset()
         }
@@ -128,16 +120,9 @@ const EditPatient = () => {
 
     }, [])
 
-    const snackRef = useRef(null)
-    const snackBarType = {
-        fail: "fail",
-        success: "success"
-    }
 
     return (
-        <div>{editSuccess ?
-            <SnackBarLogin type={snackBarType.success} ref={snackRef} message="Tu perfil se ha actualizado correctamente" /> :
-          <SnackBarLogin type={snackBarType.fail} ref={snackRef} message="Hubo un error al actualizar tu perfil" />}
+        <div>
             <div className='container-edit-patient'>
                 <form
                     id="contact-form" className='form-edit-patient'
