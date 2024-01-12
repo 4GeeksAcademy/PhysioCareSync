@@ -1,5 +1,6 @@
 import React from 'react';
 import '../../styles/MembershipCard.css';
+import Product from '../component/Product.jsx'; // Importar el componente Product
 
 const MembershipCard = () => {
   return (
@@ -8,9 +9,11 @@ const MembershipCard = () => {
         <div className="copyComponent">
           <div className="headingText">
             <h1 className="heading">
-             Pago único, visibilidad ilimitada
+              Pago único, visibilidad ilimitada
             </h1>
-            <h3 className="subheading">La visibilidad, tu ventaja competitiva: Realiza el pago ahora</h3>
+            <h3 className="subheading">
+              La visibilidad, tu ventaja competitiva: Realiza el pago ahora
+            </h3>
           </div>
         </div>
       </div>
@@ -55,11 +58,9 @@ const MembershipCard = () => {
             </div>
           </div>
           <div className="newTag">
-          </div>
-          <button className="newButton1">
-            <div className="newTextContainer">
-              <div className="newCta1">Únete ahora</div>
             </div>
+            <button className="newButton1">
+            <div className="newTextContainer"><Product /></div>
           </button>
         </div>
       </div>
