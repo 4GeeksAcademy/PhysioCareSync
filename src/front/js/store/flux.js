@@ -142,30 +142,7 @@ const getState = ({ getStore, getActions, setStore }) => {
 		}
 	},
 	
-	loadCertificates: async () => {
-		try {
-		  const response = await fetch(`${API_URL}/get_certificates`);
-	
-		  if (!response.ok) {
-			const errorMessage = `Error loading certificates. Status: ${response.status}`;
-			console.error(errorMessage);
-			throw new Error(errorMessage);
-		  }
-	
-		  const data = await response.json();
-	
-		  if (!data || data.error) {
-			const errorMessage = data ? `Error loading certificates: ${data.error}` : 'Empty response for certificates';
-			console.error(errorMessage);
-			throw new Error(errorMessage);
-		  }
-	
-		  return data; // Devuelve directamente la lista de certificados
-		} catch (error) {
-		  console.error(`Error loading certificates: ${error.message}`);
-		  throw new Error(`Error loading certificates: ${error.message}`);
-		}
-	  },
+	  
 
 
 			loginPatient: async (patient) => {
@@ -317,7 +294,7 @@ const getState = ({ getStore, getActions, setStore }) => {
 					}
 					const data = await response.json();
 					console.log("User created successfully", data)
-					return data;
+
 
 				} catch (error) {
 					console.error("There was an error tryinig to create the Patient", error)
@@ -325,7 +302,6 @@ const getState = ({ getStore, getActions, setStore }) => {
 			},
 
 			createNewSpecialist: async (newSpecialist) => {
-				const store = getStore();
 				try {
 				  const response = await fetch(API_URL + "/api/signup_specialist", {
 					method: "POST",
@@ -340,6 +316,7 @@ const getState = ({ getStore, getActions, setStore }) => {
 				  }
 			  
 				  const data = await response.json();
+			  
 				  // Actualiza la lista de especialistas en el estado global
 				  const updatedSpecialistsList = [...store.specialistsList, data];
 				  setStore({ ...store, specialistsList: updatedSpecialistsList });
@@ -422,7 +399,6 @@ const getState = ({ getStore, getActions, setStore }) => {
 						const data = await response.json()
 						console.log("Changes of user upload succesfully")
 						setStore({ ...store, informationPatient: data.patient })
-						return data;
 					}
 
 					else {
@@ -482,7 +458,6 @@ const getState = ({ getStore, getActions, setStore }) => {
 					const jsonResponse = await response.json();
 					console.log("Changes upload successfully");
 					getActions().setSpecialistInformation(jsonResponse.specialist);
-					return jsonResponse
 				  } else {
 					throw new Error("The request was failed! Check it out!");
 				  }
