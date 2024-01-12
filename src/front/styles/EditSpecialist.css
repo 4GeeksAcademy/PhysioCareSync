@@ -186,3 +186,23 @@
 
 
 }
+
+.conditionalMsg{
+    display: flex;
+    flex-direction: column;
+    margin: auto;
+    width: 60%;
+    background-color: rgba(0, 0, 0, 0.801);
+    margin-top: 10%;
+    border-radius: 25px;
+    padding: 20px;
+    color: white;
+    justify-content: center;
+    align-items: center;
+}
+
+.headMsg{
+    color: #61fbc0;
+    border-bottom: 2px, solid, #61fbc0;
+    text-decoration: underline ;
+}

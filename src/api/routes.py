@@ -253,9 +253,9 @@ def create_preference():
                 }
             ],
             "back_urls": {
-                "success": "https://redesigned-giggle-7v9r5r744p79hxg7j-3000.app.github.dev/success",
-                "failure": "https://redesigned-giggle-7v9r5r744p79hxg7j-3000.app.github.dev/failure",
-                "pending": "https://redesigned-giggle-7v9r5r744p79hxg7j-3000.app.github.dev/pending",
+                "success": "https://supreme-telegram-v6vgrgp77p59hp967-3000.app.github.dev/success",
+                "failure": "https://supreme-telegram-v6vgrgp77p59hp967-3001.app.github.dev/failure",
+                "pending": "https://supreme-telegram-v6vgrgp77p59hp967-3001.app.github.dev/pending",
             },
             "auto_return": "approved",
         }
@@ -525,6 +525,7 @@ def get_all_specialists():
                 "img": specialist.img,
                 "is_nurse": specialist.is_nurse,
                 "is_physiotherapist": specialist.is_physiotherapist,
+                "is_authorized": specialist.is_authorized
             }
 
             specialists_list.append(specialist_info)
