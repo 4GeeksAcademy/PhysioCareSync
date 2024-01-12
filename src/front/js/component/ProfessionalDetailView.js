@@ -3,7 +3,6 @@ import { useParams } from 'react-router-dom';
 import { Context } from '../store/appContext';
 import '../../styles/NewProfessionalDetailView.css';
 import OpenChat from './OpenChat.jsx';
-import Loader from './Loader.js';
 import Modal from 'react-modal';
 
 const NewProfessionalDetailView = () => {
@@ -30,29 +29,18 @@ const NewProfessionalDetailView = () => {
     fetchSpecialist();
   }, [actions, id]);
 
+  if (loading) {
+    return <p>Cargando...</p>;
+  }
 
   if (error) {
     return <p>Error: {error}</p>;
   }
 
-  return (
-    loading ? <Loader />
-      : (
-        <div className="new-professional-detail-container">
-          <h1 className="new-professional-detail-title"></h1>
-          <div className="new-professional-detail-content">
-            <div className="new-profile-section">
-              {specialist.img && (
-                <div className="new-professional-detail-image">
-                  <img src={specialist.img} alt="Perfil" className="new-profile-image" />
-                </div>
-              )}
-
   const openModal = (certificate) => {
     setSelectedCertificate(certificate);
     setModalIsOpen(true);
   };
-
 
   const closeModal = () => {
     setSelectedCertificate(null);
@@ -68,8 +56,6 @@ const NewProfessionalDetailView = () => {
           </div>
         )}
 
-
-              <OpenChat phone={specialist.phone_number} />
         <div className="new-name-section">
           <h1>{specialist.first_name} {specialist.last_name}</h1>
           <p className="new-country-info">
@@ -99,38 +85,6 @@ const NewProfessionalDetailView = () => {
           </p>
         </div>
 
-              <div className="new-name-section">
-                <p>
-                  <strong>{specialist.first_name} {specialist.last_name}</strong>
-                </p>
-                <p>
-                  <strong>País:</strong> {specialist.country_origin}
-                </p>
-                <p>
-                  <strong>Descripción:</strong> {specialist.description}
-                </p>
-                <p>
-                  <strong>Email:</strong> {specialist.email}
-                </p>
-                <p>
-                  <strong>Teléfono:</strong> {specialist.phone_number}
-                </p>
-                <p>
-                  <strong>Idiomas:</strong> {specialist.language}
-                </p>
-                <p>
-                  <strong>Especialización:</strong> {specialist.is_physiotherapist ? 'Fisioterapeuta' : specialist.is_nurse ? 'Enfermero/a' : 'Otro'}
-                </p>
-              </div>
-            </div>
-            {specialist.certification_img && (
-              <div className="new-certification-section">
-                <p>
-                  <strong>Certificado:</strong>
-                </p>
-                <img src={specialist.certification_img} alt="Certificado" className="new-certification-image" />
-              </div>
-            )}
         {specialist.certificates && specialist.certificates.length > 0 && (
           <div className="new-certification-section">
             <p>
@@ -172,8 +126,10 @@ const NewProfessionalDetailView = () => {
             </p>
             <img src={specialist.certification_img} alt="Certificado" className="new-certification-image" />
           </div>
-        </div >
-      ));
+        )}
+      </div>
+    </div>
+  );
 };
 
 export default NewProfessionalDetailView;

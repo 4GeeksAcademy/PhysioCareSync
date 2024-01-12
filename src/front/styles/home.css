@@ -52,12 +52,12 @@
 }
 
 .icon-button-image:hover{
-  background-color:var(--color-lightseagreen);
+    background-color:var(--color-lightseagreen);
   filter:brightness(1.05)
 }
 
 .dropdown{
-  position: absolute !important;
+  position: absolute;
   top: 50px;
   width: 500px;
   transform: translateX(-45%);
@@ -108,10 +108,15 @@
 .container-image-dropdown {
   padding: 2.5rem;
   cursor: default;
+  /* margin-left: -5.5%; */
 }
 
+.icon-right{
+  /* margin-left: auto; */
+}
 
 .container-language-dropdown {
+  /* padding: 1rem; */
   cursor: default;
   font-weight:600;
   font-size: 18px;
@@ -131,18 +136,18 @@
 }
 
 .container-language{
-  padding:5px !important;
-  margin-left: 445% !important;
+  padding:5px;
+  margin-left: 480%;
   margin-top: 25%;
   display:flex;
-  align-items:center !important;
-  justify-content: center !important;
+  align-items:center;
+  justify-content: center;
   cursor: default;
   
 }
 
 .icon-right{
-  margin-right: -7%;
+  margin-right: -10%;
 }
 
 .container-my-profile{

@@ -36,10 +36,10 @@ const ProfileSpecialist = () => {
         checkAccess();
 
     }, []);
-
+    
+   
     const token = sessionStorage.getItem('tokenSpecialist');
     const specialistId = sessionStorage.getItem("specialistId")
-
     const { theid } = params
 
  const handlerReturn = () => {

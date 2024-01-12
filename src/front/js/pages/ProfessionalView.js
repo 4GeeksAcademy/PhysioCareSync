@@ -1,66 +1,21 @@
-import React, { useCallback, useContext, useEffect, useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import { Context } from '../store/appContext';
-import { useNavigate, useParams, useLocation } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import '../../styles/ProfessionalView.css';
-import MyPagination from '../component/MyPagination';
-import Loader from '../component/Loader';
-
-
-
 
 const ProfessionalView = () => {
   const { store, actions } = useContext(Context);
   const navigate = useNavigate();
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
-  const limit = 10
-  const [page, setPage] = useState(1)
-  const history = useNavigate();
-
-
-
-  const SkeletonLoading = () => {
-    return (
-      <div className='professional-view-card skeleton'>
-        <div className='profile-section skeleton'>
-          <div className='card-img-top-skeleton'></div>
-          <div className='name-section '>
-            <p className='skeleton-section'>
-              <strong></strong>
-            </p>
-            <div className='specialist-info '>
-              <p className="specialist-type skeleton-specialist" >
-              </p>
-              <div className='container-country'>
-                <strong className='country-name'> País:</strong>
-                <p className='skeleton-country'></p>
-              </div>
-
-              <div className='container-text'>
-                <strong>Descripción:</strong>
-                <p className='skeleton-text'></p>
-              </div>
-            </div>
-          </div>
-        </div>
-
-      </div >
-    )
-
-  }
-
-
-  const handleChangePage = useCallback((page) => {
-    setPage(page)
-    navigate(`/professionalView?page=${page}&limit=${limit}`)
-  }, [history, limit]);
 
   useEffect(() => {
     let isMounted = true;
+
     const fetchData = async () => {
       try {
-        store.loadingListSpecialist = false
-        await actions.loadAllSpecialists(page, limit);
+        await actions.loadAllSpecialists();
+
         if (isMounted) {
           setLoading(false);
         }
@@ -76,10 +31,10 @@ const ProfessionalView = () => {
     return () => {
       isMounted = false;
     };
-  }, [page, handleChangePage]);
+  }, [actions]);
 
   const truncateDescription = (description, maxLength) => {
-    if (!description) return '';
+    if (!description) return ''; 
     if (description.length <= maxLength) {
       return description;
     } else {
@@ -92,31 +47,18 @@ const ProfessionalView = () => {
   };
 
   if (loading) {
-    return (
-      <div className="professional-view-container">
-        <h1 className="professional-view-title">Especialistas</h1>
-        <div className="professional-view-list">
-          <Loader />
-        </div>
-      </div>
-    )
-  };
-
+    return <p>Cargando...</p>;
+  }
 
   if (error) {
     return <p>Error: {error}</p>;
   }
 
-
   return (
-
     <div className="professional-view-container">
       <h1 className="professional-view-title">Especialistas</h1>
       <div className="professional-view-list">
-        {store.loadingListSpecialist ?
-          store.specialistsList.specialists.map((specialist) => (
-            (
-              store.specialistsList.filter((specialist) => specialist.is_authorized).map((specialist) => (
+        {store.specialistsList.filter((specialist) => specialist.is_authorized).map((specialist) => (
           <div key={specialist.id} className="professional-view-card" onClick={() => handleNavigate(specialist.id)}>
             <div className="profile-section">
               {specialist.img && (
@@ -140,30 +82,11 @@ const ProfessionalView = () => {
                   </p>
                 </div>
               </div>
-            )
-
-          )) :
-          (Array.from({ length: 10 }).map((_, index) => < SkeletonLoading key={index} />))}
+            </div>
+          </div>
+        ))}
       </div>
-
-      {
-        store.specialistsList.total_pages > 1 && (
-          store.loadingListSpecialist ? < MyPagination
-            total={store.specialistsList.total_pages}
-            current={page}
-            onChangePage={handleChangePage}
-            valueDisabled={store.loadingListSpecialist}
-          /> : < MyPagination
-            total={store.specialistsList.total_pages}
-            current={page}
-            onChangePage={handleChangePage}
-            valueDisabled={store.loadingListSpecialist}
-          />
-        )
-      }
-
-    </div >
-  )
-
+    </div>
+  );
 };
 export default ProfessionalView;

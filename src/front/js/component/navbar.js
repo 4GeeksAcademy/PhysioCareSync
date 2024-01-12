@@ -3,38 +3,31 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faHeartbeat } from '@fortawesome/free-solid-svg-icons';
 import LogInBtn from "./LogInBtn.jsx";
 import NewUserBtn from "./NewUserBtn.jsx";
-import { Link, useNavigate, useParams } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { Context } from "../store/appContext.js";
 import ProfileDropdown from "./ProfileDropdown.jsx";
 import DropdownMenu from "./DropdownMenu.jsx";
-
 
 
 export const Navbar = () => {
 
     const { store, actions } = useContext(Context)
     const navigate = useNavigate()
-    const profileImageSpecialistEmpty = "https://res-console.cloudinary.com/dxgvkwunx/thumbnails/v1/image/upload/v1703884900/UGh5c2lvQ2FyZVN5bmMvaW1hZ2VuX3Npbl9mb25kb19lbmZlcm1lcm9faG95emVp/preview"
-    const profileImagePatientEmpty = "https://res-console.cloudinary.com/dxgvkwunx/thumbnails/v1/image/upload/v1703777652/UGh5c2lvQ2FyZVN5bmMvaW1hZ2VuX3Npbl90b2RvX3BlcmZpbF9hancyb2g=/preview"
-    const params = useParams()
-
-    // const limit = 5
-    // // const { page } = params
-    // // page=1
 
     const handleInicioClick = () => {
         console.log("Botón de Inicio clicado");
 
     };
+
     const handleServiciosClick = () => {
         console.log("Botón de Servicios clicado");
 
     };
+
     const handleProfesionalesClick = () => {
         console.log("Botón de Profesionales clicado");
 
-        // navigate('/professional-view?page=$:page&limit=$:limit')
-        navigate("/professionalView")
+        navigate('/Professional-View')
     };
 
     const handleLoginClick = () => {
@@ -85,11 +78,11 @@ export const Navbar = () => {
                     !tokenAuthentication ?
                         <NewUserBtn onClick={handleRegisterClick} ></NewUserBtn> :
                         (tokenPatient
-                            ? <ProfileDropdown imageProfile={store.informationPatient.img ? store.informationPatient.img : profileImagePatientEmpty}>
+                            ? <ProfileDropdown imageProfile={store.informationPatient.img}>
                                 <DropdownMenu />
                             </ProfileDropdown>
                             :
-                            <ProfileDropdown imageProfile={store.informationSpecialist.img ? store.informationSpecialist.img : profileImageSpecialistEmpty}>
+                            <ProfileDropdown imageProfile={store.informationSpecialist.img}>
                                 <DropdownMenu />
                             </ProfileDropdown>)
                 }
