@@ -3,6 +3,8 @@ import React, { useContext, useRef, useState } from 'react';
 import { Context } from '../store/appContext';
 import { Link, useNavigate } from 'react-router-dom';
 import SnackBarLogin from '../component/SnackBarLogin';
+import Footer from '../component/footer';
+
 
 const LogInSpecialist = () => {
     const navigate = useNavigate();
@@ -195,6 +197,10 @@ const LogInSpecialist = () => {
 
                 </div>
             </div>
+            <br></br>
+            <br></br>
+            <br></br>
+            <Footer/>
         </div>
     );
 };

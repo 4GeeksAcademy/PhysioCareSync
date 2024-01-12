@@ -4,6 +4,7 @@ import { Link, useNavigate } from 'react-router-dom';
 import zxcvbn from 'zxcvbn'; // Importa la biblioteca de fortaleza de contraseña
 import '../../styles/NewPatient.css';
 import SnackBarLogin from '../component/SnackBarLogin';
+import Footer from '../component/footer';
 
 const NewPatient = () => {
   const navigate = useNavigate();
@@ -227,6 +228,10 @@ const NewPatient = () => {
         </Link>
       </div>
     </div>
+    <br></br>
+    <br></br>
+    <br></br>
+    <Footer/>
     </div>
   );
 };

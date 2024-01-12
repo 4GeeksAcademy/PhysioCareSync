@@ -253,9 +253,9 @@ def create_preference():
                 }
             ],
             "back_urls": {
-                "success": "https://supreme-telegram-v6vgrgp77p59hp967-3000.app.github.dev/success",
-                "failure": "https://supreme-telegram-v6vgrgp77p59hp967-3001.app.github.dev/failure",
-                "pending": "https://supreme-telegram-v6vgrgp77p59hp967-3001.app.github.dev/pending",
+                "success": "https://obscure-space-fishstick-r4gr6r7vvwp9hp6r7-3000.app.github.dev/success",
+                "failure": "https://obscure-space-fishstick-r4gr6r7vvwp9hp6r7-3000.app.github.dev/failure",
+                "pending": "https://obscure-space-fishstick-r4gr6r7vvwp9hp6r7-3000.app.github.dev/pending",
             },
             "auto_return": "approved",
         }

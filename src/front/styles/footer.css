@@ -1,0 +1,63 @@
+.modern-footer {
+    background-color: #222;
+    color: #fff;
+    padding: 40px 20px; /* Aumenté el padding para más espacio */
+    text-align: center;
+  }
+  
+  .footer-content {
+    display: flex;
+    justify-content: space-around;
+    max-width: 1200px;
+    margin: 0 auto;
+  }
+  
+  .footer-section {
+    flex: 1;
+    margin-right: 20px;
+  }
+  
+  .footer-section h3 {
+    font-size: 1.5rem;
+    margin-bottom: 10px;
+  }
+  
+  .footer-section ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+  }
+  
+  .footer-section ul li {
+    margin-bottom: 8px;
+  }
+  
+  .social-icons {
+    display: flex;
+    gap: 10px; /* Separación entre iconos */
+    justify-content: center;
+  }
+  
+  .social-icon {
+    color: #fff;
+    font-size: 1.5rem;
+    text-decoration: none;
+    transition: color 0.3s ease;
+  }
+  
+  .social-icon:hover {
+    color: #55acee; /* Color de Twitter */
+  }
+  
+  .footer-line {
+    height: 1px;
+    background-color: #444;
+    margin: 20px 0;
+  }
+  
+  .footer-copyright {
+    font-size: 0.9rem;
+  }
+  .heartbeat-icon { 
+    margin-right: 5px; /* Espaciado a la derecha del icono */
+  }

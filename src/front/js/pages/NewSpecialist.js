@@ -4,6 +4,7 @@ import { useNavigate, Link } from 'react-router-dom';
 import zxcvbn from 'zxcvbn';
 import '../../styles/NewSpecialist.css'; 
 import SnackBarLogin from '../component/SnackBarLogin';
+import Footer from '../component/footer';
 
 const NewSpecialist = () => {
   const { store, actions } = useContext(Context);
@@ -119,7 +120,9 @@ const NewSpecialist = () => {
       };
 
       const result =  await actions.createNewSpecialist(newInputSpecialist);
+      console.log("Este es el result:", result)
       if(result.specialist_id){
+
         setSignupSuccess(true)
         snackRef.current.show()
         setTimeout(() => {
@@ -248,6 +251,11 @@ const NewSpecialist = () => {
         </Link>
       </div>
     </div>
+    <br></br>
+    <br></br>
+    <br></br>
+
+    <Footer/>
     </div>
   );
 };
