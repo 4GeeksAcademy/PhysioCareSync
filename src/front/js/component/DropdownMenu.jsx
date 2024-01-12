@@ -19,10 +19,6 @@ const DropdownMenu = () => {
     //     setPatient(false)
     // }
 
-    const profileImageSpecialistEmpty = "https://res-console.cloudinary.com/dxgvkwunx/thumbnails/v1/image/upload/v1703884900/UGh5c2lvQ2FyZVN5bmMvaW1hZ2VuX3Npbl9mb25kb19lbmZlcm1lcm9faG95emVp/preview"
-    const profileImagePatientEmpty = "https://res-console.cloudinary.com/dxgvkwunx/thumbnails/v1/image/upload/v1703777652/UGh5c2lvQ2FyZVN5bmMvaW1hZ2VuX3Npbl90b2RvX3BlcmZpbF9hancyb2g=/preview"
-
-
 
     const DropdownItem = (props) => {
         const containerClass = props.className || "";
@@ -58,7 +54,7 @@ const DropdownMenu = () => {
                 <DropdownItem className="container-language-dropdown" leftIcon={"Idioma"} rightIcon={<p className='container-language'><img className='dropdown-flag' src='https://norfipc.com/img/banderas/bandera-mexico.svg' />&nbsp;  <p className='language-abb'>ESP</p></p>}></DropdownItem>
                 <hr />
                 <DropdownItem className="container-image-dropdown"
-                    leftIcon={<img className='icon-dropdown-image' src={store.informationPatient.img ? store.informationPatient.img : profileImagePatientEmpty} />}
+                    leftIcon={<img className='icon-dropdown-image' src={store.informationPatient.img} />}
                 > <p className='name-specialist-dropdown'> {store.informationPatient.first_name} {store.informationPatient.last_name} </p></DropdownItem>
                 <hr />
                 <DropdownItem className="container-my-profile"
@@ -78,7 +74,7 @@ const DropdownMenu = () => {
                 <DropdownItem className="container-language-dropdown" leftIcon={"Idioma"} rightIcon={<p className='container-language'><img className='dropdown-flag' src='https://norfipc.com/img/banderas/bandera-mexico.svg' />&nbsp;  <p className='language-abb'>ESP</p></p>}></DropdownItem>
                 <hr />
                 <DropdownItem className="container-image-dropdown"
-                    leftIcon={<img className='icon-dropdown-image' src={store.informationSpecialist.img ? store.informationSpecialist.img : profileImageSpecialistEmpty} />}
+                    leftIcon={<img className='icon-dropdown-image' src={store.informationSpecialist.img} />}
                 > <p className='name-specialist-dropdown'> {store.informationSpecialist.first_name} {store.informationSpecialist.last_name} </p></DropdownItem>
                 <hr />
                 <DropdownItem className="container-my-profile"
