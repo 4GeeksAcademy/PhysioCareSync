@@ -27,8 +27,7 @@ export const Navbar = () => {
     const handleProfesionalesClick = () => {
         console.log("Botón de Profesionales clicado");
 
-        navigate('/Professional-View')
-    };
+        navigate("/professionalView")    };
 
     const handleLoginClick = () => {
         console.log("Botón de Iniciar Sesión clicado");

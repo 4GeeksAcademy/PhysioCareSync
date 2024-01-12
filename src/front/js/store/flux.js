@@ -87,35 +87,38 @@ const getState = ({ getStore, getActions, setStore }) => {
 
 
 
-	  loadAllSpecialists: async () => {
+	  loadAllSpecialists: async (page, limit) => {
 		const store = getStore();
-	  
 		if (store.loadingAllSpecialists) {
-		  return;
+			return;
 		}
-	  
+
+		const urlSpecialistPage = `/api/specialist?page=${page}&limit=${limit}`
 		try {
-		  setStore({ ...store, loadingAllSpecialists: true });
-	  
-		  const response = await fetch(API_URL + "/api/get_all_specialists");
-		  if (!response.ok) {
-			throw new Error(`Error loading all specialists. Status: ${response.status}`);
-		  }
-	  
-		  const data = await response.json();
-	  
-	
-		  setStore({ ...store, specialistsList: data.specialists });
-		  console.log("All specialists loaded successfully", data);
-	  
+			setStore({ ...store, loadingAllSpecialists: true });
+
+			const response = await fetch(API_URL + urlSpecialistPage, {
+				method: "GET",
+				headers: {
+					'Content-type': 'application/json',
+				},
+
+
+			});
+			if (!response.ok) {
+				throw new Error(`Error loading all specialists. Status: ${response.status}`);
+			}
+			const data = await response.json();
+			setStore({ ...store, specialistsList: data });
+			store.loadingListSpecialist = true
 		} catch (error) {
-		  console.error("Error loading all specialists:", error);
-		  
-	  
+			console.error("Error loading all specialists:", error);
+
+
 		} finally {
-		  setStore({ ...store, loadingAllSpecialists: false });
+			setStore({ ...store, loadingAllSpecialists: false });
 		}
-	  },
+	},
 
 	  loadSpecialistById: async (specialistId) => {
 		try {
