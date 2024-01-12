@@ -42,15 +42,3 @@
     background: #00cc66;
   }
   
-  .page-container {
-    min-height: 100vh;
-    display: flex;
-    flex-direction: column;
-  }
-  
-  .patientForm {
-    /* Estilos específicos de tu formulario */
-  }
-  
-  /* Otros estilos si es necesario */
-  

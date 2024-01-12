@@ -29,10 +29,7 @@ const OpenChat = ({phone}) => {
 
   return (
     <div>
-        <button onClick={handlerOpenWhatsApp} type="button" className="btn btn-dark" style={{ backgroundColor: '#07beac'}}>
-         <i className="fa-brands fa-whatsapp"></i> Iniciar conversación en WhatsApp
-        </button>
-
+         <button onClick={handlerOpenWhatsApp} type="button" className="btn btn-dark"><i className="fa-brands fa-whatsapp"></i> Iniciar conversación en WA</button>
 
     </div>
   )
