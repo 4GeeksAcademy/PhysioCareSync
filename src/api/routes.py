@@ -254,9 +254,9 @@ def create_preference():
                 }
             ],
             "back_urls": {
-                "success": "https://obscure-space-fishstick-r4gr6r7vvwp9hp6r7-3000.app.github.dev/success",
-                "failure": "https://obscure-space-fishstick-r4gr6r7vvwp9hp6r7-3000.app.github.dev/failure",
-                "pending": "https://obscure-space-fishstick-r4gr6r7vvwp9hp6r7-3000.app.github.dev/pending",
+                "success": "https://solid-spoon-wr7959vjj4rv2vgqr-3000.app.github.dev/success",
+                "failure": "https://solid-spoon-wr7959vjj4rv2vgqr-3001.app.github.dev/failure",
+                "pending": "https://solid-spoon-wr7959vjj4rv2vgqr-3001.app.github.dev/pending",
             },
             "auto_return": "approved",
         }
