@@ -142,30 +142,7 @@ const getState = ({ getStore, getActions, setStore }) => {
 		}
 	},
 	
-	loadCertificates: async () => {
-		try {
-		  const response = await fetch(`${API_URL}/get_certificates`);
-	
-		  if (!response.ok) {
-			const errorMessage = `Error loading certificates. Status: ${response.status}`;
-			console.error(errorMessage);
-			throw new Error(errorMessage);
-		  }
-	
-		  const data = await response.json();
-	
-		  if (!data || data.error) {
-			const errorMessage = data ? `Error loading certificates: ${data.error}` : 'Empty response for certificates';
-			console.error(errorMessage);
-			throw new Error(errorMessage);
-		  }
-	
-		  return data; // Devuelve directamente la lista de certificados
-		} catch (error) {
-		  console.error(`Error loading certificates: ${error.message}`);
-		  throw new Error(`Error loading certificates: ${error.message}`);
-		}
-	  },
+	  
 
 
 			loginPatient: async (patient) => {

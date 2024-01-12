@@ -3,7 +3,6 @@ import React, { useContext, useRef, useState } from 'react';
 import { Context } from '../store/appContext';
 import { Link, useNavigate } from 'react-router-dom';
 import SnackBarLogin from '../component/SnackBarLogin';
-import Footer from "../component/footer";
 
 const LogInPatient = () => {
     const navigate = useNavigate();
@@ -137,7 +136,6 @@ const LogInPatient = () => {
     };
 
     return (
-        <div className="page-container">
         <div>
 
             {loginSuccess ?
@@ -195,8 +193,6 @@ const LogInPatient = () => {
                 </div>
             </div>
         </div>
-        </div>
-        
     );
 };
 
