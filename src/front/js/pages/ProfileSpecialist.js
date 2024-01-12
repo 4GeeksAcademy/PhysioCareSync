@@ -40,6 +40,7 @@ const ProfileSpecialist = () => {
    
     const token = sessionStorage.getItem('tokenSpecialist');
     const specialistId = sessionStorage.getItem("specialistId")
+    console.log("Funciona pipto", specialistId)
     const { theid } = params
 
  const handlerReturn = () => {
