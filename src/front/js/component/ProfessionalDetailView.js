@@ -20,6 +20,7 @@ const NewProfessionalDetailView = () => {
         const specialistData = await actions.loadSpecialistById(id);
         setSpecialist(specialistData);
         setLoading(false);
+        console.log(loading)
       } catch (error) {
         console.error('Error fetching specialist:', error);
         setError(error.message);
@@ -97,7 +98,7 @@ const NewProfessionalDetailView = () => {
                   src={certificate.certificates_url}
                   alt={`Certificado ${certificate.id}`}
                   className="new-certification-image"
-                  onClick={() => openModal(certificate)} 
+                  onClick={() => openModal(certificate)}
                 />
               ))}
             </div>
