@@ -2,7 +2,7 @@ import React, { useContext, useEffect, useRef, useState } from 'react'
 import { Context } from '../store/appContext'
 import "../../styles/EditSpecialist.css"
 import { useNavigate } from 'react-router-dom'
-
+import 'react-phone-number-input/style.css';
 
 const EditSpecialist = () => {
     const { store, actions } = useContext(Context)
@@ -175,7 +175,6 @@ const EditSpecialist = () => {
                         onChange={(e) => (handleEditInformation(e.target.name, e.target.value))}
                     ></input>
 
-                    {/* specialist info application*/}
 
                     <label>Descripción del especialista</label>
                     <input

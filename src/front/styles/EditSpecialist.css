@@ -231,3 +231,47 @@
     border-bottom: 2px, solid, #61fbc0;
     text-decoration: underline ;
 }
+
+
+.container-edit-specialist .react-phone-number-input {
+    width: 100%;
+    max-width: 300px;
+    margin-bottom: 15px; /* Agregado espacio inferior para separarlo de otros formularios */
+  }
+  
+  /* Estilos para el input dentro de PhoneInput */
+  .container-edit-specialist .react-phone-number-input__input {
+    width: 100%;
+    padding: 15px;
+    font-size: 16px;
+    border: 1px solid #ddd; /* Color del borde más claro */
+    border-radius: 8px; /* Bordes más redondeados */
+    box-sizing: border-box;
+    margin-bottom: 10px; /* Agregado espacio inferior para separarlo de otros elementos */
+  }
+  
+  /* Estilos para el dropdown de códigos de país */
+  .container-edit-specialist .react-phone-number-input__country-select {
+    width: 100%;
+    max-width: 100%;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    box-sizing: border-box;
+  }
+  
+  /* Estilos para los items en el dropdown */
+  .container-edit-specialist .react-phone-number-input__country-select-item {
+    padding: 10px;
+    font-size: 14px;
+  }
+  
+  /* Estilos para el botón que abre el dropdown */
+  .container-edit-specialist .react-phone-number-input__icon {
+    color: #555; /* Color del ícono más oscuro */
+  }
+  
+./* Estilos para el input de Idioma */
+.container-edit-specialist #language {
+    margin-top: 40px; /* Ajusta el valor según la cantidad de espacio que desees */
+  }
+  

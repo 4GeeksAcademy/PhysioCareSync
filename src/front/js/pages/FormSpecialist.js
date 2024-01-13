@@ -4,6 +4,8 @@ import { Context } from '../store/appContext';
 import { useNavigate } from 'react-router-dom';
 import "../../styles/EditSpecialist.css"
 import SnackBarLogin from '../component/SnackBarLogin';
+import PhoneInput from 'react-phone-number-input';
+import 'react-phone-number-input/style.css';
 
 const FormSpecialist = () => {
     const { store, actions } = useContext(Context);
@@ -58,9 +60,11 @@ const FormSpecialist = () => {
     };
 
     const handleEditInformation = (nameValue, value) => {
-        setFormInformationSpecialist({ ...formInformationSpecialist, [nameValue]: value });
-        console.log(formInformationSpecialist);
-    };
+        setFormInformationSpecialist({
+          ...formInformationSpecialist,
+          [nameValue]: value,
+        });
+      };
 
     const handleSubmitInformation = async (form, specialistId, imageSpecialist) => {
         setSavingChanges(true)
@@ -229,13 +233,15 @@ const FormSpecialist = () => {
                 accept="image/png, image/jpg, image/jpeg"
                 onChange={(e) => (handleUploadImageProfile(e))}
             ></input>
+
             <label className='label-edit-specialist'><i className="fa-solid fa-phone-flip" style={{color: '#8afcf6'}}></i> Numero de celular:</label>
-            <input
-                className="input-edit-specialist" type='text' id="phone_number" name="phone_number" pattern='\d*'
-                defaultValue={store.informationSpecialist.phone_number ? store.informationSpecialist.phone_number : ""}
-                onChange={(e) => (handleEditInformation(e.target.name, e.target.value))}
-            ></input>
+            <PhoneInput  className="input-edit-specialist"
+           placeholder="Ingresa tu número de celular"
+           value={formInformationSpecialist.phone_number}
+           onChange={(value) => handleEditInformation('phone_number', value)}
+           />
             <label className='label-edit-specialist'><i className="fa-solid fa-language"  style={{color: '#8afcf6'}}></i> Idioma que usted sabe hablar:</label>
+
             <input
                 className="input-edit-specialist" type='text' id="language" name="language"
                 placeholder="Ingrese los idiomas que sabe hablar"

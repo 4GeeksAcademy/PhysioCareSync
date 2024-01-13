@@ -1,21 +1,21 @@
-.suscriptionBox{
-    display: flex;
-    flex-direction: column;
-    width: 20rem;
-    border: 2px rgb(119, 255, 255) solid;
-    border-radius: 1rem;
-    padding: 1rem;
-    margin: auto;
-    margin-top: 1rem;
-    margin-bottom: 1rem;
-    background-color: black;
-    align-items: center;
-}
-
-.price{
+.price {
     border-bottom: 1px solid gray;
-}
-
-.payButton{
+  }
+  
+  .payButton {
     width: 100%;
-}
+    padding: 0.5rem 1rem;
+    background-color: transparent;
+    color: #333; /* Dark text color */
+    border: 1px solid #333; /* Dark border color */
+    border-radius: 0.3rem;
+    cursor: pointer;
+    transition: background-color 0.3s, color 0.3s;
+    font-size: 1 em;
+  }
+  
+  .payButton:hover {
+    background-color: #333; /* Dark hover background color */
+    color: #fff; /* Lighter hover text color */
+  }
+  
