@@ -1,0 +1,55 @@
+.container-profile-patient {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    padding: 30px;
+    background-color: #181618; /* Fondo negro */
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    transition: background-color 0.3s ease;
+  }
+  
+  .container-img-profile-patient {
+    text-align: center;
+    margin-bottom: 20px;
+    transition: transform 0.3s ease;
+  }
+  
+  .container-img-profile-patient:hover {
+    transform: scale(1.1); /* Efecto de escala al pasar el ratón */
+  }
+  
+  .image-patient {
+    width: 250px;
+    height: 250px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 5px solid #fff;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+    transition: box-shadow 0.3s ease;
+  }
+  
+  .name-patient {
+    font-size: 48px; /* Aumenta el tamaño del nombre a 28px */
+    margin-bottom: 10px;
+    color: #fff; /* Cambia el color del nombre al blanco */
+  }
+  
+  
+  .container-information-patient {
+    color: #fff; /* Cambia el color del texto de información */
+  }
+  
+  .language-patient,
+  .country-origin-patient,
+  phone-number-patient,
+  email-patient,
+  date-register-patient {
+    margin-bottom: 10px;
+  }
+  
+  /* Estilos adicionales si es necesario */
+  
+  /* ... (otros estilos) ... */
+  

@@ -254,9 +254,9 @@ def create_preference():
                 }
             ],
             "back_urls": {
-                "success": "https://obscure-space-fishstick-r4gr6r7vvwp9hp6r7-3000.app.github.dev/success",
-                "failure": "https://obscure-space-fishstick-r4gr6r7vvwp9hp6r7-3000.app.github.dev/failure",
-                "pending": "https://obscure-space-fishstick-r4gr6r7vvwp9hp6r7-3000.app.github.dev/pending",
+                "success": "https://organic-winner-69g4qg4gg5gx3r5g5-3000.app.github.dev/success",
+                "failure": "https://organic-winner-69g4qg4gg5gx3r5g5-3000.app.github.dev/failure",
+                "pending": "https://organic-winner-69g4qg4gg5gx3r5g5-3000.app.github.dev/pending",
             },
             "auto_return": "approved",
         }

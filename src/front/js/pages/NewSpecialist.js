@@ -254,6 +254,12 @@ const NewSpecialist = () => {
     <br></br>
     <br></br>
     <br></br>
+    <br></br>
+    <br></br>
+    <br></br>
+    <br></br>
+    <br></br>
+    <br></br>
 
     <Footer/>
     </div>

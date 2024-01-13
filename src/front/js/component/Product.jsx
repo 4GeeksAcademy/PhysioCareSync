@@ -24,7 +24,7 @@ const Product = () => {
     return (
         <div className='suscriptionBox'>
             <p>Suscribete para ser encontrado por los pacientes!</p>
-            <p className='price'>Costo: $100</p>
+            <p className='price'></p>
             <button onClick={handleBuy} type="button" className="btn btn-outline-info payButton">Pagar suscripción</button>
             {
                 preferenceIdLocal && <Wallet initialization={{ preferenceId: store.preferenceId.id }} />
