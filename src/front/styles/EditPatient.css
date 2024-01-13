@@ -73,3 +73,44 @@
     pointer-events: none; 
 
 }
+/* EditPatient.css */
+
+/* Estilos para el PhoneInput */
+.PhoneInput {
+    width: 100%;
+    margin-bottom: 20px; /* Añade un margen inferior de 20px (puedes ajustarlo según sea necesario) */
+  }
+  
+  .PhoneInputInput {
+    width: 100%;
+    padding: 12px;
+    font-size: 16px;
+    border: 2px solid #3498db;
+    border-radius: 8px;
+    box-sizing: border-box;
+    outline: none;
+    transition: border-color 0.3s ease;
+  }
+  
+  .PhoneInputInput:focus {
+    border-color: #2c3e50;
+  }
+  
+  /* Estilos para el contenedor del botón si lo tienes */
+  .button-edit-patient {
+    background-color: #2ecc71;
+    color: #fff;
+    padding: 10px 20px;
+    font-size: 16px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+  }
+  
+  .button-edit-patient:hover {
+    background-color: #27ae60;
+  }
+  
+  /* Otros estilos específicos para tu formulario si es necesario */
+  

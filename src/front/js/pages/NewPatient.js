@@ -231,6 +231,14 @@ const NewPatient = () => {
     <br></br>
     <br></br>
     <br></br>
+    <br></br>
+    <br></br>
+    <br></br>
+    <br></br>
+    <br></br>
+    <br></br>
+    <br></br>
+    <br></br>
     <Footer/>
     </div>
   );
