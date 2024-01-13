@@ -131,5 +131,4 @@ class Administration(db.Model):
             "email": self.email,
             "created_at":self.created_at,
             "last_login_at":self.last_login_at,
-            "is_authorized":self.is_authorized,
          }

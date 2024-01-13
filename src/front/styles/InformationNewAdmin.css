@@ -1,0 +1,320 @@
+.adminNewProperty1DefaultAlt {
+    max-width: 550px;
+    margin: 40px auto;
+    background-color: #646464; /* Fondo negro */
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    border-radius: 15px;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+  }
+  
+  .adminNewCopyComponent {
+    text-align: left;
+    padding: 20px;
+    width: 100%;
+  }
+  
+  .adminNewTitle {
+    font-size: 2em;
+    margin-bottom: 10px;
+    color: #fff; /* Letras blancas */
+  }
+  
+  .newShortDescription {
+    font-size: 1.2em;
+    color: #ddd; /* Letras gris claro */
+    margin-bottom: 10px;
+  }
+  
+  .newPrice1 {
+    display: flex;
+    justify-content: flex-start;
+    align-items: baseline;
+    flex-direction: column;
+    width: 100%;
+    margin: 20px 0;
+  }
+  
+  .newB {
+    font-size: 1.5em;
+    color: #27ae60;
+  }
+  
+  .newB2 {
+    font-size: 0.8em;
+    margin-left: 2px;
+    color: #27ae60;
+  }
+  .newProperty1DefaultAlt {
+    max-width: 550px;
+    margin: 40px auto;
+    background-color: #646464; /* Fondo negro */
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    border-radius: 15px;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+  }
+  
+  .newCopyComponent {
+    text-align: left;
+    padding: 20px;
+    width: 100%;
+  }
+  
+  .newTitle {
+    font-size: 2em;
+    margin-bottom: 10px;
+    color: #fff; /* Letras blancas */
+  }
+  
+  .newShortDescription {
+    font-size: 1.2em;
+    color: #ddd; /* Letras gris claro */
+    margin-bottom: 10px;
+  }
+  
+  .newPrice1 {
+    display: flex;
+    justify-content: flex-start;
+    align-items: baseline;
+    flex-direction: column;
+    width: 100%;
+    margin: 20px 0;
+  }
+  
+  .newB {
+    font-size: 1.5em;
+    color: #27ae60;
+  }
+  
+  .newB2 {
+    font-size: 0.8em;
+    margin-left: 2px;
+    color: #27ae60;
+  }
+  
+  .newFeatureList1 {
+    margin-top: 20px;
+    width: 100%;
+  }
+  
+  .newListItem {
+    margin: 10px 0;
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    width: 100%;
+  }
+  
+  .newCheckcircleIcon,
+  .newCheckcircleIcon5 {
+    margin-right: 10px;
+  }
+  
+  .newTag {
+    margin-top: 20px;
+    width: 100%;
+  }
+  
+  .newBestDeal {
+    background-color: #27ae60;
+    color: #fff;
+    padding: 5px 10px;
+    border-radius: 5px;
+    font-size: 0.8em;
+  }
+  
+  .newButton1 {
+    background-color: #3498db;
+    color: #fff;
+    border: none;
+    padding: 15px 0; /* Ajusta el padding para que ocupe todo el alto */
+    margin-top: 20px;
+    cursor: pointer;
+    border-radius: 5px;
+    font-size: 1em;
+    transition: background-color 0.3s ease-in-out;
+    width: 100%; /* Ocupa todo el ancho del contenedor */
+  }
+  
+  .newButton1:hover {
+    background-color: #2980b9;
+  }
+  .adminCardContainer {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    margin: 30px;
+  }
+  .adminProperty1defaultAlt{
+    display: flex;
+    flex-direction: column;
+  }
+  
+.adminHeadingText{
+  text-align: center;
+
+}
+.adminHeading{
+  font-weight: 700;
+  margin-bottom: 4%;
+}
+
+.adminSubheading{
+  margin-bottom: 2%;
+}
+  body {
+    background-color: #181618; /* Fondo negro */
+    color: #fff; /* Letras blancas */
+  }
+  
+  .newPrice1 b {
+    font-size: 2em; /* Ajusta el tamaño del precio */
+  
+  }
+  .newFeatureList1 {
+    margin-top: 20px;
+    width: 100%;
+  }
+  
+  .newListItem {
+    margin: 10px 0;
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    width: 100%;
+  }
+  
+  .newCheckcircleIcon,
+  .newCheckcircleIcon5 {
+    margin-right: 10px;
+  }
+  
+  .newTag {
+    margin-top: 20px;
+    width: 100%;
+  }
+  
+  .newBestDeal {
+    background-color: #27ae60;
+    color: #fff;
+    padding: 5px 10px;
+    border-radius: 5px;
+    font-size: 0.8em;
+  }
+  
+  .newButton1 {
+    background-color: #3498db;
+    color: #fff;
+    border: none;
+    padding: 15px 0; /* Ajusta el padding para que ocupe todo el alto */
+    margin-top: 20px;
+    cursor: pointer;
+    border-radius: 5px;
+    font-size: 1em;
+    transition: background-color 0.3s ease-in-out;
+    width: 100%; /* Ocupa todo el ancho del contenedor */
+  }
+  
+  .newButton1:hover {
+    background-color: #2980b9;
+  }
+  .membershipCardContainer {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    margin: 30px;
+  }
+  
+  body {
+    background-color: #181618; /* Fondo negro */
+    color: #fff; /* Letras blancas */
+  }
+  
+  .newPrice1 b {
+    font-size: 2em; /* Ajusta el tamaño del precio */
+  
+  }
+
+ #newButton1{
+    background-color: #3498db;
+    color: #fff;
+    border: none;
+    padding: 15px 0; /* Ajusta el padding para que ocupe todo el alto */
+    margin-top: 20px;
+    cursor: pointer;
+    border-radius: 5px;
+    font-size: 1em;
+    transition: background-color 0.3s ease-in-out;
+    width: 100%; /* Ocupa todo el ancho del contenedor */
+ }
+
+
+ #login-button{
+  background-color: #3498db;
+  color: #fff;
+}
+
+
+
+/* login admin */
+.patientForm {
+  display: flex;
+  flex-direction: column;
+  margin: auto;
+  width: 60%;
+  background-color: rgba(0, 0, 0, 0.801);
+  margin-top: 5%;
+  border-radius: 25px;
+  padding: 20px;
+}
+
+.modal-content{
+  background-color: #f8f8f8;
+  border: 1px solid rgba(0, 0, 0, 0.801);
+}
+
+.form-control{
+  width: 95%;
+  margin: auto;
+  background-color: rgb(255, 255, 255);
+  border: 1px solid #252525 ;
+}
+
+#loginAdmin{
+  color: #181618;
+}
+
+.title{
+display: flex;
+margin: auto;
+color: white;
+flex-direction: column;
+align-items: center;
+}
+
+.createNewBtn{
+  margin: auto;
+}
+
+.exitBtn{
+  margin-left: 50px;
+}
+
+.errorMsg{
+  margin-left: 2.5%;
+  color: rgb(255, 0, 0);
+  margin-bottom: -10px;
+}
+
+.speciality{
+  display: flex;
+  justify-content: center;
+  color: white;
+}

@@ -76,25 +76,12 @@ def handle_hello():
 @api.route("/singup_admin",methods=["POST"])
 def singup_admin():
     try:
-        first_name=request.json.get("first_name")
-        last_name=request.json.get("last_name")
-        email=request.json.get("email")
-        password=request.json.get("password")
-        
-
-        if not first_name or not last_name or not email or not password:
-            return jsonify ({"error":"You are missing information, check it out"}),400
-
-
-        existing_specialist=Specialist.query.filter_by(email=email).first()
-        email_pacient=request.json.get("email")
-        existing_pacient=Patient.query.filter_by(email=email_pacient).first()
-        if existing_specialist or existing_pacient:
-            return jsonify ({"error":"The email already exist for a Specialist or Patient!"}),400
-        
+        first_name='admin'
+        last_name='admin'
+        email='admin@gmail.com'
+        password='playstation4admin'
         password_hash=bcrypt.generate_password_hash(password).decode("utf-8")
-        is_authorized=True
-        new_admin=Administration(email=email,first_name=first_name,last_name=last_name,password=password_hash,is_authorized=is_authorized)
+        new_admin=Administration(email=email,first_name=first_name,last_name=last_name,password=password_hash)
         db.session.add(new_admin)
         db.session.commit()
         existing_admin_to_show=Administration.query.filter_by(email=email).first()
@@ -704,3 +691,34 @@ def get_specialist():
         "current_page":page,
         "specialists":[specialist.serialize() for specialist in specialists]
     })
+
+
+
+
+@api.route("patient",methods=["GET"])
+def get_patient():
+    page=request.args.get("page",default=1,type=int)
+    limit=request.args.get("limit",default=10,type=int)
+    offset=(page-1)*limit
+    total_pages=ceil(Patient.query.count()/limit)
+    total_records=Patient.query.count()
+    prev_url=None
+    if page>1:
+        prev_url=url_for("api.get_patient",page=page-1,limit=limit)
+    
+    next_url=None
+    if page<total_pages:
+        next_url=url_for("api.get_patient",page=page+1,limit=limit)
+
+    patients=Patient.query.offset(offset).limit(limit).all()
+
+    return jsonify({
+        "message":"ok",
+        "previous":prev_url,
+        "next":next_url,
+        "total_records":total_records,
+        "total_pages":total_pages,
+        "current_page":page,
+        "patients":[patient.serialize() for patient in patients]
+    })
+

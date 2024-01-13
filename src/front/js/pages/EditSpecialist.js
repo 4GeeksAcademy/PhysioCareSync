@@ -114,7 +114,6 @@ const EditSpecialist = () => {
         await actions.accessConfirmationSpecialist()
         const token = sessionStorage.getItem("tokenSpecialist")
         if (token === null) {
-            console.log("El token se vencio, ingrese nuevamente")
             goToHome("/")
         }
     }

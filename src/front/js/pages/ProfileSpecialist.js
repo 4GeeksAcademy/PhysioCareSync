@@ -36,14 +36,14 @@ const ProfileSpecialist = () => {
         checkAccess();
 
     }, []);
-    
-   
+
+
     const token = sessionStorage.getItem('tokenSpecialist');
     const specialistId = sessionStorage.getItem("specialistId")
-    console.log("Funciona pipto", specialistId)
+
     const { theid } = params
 
- const handlerReturn = () => {
+    const handlerReturn = () => {
         navigate(`/profile/paymentPage/${specialistId}`)
     }
 
@@ -63,8 +63,8 @@ const ProfileSpecialist = () => {
     return (
         <div>
             {missingToken ?
-            <SnackBarLogin type={snackBarType.success} ref={snackRef} message="Usted inicio sesión correctamente!" /> :
-        <SnackBarLogin type={snackBarType.fail} ref={snackRef} message="Intente nuevamente ingresando sus datos correctamente!" />}
+                <SnackBarLogin type={snackBarType.success} ref={snackRef} message="Usted inicio sesión correctamente!" /> :
+                <SnackBarLogin type={snackBarType.fail} ref={snackRef} message="Intente nuevamente ingresando sus datos correctamente!" />}
 
             {
                 token && isAuthenticatedSpecialistId == specialistId && payStatus === "true" ? (
@@ -90,7 +90,7 @@ const ProfileSpecialist = () => {
                             <p className='email-specialist'>Correo electrónico: {store.informationSpecialist.email} </p>
                             <p className='date-register-specialist'> Fecha de registro en PhysioCareSync: {registerDate}</p>
 
-                        
+
                         </div>
 
                     </div>) : payStatus === "false" && token ?
@@ -100,15 +100,15 @@ const ProfileSpecialist = () => {
                         <p>No se puede acceder a la información porque no se ha pagado la suscripción, por favor realiza tu pago.</p>
                         <h2><i className="fa-solid fa-dollar-sign fa-beat-fade"></i></h2>
                         <button onClick={handlerReturn} type="button" className="btn btn-primary">Ir a ventana de pago</button>
-                    </div>) 
+                    </div>)
                     :
                     (
-                    <div className='conditionalMsg'>
-                        <h1 className='headMsg'>Atención!</h1>
-                        <p>No puede acceder a la información porque la sesión ha expirado.</p>
-                        
-                        <button onClick={handlerHome} type="button" className="btn btn-primary">Ir a la página de inicio</button>
-                    </div>)
+                        <div className='conditionalMsg'>
+                            <h1 className='headMsg'>Atención!</h1>
+                            <p>No puede acceder a la información porque la sesión ha expirado.</p>
+
+                            <button onClick={handlerHome} type="button" className="btn btn-primary">Ir a la página de inicio</button>
+                        </div>)
 
             }
 

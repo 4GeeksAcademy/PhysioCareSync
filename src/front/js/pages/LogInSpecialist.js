@@ -127,12 +127,12 @@ const LogInSpecialist = () => {
                 if (payStatus === "true") {
                     alert("Hola")
                     navigate(`/profile/specialist/${specialistId}`)
-                    
+
                 } else {
                     alert("Chau")
                     navigate(`/profile/paymentPage/${specialistId}`)
                 }
-         
+
             }
         } catch (error) {
             console.error('Hubo un error con la consulta', error);
@@ -200,7 +200,7 @@ const LogInSpecialist = () => {
             <br></br>
             <br></br>
             <br></br>
-            <Footer/>
+            <Footer />
         </div>
     );
 };

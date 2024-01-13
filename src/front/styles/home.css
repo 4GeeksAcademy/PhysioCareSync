@@ -23,12 +23,6 @@
   outline: none;
 }
 
-/* .navbar-nav{
-  max-width: 100%;
-  height: 100%;
-  display: flex;
-  justify-content: flex-end;
-} */
 
 .nav-item{
   width:calc(var(--nav-size)*0.8);
@@ -108,15 +102,13 @@
 .container-image-dropdown {
   padding: 2.5rem;
   cursor: default;
-  /* margin-left: -5.5%; */
 }
 
 .icon-right{
-  /* margin-left: auto; */
+  margin-left: -2rem;
 }
 
 .container-language-dropdown {
-  /* padding: 1rem; */
   cursor: default;
   font-weight:600;
   font-size: 18px;

@@ -76,3 +76,23 @@ body {
 #app-container {
   background-color: #272727; /* Fondo oscuro para el contenedor principal */
 }
+
+
+
+/* styles admin */
+
+.modal-titleAdmin{
+  color: #333;
+  padding: 1.5%;
+  text-align: center;
+}
+
+.modal-bodyAdmin{
+  color: #333;
+
+}
+
+.bodyAdmin{
+  padding: 4%;
+  text-align:justify
+}

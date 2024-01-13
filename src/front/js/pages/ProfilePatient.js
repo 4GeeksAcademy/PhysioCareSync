@@ -15,7 +15,6 @@ const ProfilePatient = () => {
     await actions.accessConfirmationPatient();
     const token = sessionStorage.getItem('tokenPatient');
     if (!token && store.isTokenAuthentication == true) {
-      alert("You do not have access to this page, please log in or create an account");
       navigate('/');
     }
   };
@@ -70,7 +69,7 @@ const ProfilePatient = () => {
               <h5>Información de la cuenta</h5>
               <p className='email-patient'>Correo electrónico: {store.informationPatient.email} </p>
               <p className='date-register-patient'> Fecha de registro en PhysioCareSync: {registerDate}</p>
-              
+
             </div>
 
           </div>) :

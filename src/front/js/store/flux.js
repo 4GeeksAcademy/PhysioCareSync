@@ -31,6 +31,7 @@ const getState = ({ getStore, getActions, setStore }) => {
 			informationSpecialistSetCertificates: [],
 			messageUploadCertificates: null,
 			informationAdministration: [],
+			patientList: []
 		},
 		actions: {
 			getSpecialistInformation: () => {
@@ -71,40 +72,28 @@ const getState = ({ getStore, getActions, setStore }) => {
 					}
 
 					store.isTokenAuthentication = false;
-
 					const data = await response.json();
-
 					// Store specialist information in localStorage
 					localStorage.setItem('informationSpecialist', JSON.stringify(data.specialist));
-
-					console.log("Still have access; this is the information you need from the back end", data);
 					setStore({ ...store, informationSpecialist: data.specialist });
-
 				} catch (error) {
 					console.log("Authentication issue; you do not have access", error);
 				}
 			},
-
-
-
 
 			loadAllSpecialists: async (page, limit) => {
 				const store = getStore();
 				if (store.loadingAllSpecialists) {
 					return;
 				}
-
 				const urlSpecialistPage = `/api/specialist?page=${page}&limit=${limit}`
 				try {
 					setStore({ ...store, loadingAllSpecialists: true });
-
 					const response = await fetch(API_URL + urlSpecialistPage, {
 						method: "GET",
 						headers: {
 							'Content-type': 'application/json',
 						},
-
-
 					});
 					if (!response.ok) {
 						throw new Error(`Error loading all specialists. Status: ${response.status}`);
@@ -114,10 +103,35 @@ const getState = ({ getStore, getActions, setStore }) => {
 					store.loadingListSpecialist = true
 				} catch (error) {
 					console.error("Error loading all specialists:", error);
-
-
 				} finally {
 					setStore({ ...store, loadingAllSpecialists: false });
+				}
+			},
+
+			loadAllPatient: async (page, limit) => {
+				const store = getStore();
+				if (store.loadingAllPatient) {
+					return;
+				}
+				const urlPatientPage = `/api/patient?page=${page}&limit=${limit}`
+				try {
+					setStore({ ...store, loadingAllPatient: true });
+					const response = await fetch(API_URL + urlPatientPage, {
+						method: "GET",
+						headers: {
+							'Content-type': 'application/json',
+						},
+					});
+					if (!response.ok) {
+						throw new Error(`Error loading all patient. Status: ${response.status}`);
+					}
+					const data = await response.json();
+					setStore({ ...store, patientList: data });
+					store.loadingListPatient = true
+				} catch (error) {
+					console.error("Error loading all specialists:", error);
+				} finally {
+					setStore({ ...store, loadingAllPatient: false });
 				}
 			},
 
@@ -146,8 +160,31 @@ const getState = ({ getStore, getActions, setStore }) => {
 				}
 			},
 
+			loadPatientById: async (patientId) => {
+				console.log(patientId)
+				try {
+					const response = await fetch(API_URL + `api/get_information_patient/${patientId}`);
 
+					if (!response.ok) {
+						const errorMessage = `Error loading patient with ID ${patientId}. Status: ${response.status}`;
+						console.error(errorMessage);
+						throw new Error(errorMessage);
+					}
 
+					const data = await response.json();
+
+					if (!data || data.error) {
+						const errorMessage = data ? `Error loading patient with ID ${patientId}: ${data.error}` : `Empty response for specialist with ID ${specialistId}`;
+						console.error(errorMessage);
+						throw new Error(errorMessage);
+					}
+
+					return data.patient;
+				} catch (error) {
+					console.error(`Error loading patientt with ID ${patientId}: ${error.message}`);
+					throw new Error(`Error loading patient with ID ${patientId}: ${error.message}`);
+				}
+			},
 
 			loginPatient: async (patient) => {
 				try {
@@ -161,19 +198,15 @@ const getState = ({ getStore, getActions, setStore }) => {
 					if (!response.ok) {
 						console.error("An error occurred with the query")
 						return ({ error: "There was an error with the login action" })
-						// throw new Error("An error occurred with the query")
 					}
 					const data = await response.json();
 					console.log("Log In successful")
 					return data
-
-
 				} catch (error) {
 					console.error("An error occurred with the query")
 					return ({ error: "There was an error with the login action" })
 				}
 			},
-
 			accessConfirmationPatient: async () => {
 				const store = getStore();
 				try {
@@ -195,7 +228,6 @@ const getState = ({ getStore, getActions, setStore }) => {
 					}
 					store.isTokenAuthentication = false;
 					const data = await response.json();
-					console.log("Still have access this is the information you need from back end");
 					setStore({ ...store, informationPatient: data.patient });
 
 				} catch (error) {
@@ -226,8 +258,6 @@ const getState = ({ getStore, getActions, setStore }) => {
 
 						return ({ error: "There was an error with the token confirmation in flux" })
 					}
-
-
 					store.isTokenAuthentication == false
 					const data = await response.json();
 					console.log("Still have access, this is the information you need from back end", data)
@@ -236,8 +266,6 @@ const getState = ({ getStore, getActions, setStore }) => {
 				} catch (error) {
 					console.error("Authentication issue you do not have access", error)
 					return ({ error: "There was an error with the token confirmation in flux" })
-
-
 				}
 
 			},
@@ -302,21 +330,18 @@ const getState = ({ getStore, getActions, setStore }) => {
 					console.error("There was an error tryinig to create the Patient", error)
 				}
 			},
-
-			// admmin
-			createNewAdministrator: async (newAdmin) => {
+			createNewAdministrator: async () => {
 				const store = getStore();
 				try {
-					const response = await fetch(API_URL + "/api/singup_admin", {
+					const response = await fetch(API_URL + "api/singup_admin", {
 						method: "POST",
-						body: JSON.stringify(newAdmin),
 						headers: {
 							"Content-Type": "application/json",
 						},
 					});
 
 					if (!response.ok) {
-						throw new Error("There was a problem with the function in flux");
+						return ({ error: "There was an error with the login action" })
 					}
 
 					const data = await response.json();
@@ -325,7 +350,7 @@ const getState = ({ getStore, getActions, setStore }) => {
 					return data;
 				}
 				catch (error) {
-					console.error("There was an error trying to create the Specialist", error);
+					console.error(error);
 				}
 			},
 
@@ -344,7 +369,6 @@ const getState = ({ getStore, getActions, setStore }) => {
 						return ({ error: "There was an error with the login action" })
 					}
 					const data = await response.json();
-					console.log("Log In successful")
 					return data
 
 				} catch (error) {
@@ -353,6 +377,7 @@ const getState = ({ getStore, getActions, setStore }) => {
 				}
 
 			},
+
 			accessConfirmationAdmin: async () => {
 				const store = getStore()
 				try {
@@ -366,7 +391,7 @@ const getState = ({ getStore, getActions, setStore }) => {
 					})
 
 					if (!response.ok) {
-						getActions().deleteTokenSpecialist();
+						getActions().deleteTokenAdmin();
 						store.isTokenAuthentication == true
 						const emptyInformation = {}
 						setStore({ ...store, informationAdministration: emptyInformation })
@@ -391,6 +416,64 @@ const getState = ({ getStore, getActions, setStore }) => {
 				sessionStorage.removeItem('tokenAdmin')
 				sessionStorage.removeItem("AdminId")
 				store.isTokenAuthentication == false
+			},
+
+			deleteSpecialist: async (specialistId) => {
+				const urlDelete = `api/delete_specialist/${specialistId}`
+
+				try {
+
+					const response = await fetch(API_URL + urlDelete, {
+
+						method: 'DELETE',
+
+						headers: {
+							'Content-Type': 'application/json'
+						}
+					})
+
+					if (response.ok) {
+						const data = await response.json()
+						return data
+					}
+					else {
+						console.error("there was an error with the query!")
+					}
+
+				}
+				catch (error) {
+					console.error("there was an error deleting the specialist", error)
+					return ({ error: "There was an error with the query" })
+				}
+			},
+
+			deletePatient: async (patientId) => {
+				const urlDelete = `api/delete_patient/${patientId}`
+
+				try {
+
+					const response = await fetch(API_URL + urlDelete, {
+
+						method: 'DELETE',
+
+						headers: {
+							'Content-Type': 'application/json'
+						}
+					})
+
+					if (response.ok) {
+						const data = await response.json()
+						return data
+					}
+					else {
+						console.error("there was an error with the query!")
+					}
+
+				}
+				catch (error) {
+					console.error("there was an error deleting the specialist", error)
+					return ({ error: "There was an error with the query" })
+				}
 			},
 
 			// admin enf
@@ -661,6 +744,7 @@ const getState = ({ getStore, getActions, setStore }) => {
 					}
 					const data = await response.json()
 					console.log("Authorizatiion success", data)
+					return data
 
 				} catch (error) {
 					console.error("There was a problem with the request in flux", error)

@@ -12,12 +12,13 @@ const PaySuccess = () => {
     navigate(`/profile/specialist/${specialistId}`)
   }
   const authorizePayment = async () => {
-   await actions.authorizeSpacialist(specialistId)
+    const result = await actions.authorizeSpacialist(specialistId)
+    store.informationSpecialist = result.specialist_information
   }
-  useEffect(()=>{
-   authorizePayment();
+  useEffect(() => {
+    authorizePayment();
 
-  },[])
+  }, [])
 
 
   return (

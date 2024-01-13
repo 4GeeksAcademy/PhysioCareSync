@@ -26,12 +26,17 @@ import EditSpecialist from "./pages/EditSpecialist.js";
 import ProfilePatient from "./pages/ProfilePatient.js";
 import ProfileSpecialist from "./pages/ProfileSpecialist.js";
 import FormSpecialist from "./pages/FormSpecialist.js";
-import ProfessionalView from "./pages/ProfessionalView"; 
+import ProfessionalView from "./pages/ProfessionalView";
 import PaySuccess from "./pages/PaySuccess.jsx";
 import PayError from "./pages/PayError.jsx";
 import PayPending from "./pages/PayPending.jsx";
 import PaymentPage from "./pages/PaymentPage.js";
-
+import AdminView from "./pages/AdminView.js";
+import AdminLogin from "./pages/AdminLogin.js";
+import ViewPatientList from "./pages/ViewPatientList.js";
+import ProfessionalViewAdmin from "./pages/ProfessionalViewAdmin.js";
+import ProfessionalDetailViewAdmin from "./pages/ProfessionalDetailViewAdmin.js";
+import ViewPatientDetailAdmin from "./pages/ViewPatientDetailAdmin.js";
 
 
 //create your first component
@@ -69,10 +74,14 @@ const Layout = () => {
                         <Route element={<Single />} path="/single/:theid" />
                         <Route element={<FormSpecialist />} path="edit/formSpecialist" />
                         <Route element={<ProfessionalView />} path="/professionalView" />
-
-                        <Route element={<PaymentPage/>} path="profile/paymentPage/:theid"/>
-
-                        <Route element={<ProfessionalDetailView />} path="/professional-view/:id" />  
+                        <Route element={<ProfessionalViewAdmin />} path="professionalViewAdmin" />
+                        <Route element={<ViewPatientList />} path="/patientViewAdmin" />
+                        <Route element={<AdminView />} path="/adminView/:theid" />
+                        <Route element={<AdminLogin />} path="/adminLogin" />
+                        <Route element={<PaymentPage />} path="profile/paymentPage/:theid" />
+                        <Route element={<ProfessionalDetailView />} path="/professional-view/:id" />
+                        <Route element={<ProfessionalDetailViewAdmin />} path="/professionalViewAdmin/detail/:id" />
+                        <Route element={<ViewPatientDetailAdmin />} path="/patientViewAdmin/detail/:id" />
                         <Route element={<h1>Not found!</h1>} />
                     </Routes>
                 </ScrollToTop>
