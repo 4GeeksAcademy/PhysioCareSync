@@ -36,7 +36,51 @@ const EditPatient = () => {
         formImg.append("img", finalImagePatient);
 
         const formData = new FormData();
-        // ... Resto del código ...
+        if (!form.first_name) {
+            formData.append("first_name", store.informationPatient.first_name || "");
+        }
+        else {
+            formData.append("first_name", form.first_name);
+        }
+
+        if (!form.last_name) {
+            formData.append("last_name", store.informationPatient.last_name || "");
+        }
+        else {
+            formData.append("last_name", form.last_name || "");
+        }
+
+        if (!form.email) {
+            formData.append("email", store.informationPatient.email || "");
+        }
+        else {
+            formData.append("email", form.email || "");
+        }
+
+        if (!form.phone_number) {
+            formData.append("phone_number", store.informationPatient.phone_number || "");
+        }
+        else {
+            formData.append("phone_number", form.phone_number || "");
+        }
+
+        if (!form.country_origin) {
+            formData.append("country_origin", store.informationPatient.country_origin || "");
+        }
+        else {
+            formData.append("country_origin", form.country_origin || "");
+        }
+
+        if (!form.language) {
+            formData.append("language", store.informationPatient.language || "");
+        }
+        else {
+            formData.append("language", form.language || "");
+        }
+
+        formData.forEach((value, key) => {
+            finalPatientForm[key] = value;
+        });
 
         await actions.editPatient(finalPatientForm, patientId);
         await actions.editImagePatient(formImg, patientId);
@@ -54,7 +98,7 @@ const EditPatient = () => {
     const checkAccess = async () => {
         await actions.accessConfirmationPatient();
         const token = sessionStorage.getItem("tokenPatient");
-        if (token === null && store.isTokenAuthentication === true) {
+        if (token === null && store.isTokenAuthentication == true) {
             console.log("El token se venció, ingrese nuevamente");
             alert("You do not have access to this page, please log in or create an account");
             goToHome("/");
@@ -130,3 +174,4 @@ const EditPatient = () => {
 }
 
 export default EditPatient;
+
