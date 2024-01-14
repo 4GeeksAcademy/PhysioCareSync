@@ -148,7 +148,8 @@ const NewSpecialist = () => {
   }
 
   return (
-    <div>{signupSuccess ?
+    <div>
+      {signupSuccess ?
       <SnackBarLogin type={snackBarType.success} ref={snackRef} message="El usuario especialista se ha creado correctamente" /> :
       <SnackBarLogin type={snackBarType.fail} ref={snackRef} message="No se puede crear el usuario especialista correctamente" />}
       <div className='patientForm'>
@@ -255,7 +256,7 @@ const NewSpecialist = () => {
         </div>
       </div>
 
-    </div>
+    
     <br></br>
     <br></br>
     <br></br>

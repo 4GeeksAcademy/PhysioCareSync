@@ -107,8 +107,7 @@ const ProfileSpecialist = () => {
                             </p>
 
 
-                        </div>
-                    </div>) : payStatus === "false" && token ?
+                        </div>) : payStatus === "false" && token ?
                     (<div className='conditionalMsg'>
                         <h1 className='headMsg'>Importante!</h1>
                         <p>No se puede acceder a la información porque no se ha pagado la suscripción, por favor realiza tu pago.</p>
