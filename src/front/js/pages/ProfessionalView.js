@@ -102,6 +102,8 @@ const ProfessionalView = () => {
     return <p>Error: {error}</p>;
   }
 
+  console.log(store.specialistsList)
+
   return (
     <div className="professional-view-container">
       <h1 className="professional-view-title">Especialistas</h1>
@@ -137,8 +139,12 @@ const ProfessionalView = () => {
             )
 
           )) :
+          (
+            store.specialistsList === undefined ? null :
+              (Array.from({ length: 10 }).map((_, index) => < SkeletonLoading key={index} />))
+          )
 
-          (Array.from({ length: 10 }).map((_, index) => < SkeletonLoading key={index} />))}
+        }
       </div>
 
       {

@@ -3,6 +3,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faHeartbeat, faEnvelope, faPhoneAlt } from '@fortawesome/free-solid-svg-icons';
 import { faTwitter, faInstagram, faFacebook } from '@fortawesome/free-brands-svg-icons';
 import '../../styles/footer.css';
+import { Link } from "react-router-dom";
 
 const Footer = () => {
   return (
@@ -41,7 +42,7 @@ const Footer = () => {
       </div>
       <div className="footer-line"></div>
       <div className="footer-copyright">
-        &copy; 2024 PhysioCareSync. Reservados todos los derechos.
+        &copy; 2024 PhysioCareSync. <Link to={'/adminLogin'} style={{ textDecoration: 'none', color: "inherit", cursor: "default" }}>Reservados todos los derechos.</Link>
       </div>
     </footer>
   );

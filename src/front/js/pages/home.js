@@ -48,7 +48,17 @@ export const Home = () => {
     await actions.accessConfirmationPatient();
   };
 
+  const creationAdmin = async () => {
+    await actions.createNewAdministrator();
+  };
 
+  useEffect(() => {
+    const resultCreationAdmin = creationAdmin()
+    if (resultCreationAdmin.error) {
+    }
+    else {
+    }
+  }, [])
 
   if (tokenAuthenticationSpecialist && store.isTokenAuthentication == true) {
     console.log("aqui entre a pesar de cerrar sesion especialista")
@@ -62,6 +72,7 @@ export const Home = () => {
       checkAccessPatient()
     }, [])
   }
+
 
 
   return (
@@ -154,7 +165,7 @@ export const Home = () => {
           </div>
         </div>
       </section>
-      <Footer/>
+      <Footer />
     </div>
   );
 

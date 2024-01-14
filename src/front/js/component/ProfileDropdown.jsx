@@ -11,15 +11,22 @@ const ProfileDropdown = (props) => {
     const [open, setOpen] = useState(false)
 
     const patientId = sessionStorage.getItem("patientId")
-    if (patientId == null) {
-        const specialistId = sessionStorage.getItem("specialistId")
-        userId = specialistId
-        user = "specialist"
+    const specialistId = sessionStorage.getItem("specialistId")
+    const adminId = sessionStorage.getItem("adminId")
 
-    }
-    else {
+
+    if (patientId) {
         userId = patientId
         user = "patient"
+    }
+    else if (specialistId) {
+        userId = specialistId
+        user = "specialist"
+        console.log("deberia entrar aqui")
+    }
+    else if (adminId) {
+        userId = adminId
+        user = "admin"
     }
 
     useEffect(() => {
@@ -55,7 +62,18 @@ const ProfileDropdown = (props) => {
                             </a>
                             {open && props.children}
                         </li>
-                        : null
+                        :
+                        user == "admin" ?
+                            (
+                                <li className='nav-item' ref={dropDownRef} >
+                                    <a className='icon-button'>
+                                        <img className='icon-button-image' onClick={() => { setOpen((prevState) => !prevState) }} src={props.imageProfile}></img>
+                                    </a>
+                                    {open && props.children}
+                                </li>
+
+                            ) :
+                            null
                     )
 
             }

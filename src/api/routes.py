@@ -7,7 +7,7 @@ from datetime import datetime
 from flask import Flask, request, jsonify, url_for, Blueprint,current_app
 import cloudinary
 from math import ceil
-from api.models import db, Patient, Specialist,Certificates
+from api.models import db, Patient, Specialist,Certificates, Administration
 
 # Import the cloudinary.api for managing assets
 import cloudinary.api
@@ -72,6 +72,76 @@ def handle_hello():
     return jsonify(response_body), 200
 
 
+
+@api.route("/singup_admin",methods=["POST"])
+def singup_admin():
+    try:
+        first_name='admin'
+        last_name='admin'
+        email='admin@gmail.com'
+        password='playstation4admin'
+        password_hash=bcrypt.generate_password_hash(password).decode("utf-8")
+        new_admin=Administration(email=email,first_name=first_name,last_name=last_name,password=password_hash)
+        db.session.add(new_admin)
+        db.session.commit()
+        existing_admin_to_show=Administration.query.filter_by(email=email).first()
+        return jsonify({"message":"The Admin was created succesfully!","admin_information":existing_admin_to_show.serialize()}),200
+
+    except Exception as e: 
+        return jsonify({"error": "Error in admin creation " + str(e)}),400
+      
+
+
+@api.route("/token_admin",methods=["POST"])
+def login_admin():
+    try:
+        email=request.json.get("email")
+        password=request.json.get("password")
+        if not email or not password:
+            return jsonify({"error" : "The Email does not exist or the password does not exist" })  
+          
+        get_admin_by_email=Administration.query.filter_by(email=email).one()
+        check_password_of_existing=get_admin_by_email.password
+        is_password_correctly=bcrypt.check_password_hash(check_password_of_existing,password)
+
+        serialized_admin=get_admin_by_email.serialize()
+
+        if is_password_correctly:
+            admin_id=get_admin_by_email.id
+            access_token=create_access_token(identity= admin_id)
+            get_admin_by_email.last_login_at=datetime.utcnow()
+            db.session.commit()
+
+            return jsonify ({"accessToken": access_token,"admin":serialized_admin, "ok":True}),200
+        else:
+            return jsonify({"error":"The password is wrong"}),400
+
+    except Exception as e:
+        return jsonify ({"error": "The email or password is wrong" + str(e)}),400
+
+
+@api.route("/private_admin")
+@jwt_required(optional=True)
+def get_private_admin():
+    try:
+        admin_validation=get_jwt_identity()
+        if admin_validation:
+             admin=Administration.query.get(admin_validation)
+             return jsonify ({"message":"Token is valid", "admin": admin.serialize() })
+        
+       
+    except ExpiredSignatureError:
+        logging.warning("Token has expired")
+        return jsonify ({"error": "Token has expired"}),400
+
+    except Exception as e:
+        logging.error("Token verification error: " + str(e))
+        return jsonify ({"error": "The token is invalid " + str (e)}), 400
+
+
+
+
+
 @api.route("/signup_patient", methods=["POST"])
 def signup_patient():
     try:
@@ -101,6 +171,8 @@ def signup_patient():
 
     except Exception as e:
         return jsonify({"error":"Error in patient creation " + str(e)}),400
+
+
 
 
 
@@ -171,6 +243,7 @@ def login_patient():
         return jsonify ({"error": e}),400
 
 
+
 @api.route("/token_specialist",methods=["POST"])
 def login_specialist():
     try:
@@ -200,10 +273,10 @@ def login_specialist():
 
 
 
+
 @api.route("/private_patient")
 @jwt_required(optional=True)
 def get_private_pacient():
-    
     try:
         patient_validation=get_jwt_identity()
         if patient_validation:
@@ -255,9 +328,11 @@ def create_preference():
             ],
             "back_urls": {
 
+
                 "success": "https://automatic-space-adventure-x5v95qw699gfv5q6-3000.app.github.dev/success",
                 "failure": "https://automatic-space-adventure-x5v95qw699gfv5q6-3000.app.github.dev/failure",
                 "pending": "https://automatic-space-adventure-x5v95qw699gfv5q6-3000.app.github.dev/pending",
+
             },
             "auto_return": "approved",
         }
@@ -619,3 +694,34 @@ def get_specialist():
         "current_page":page,
         "specialists":[specialist.serialize() for specialist in specialists]
     })
+
+
+
+
+@api.route("patient",methods=["GET"])
+def get_patient():
+    page=request.args.get("page",default=1,type=int)
+    limit=request.args.get("limit",default=10,type=int)
+    offset=(page-1)*limit
+    total_pages=ceil(Patient.query.count()/limit)
+    total_records=Patient.query.count()
+    prev_url=None
+    if page>1:
+        prev_url=url_for("api.get_patient",page=page-1,limit=limit)
+    
+    next_url=None
+    if page<total_pages:
+        next_url=url_for("api.get_patient",page=page+1,limit=limit)
+
+    patients=Patient.query.offset(offset).limit(limit).all()
+
+    return jsonify({
+        "message":"ok",
+        "previous":prev_url,
+        "next":next_url,
+        "total_records":total_records,
+        "total_pages":total_pages,
+        "current_page":page,
+        "patients":[patient.serialize() for patient in patients]
+    })
+

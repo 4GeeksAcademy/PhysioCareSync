@@ -15,64 +15,109 @@ export const Navbar = () => {
     const navigate = useNavigate()
 
     const handleInicioClick = () => {
-        console.log("Botón de Inicio clicado");
 
     };
 
     const handleServiciosClick = () => {
-        console.log("Botón de Servicios clicado");
 
     };
 
     const handleProfesionalesClick = () => {
-        console.log("Botón de Profesionales clicado");
 
-        navigate("/professionalView")    };
+        navigate("/professionalView")
+    };
+
+    const handleProfesionalesAdminClick = () => {
+        navigate("/professionalViewAdmin")
+    };
+
 
     const handleLoginClick = () => {
-        console.log("Botón de Iniciar Sesión clicado");
 
     };
 
     const handleRegisterClick = () => {
-        console.log("Botón de Registrarse clicado");
 
     };
 
+    const handlerPatientClick = () => {
+        navigate("/patientViewAdmin")
+    }
+
     let tokenAuthentication
     const tokenPatient = sessionStorage.getItem('tokenPatient');
-    if (!tokenPatient) {
-        const tokenSpecialist = sessionStorage.getItem("tokenSpecialist")
-        tokenAuthentication = tokenSpecialist
+    const tokenSpecialist = sessionStorage.getItem("tokenSpecialist")
+    const tokenAdmin = sessionStorage.getItem("tokenAdmin")
+
+    if (tokenPatient) {
+        tokenAuthentication = tokenPatient
 
     }
-    else {
-        tokenAuthentication = tokenPatient
+    else if (tokenSpecialist) {
+        tokenAuthentication = tokenSpecialist
+    }
+    else if (tokenAdmin) {
+        tokenAuthentication = tokenAdmin
     }
 
 
     return (
         <div className="bubbleContainer">
             <div className="navLinks">
-                <Link to='/'>
-                    <button className="navLink" onClick={handleInicioClick}>
-                        <div className="navLabel">Inicio</div>
-                    </button></Link>
+                {!tokenAuthentication
+                    ?
+                    (
+                        <Link to='/'>
+                            <button className="navLink" onClick={handleInicioClick}>
+                                <div className="navLabel">Inicio</div>
+                            </button></Link>
+                    ) :
+                    (
+                        null
+                    )
+                }
 
-                <button className="navLink" onClick={handleServiciosClick}>
-                    <div className="navLabel">Servicios</div>
-                </button>
-                <button className="navLink" onClick={handleProfesionalesClick}>
+
+                {
+                    !tokenAuthentication ?
+                        (
+                            <button className="navLink" onClick={handleServiciosClick}>
+                                <div className="navLabel">Servicios</div>
+                            </button>
+                        )
+                        :
+                        (
+                            tokenAdmin ?
+                                (
+                                    <button className="navLink" onClick={handlerPatientClick}>
+                                        <div className="navLabel">Pacientes</div>
+                                    </button>
+
+                                )
+                                :
+
+                                (
+                                    null
+                                )
+
+
+
+
+                        )
+                }
+                <button className="navLink" onClick={tokenAdmin ? handleProfesionalesAdminClick : handleProfesionalesClick}>
                     <div className="navLabel">Profesionales</div>
                 </button>
-            </div>
+
+
+
+            </div >
             <div className="navLinks1">
                 {
                     !tokenAuthentication ?
                         <LogInBtn onClick={handleLoginClick}></LogInBtn> :
                         <></>
                 }
-
                 {
                     !tokenAuthentication ?
                         <NewUserBtn onClick={handleRegisterClick} ></NewUserBtn> :
@@ -81,18 +126,40 @@ export const Navbar = () => {
                                 <DropdownMenu />
                             </ProfileDropdown>
                             :
-                            <ProfileDropdown imageProfile={store.informationSpecialist.img}>
-                                <DropdownMenu />
-                            </ProfileDropdown>)
+                            (
+                                tokenSpecialist ?
+                                    (
+                                        <ProfileDropdown imageProfile={store.informationSpecialist.img}>
+                                            <DropdownMenu />
+                                        </ProfileDropdown>
+                                    )
+                                    :
+                                    tokenAdmin ?
+                                        (
+                                            <ProfileDropdown imageProfile={"https://res.cloudinary.com/dxgvkwunx/image/upload/v1705114609/PhysioCareSync/fotoadmin-transformed_znalzd.png"}>
+                                                <DropdownMenu />
+                                            </ProfileDropdown>
+                                        )
+                                        :
+                                        (
+                                            <>
+                                                <LogInBtn onClick={handleLoginClick}></LogInBtn>
+                                                <NewUserBtn onClick={handleRegisterClick} ></NewUserBtn>
+                                            </>
+
+                                        )
+
+                            )
+                        )
+
                 }
-
-
 
             </div>
             <div className="brand">
                 <FontAwesomeIcon icon={faHeartbeat} />
                 <div className="brandname">PhysioCareSync</div>
             </div>
-        </div>
+        </div >
     );
 };
+
