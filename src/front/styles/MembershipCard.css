@@ -73,27 +73,24 @@
   
   .newBestDeal {
     background-color: #27ae60;
-    color: #fff;
+
     padding: 5px 10px;
     border-radius: 5px;
     font-size: 0.8em;
   }
   
-  .newButton1 {
-    background-color: #3498db;
-    color: #fff;
-    border: none;
-    padding: 15px 0; /* Ajusta el padding para que ocupe todo el alto */
-    margin-top: 20px;
-    cursor: pointer;
-    border-radius: 5px;
-    font-size: 1em;
-    transition: background-color 0.3s ease-in-out;
-    width: 100%; /* Ocupa todo el ancho del contenedor */
-  }
   
+
   .newButton1:hover {
     background-color: #2980b9;
+
+
+  .membershipCardContainer {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    margin: 30px;
   }
   
   
@@ -101,10 +98,32 @@
 
   body {
     background-color: #181618; /* Fondo negro */
-    color: #fff; /* Letras blancas */
+
   }
   
   .newPrice1 b {
     font-size: 2em; /* Ajusta el tamaño del precio */
   
   }
+  .newTextContainer {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-top: 1rem; /* Adjust the margin as needed */
+  }
+  
+  .newButton1 {
+    background-color: #329e5f;
+    color: #fff;
+    padding: 0.5rem 1rem; /* Adjust the padding to make it smaller */
+    border: none;
+    border-radius: 0.8rem;
+    cursor: pointer;
+    transition: background-color 0.3s, color 0.3s;
+    font-size: 0.8em; /* Adjust the font size to make it smaller */
+  }
+  
+  .newButton1:hover {
+    background-color: #218e53;
+  }
+  

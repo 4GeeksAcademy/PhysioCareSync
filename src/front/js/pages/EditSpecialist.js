@@ -2,7 +2,7 @@ import React, { useContext, useEffect, useRef, useState } from 'react'
 import { Context } from '../store/appContext'
 import "../../styles/EditSpecialist.css"
 import { useNavigate } from 'react-router-dom'
-
+import 'react-phone-number-input/style.css';
 
 const EditSpecialist = () => {
     const { store, actions } = useContext(Context)
@@ -136,7 +136,7 @@ const EditSpecialist = () => {
                         defaultValue={store.informationSpecialist.first_name || ''}
                         onChange={(e) => (handleEditInformation(e.target.name, e.target.value))}
                     ></input>
-                    <label>Apellido: </label>
+                    <label className='label-edit-specialist'>Apellido </label>
                     <input
                         className="input-edit-specialist" type='text' id="last_name" name="last_name"
                         defaultValue={store.informationSpecialist.last_name || ''}
@@ -147,7 +147,7 @@ const EditSpecialist = () => {
                         className="input-edit-specialist" type='email' id="email" name="email"
                         defaultValue={store.informationSpecialist.email || ''}
                         onChange={(e) => (handleEditInformation(e.target.name, e.target.value))}></input>
-                    <label>Imagen de perfil:</label>
+                    <label className='label-edit-specialist'>Imagen de perfil:</label>
                     <input
                         className="input-edit-specialist" type='file' id="img" name="img"
                         accept="image/png, image/jpg, image/jpeg"
@@ -174,7 +174,6 @@ const EditSpecialist = () => {
                         onChange={(e) => (handleEditInformation(e.target.name, e.target.value))}
                     ></input>
 
-                    {/* specialist info application*/}
 
                     <label>Descripción del especialista</label>
                     <input

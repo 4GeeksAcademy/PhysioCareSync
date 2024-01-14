@@ -193,13 +193,26 @@ const LogInPatient = () => {
 
                 </div>
             </div>
-            <br></br>
-            <br></br>
-            <br></br>
-            
-            <Footer/>
-        </div>
-    );
+            <br /> 
+      <br /> 
+      <br /> 
+      <br /> 
+      <br /> 
+      <br /> 
+      <br /> 
+      <br /> 
+      <br /> 
+      <br />
+      <br /> 
+      <br />
+      <br /> 
+      <br /> 
+      <br />  
+      <br /> 
+      <br /> 
+      <Footer />
+    </div>
+  );
 };
 
 export default LogInPatient;

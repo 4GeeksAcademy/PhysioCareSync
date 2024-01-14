@@ -1,0 +1,59 @@
+.paymentPageContainer {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    color: #fff;
+  }
+  
+  .paymentInfoContainer {
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    max-width: 1200px;
+    width: 100%;
+    padding: 20px;
+  }
+  
+  .membershipCard {
+    /* Estilos para la tarjeta de membresía, ajusta según tus necesidades */
+  }
+  
+  .paymentTextContainer {
+    width: 50%;
+    padding: 20px;
+    box-sizing: border-box;
+  }
+  
+  .paymentHeader {
+    font-size: 32px;
+    margin-bottom: 20px;
+  }
+  
+  .paymentNote {
+    font-size: 18px;
+    line-height: 1.6;
+    margin-bottom: 15px;
+    display: flex;
+    align-items: center;
+  }
+  
+  .icon {
+    margin-right: 10px;
+    font-size: 24px;
+  }
+  
+  @media only screen and (max-width: 768px) {
+    .paymentTextContainer {
+      width: 100%;
+    }
+  }
+  .paymentButtonContainer {
+    background-color: #646464; /* Fondo negro */
+    margin-top: 1rem; /* Ajusta según sea necesario */
+    padding: 1rem;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+  

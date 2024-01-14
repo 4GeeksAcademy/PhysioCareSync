@@ -327,9 +327,12 @@ def create_preference():
                 }
             ],
             "back_urls": {
-                "success": "https://sturdy-space-funicular-59x9qvgxrvj34p6g-3000.app.github.dev/success",
-                "failure": "https://obscure-space-fishstick-r4gr6r7vvwp9hp6r7-3000.app.github.dev/failure",
-                "pending": "https://obscure-space-fishstick-r4gr6r7vvwp9hp6r7-3000.app.github.dev/pending",
+
+
+                "success": "https://automatic-space-adventure-x5v95qw699gfv5q6-3000.app.github.dev/success",
+                "failure": "https://automatic-space-adventure-x5v95qw699gfv5q6-3000.app.github.dev/failure",
+                "pending": "https://automatic-space-adventure-x5v95qw699gfv5q6-3000.app.github.dev/pending",
+
             },
             "auto_return": "approved",
         }

@@ -2,7 +2,7 @@ import React from 'react'
 import { Context } from '../store/appContext'
 import { Link, useNavigate, useParams } from 'react-router-dom';
 import { useContext, useState, useEffect } from 'react'
-
+import '../../styles/ProfilePatient.css';
 
 const ProfilePatient = () => {
 
