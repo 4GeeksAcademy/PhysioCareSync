@@ -204,46 +204,51 @@ const FormSpecialist = () => {
             id="contact-form" className='form-edit-specialist'
             ref={formRef}
         >
+            <h1 className='formTitle'>Ventana de edición</h1>
             {/* basic info */}
             <hr />
             <h4 className='basic-information'>Información basica</h4>
-            <label className='label-edit-specialist'>Nombre: </label>
+            <label className='label-edit-specialist'>
+  <i className="fa-regular fa-user" style={{ color: '#8afcf6' }}></i> Nombre:
+</label>
             <input
                 className="input-edit-specialist" type='text' id="first_name" name="first_name"
                 defaultValue={store.informationSpecialist.first_name || ''}
                 onChange={(e) => (handleEditInformation(e.target.name, e.target.value))}
             ></input>
-            <label>Apellido: </label>
+            <label className='label-edit-specialist'><i className="fa-solid fa-user" style={{color: '#8afcf6'}}></i> Apellido: </label>
             <input
                 className="input-edit-specialist" type='text' id="last_name" name="last_name"
                 defaultValue={store.informationSpecialist.last_name || ''}
                 onChange={(e) => (handleEditInformation(e.target.name, e.target.value))}
             ></input>
-            <label>Correo Electronico: </label>
+            <label className='label-edit-specialist'><i className="fa-solid fa-envelope" style={{color: '#8afcf6'}}></i> Correo Electronico: </label>
             <input
                 className="input-edit-specialist" type='email' id="email" name="email"
                 defaultValue={store.informationSpecialist.email || ''}
                 onChange={(e) => (handleEditInformation(e.target.name, e.target.value))}></input>
-            <label>Imagen de perfil:</label>
+            <label className='label-edit-specialist'><i className="fa-regular fa-image" style={{color: '#8afcf6'}}></i> Imagen de perfil:</label>
             <input
                 className="input-edit-specialist" type='file' id="img" name="img"
                 accept="image/png, image/jpg, image/jpeg"
                 onChange={(e) => (handleUploadImageProfile(e))}
             ></input>
-           <label>Número de celular:</label>
-           <PhoneInput
+
+            <label className='label-edit-specialist'><i className="fa-solid fa-phone-flip" style={{color: '#8afcf6'}}></i> Numero de celular:</label>
+            <PhoneInput  className="input-edit-specialist"
            placeholder="Ingresa tu número de celular"
            value={formInformationSpecialist.phone_number}
            onChange={(value) => handleEditInformation('phone_number', value)}
            />
-            <label>Idioma que usted sabe hablar:</label>
+            <label className='label-edit-specialist'><i className="fa-solid fa-language"  style={{color: '#8afcf6'}}></i> Idioma que usted sabe hablar:</label>
+
             <input
                 className="input-edit-specialist" type='text' id="language" name="language"
                 placeholder="Ingrese los idiomas que sabe hablar"
                 defaultValue={store.informationSpecialist.language ? store.informationSpecialist.language : ""}
                 onChange={(e) => (handleEditInformation(e.target.name, e.target.value))}
             ></input>
-            <label>Pais:</label>
+            <label className='label-edit-specialist'><i className="fa-solid fa-earth-americas" style={{color: '#8afcf6'}}></i> Pais:</label>
             <input
                 className="input-edit-specialist" type='text' id="country_origin" name="country_origin"
                 placeholder="Ingrese su pais"
@@ -253,7 +258,7 @@ const FormSpecialist = () => {
 
             <hr />
             <h4 className='profile-title'>Perfil profesional y académico</h4>
-            <label>Descripción del especialista</label>
+            <label className='label-edit-specialist'><i className="fa-solid fa-sheet-plastic" style={{color: '#8afcf6'}}></i> Descripción del especialista</label>
             <input
                 className="input-edit-specialist" type='text' id="description" name="description"
                 placeholder="Habla un poco sobre ti como profesional!"
@@ -261,7 +266,8 @@ const FormSpecialist = () => {
                 onChange={(e) => (handleEditInformation(e.target.name, e.target.value))}
             ></input>
 
-            <label>Certificado</label>
+            <label className='label-edit-specialist'><i class="fa-solid fa-certificate" style={{color: '#8afcf6'}}></i> Certificado</label>
+
             <input
                 className="input-edit-specialist" type='file' id="certificate" name="certificate"
                 accept='image/png, image/jpeg, image/jpg'

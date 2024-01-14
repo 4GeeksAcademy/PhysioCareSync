@@ -254,6 +254,7 @@ def create_preference():
                 }
             ],
             "back_urls": {
+
                 "success": "https://automatic-space-adventure-x5v95qw699gfv5q6-3000.app.github.dev/success",
                 "failure": "https://automatic-space-adventure-x5v95qw699gfv5q6-3000.app.github.dev/failure",
                 "pending": "https://automatic-space-adventure-x5v95qw699gfv5q6-3000.app.github.dev/pending",
