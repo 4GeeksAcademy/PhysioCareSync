@@ -1,21 +1,61 @@
 .price {
-    border-bottom: 1px solid gray;
-  }
-  
-  .payButton {
-    width: 100%;
-    padding: 0.5rem 1rem;
-    background-color: transparent;
-    color: #333; /* Dark text color */
-    border: 1px solid #333; /* Dark border color */
-    border-radius: 0.3rem;
-    cursor: pointer;
-    transition: background-color 0.3s, color 0.3s;
-    font-size: 1 em;
-  }
-  
-  .payButton:hover {
-    background-color: #333; /* Dark hover background color */
-    color: #fff; /* Lighter hover text color */
-  }
-  
+  border-bottom: 1px solid gray;
+}
+
+.payButton {
+  width: 100%;
+  padding: 0.5rem 1rem;
+  background-color: #333; /* Dark background color */
+  color: #fff; /* Light text color */
+  border: 1px solid #333; /* Dark border color */
+  border-radius: 0.9rem;
+  cursor: pointer;
+  transition: background-color 0.3s, color 0.3s;
+  font-size: 1em;
+}
+
+.payButton:hover {
+  background-color: #fff; /* Light hover background color */
+  color: #333; /* Dark hover text color */
+}
+
+.suscriptionBox {
+  background-color: #f8f8f8;
+  border: 1px solid #ccc;
+  padding: 8px;
+  border-radius: 12px;
+  box-shadow: 0 0 8px rgba(0, 0, 0, 0.1);
+  text-align: center;
+}
+
+.suscriptionBox p {
+  margin-bottom: 8px;
+  font-size: 0.9em;
+  color: #444;
+}
+
+.price {
+  border-bottom: 1px solid #ccc;
+  margin-bottom: 10px;
+}
+
+.payButton {
+  width: 100%;
+  padding: 8px;
+  background-color: #333;
+  color: #fff;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+  font-size: 0.9em;
+}
+
+.payButton:hover {
+  background-color: #555;
+}
+
+/* Estilo para la Wallet */
+.Wallet {
+  margin-top: 10px;
+}

@@ -73,6 +73,10 @@ const ProfileSpecialist = () => {
             {
                 token && isAuthenticatedSpecialistId == specialistId && payStatus === "true" ? (
                     <div className='container-profile-specialist'>
+                        <button className='edit-profile-button' onClick={() => navigate('/edit/formSpecialist')}>
+                        Editar el perfil
+                    </button>
+                       <br></br>
                         <div className='container-img-profile-specialist'>
                             <img className='image-specialist' src={store.informationSpecialist.img ? store.informationSpecialist.img : profileImageEmpty} />
                         </div>
@@ -105,6 +109,7 @@ const ProfileSpecialist = () => {
                                     <img className='image-certificate-specialist' src={profileImageEmpty} />
                                 }
                             </p>
+                            
 
 
                         </div>) : payStatus === "false" && token ?

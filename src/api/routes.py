@@ -329,9 +329,9 @@ def create_preference():
             "back_urls": {
 
 
-                "success": "https://shiny-goggles-r4pr4vg9rgq3xxr7-3000.app.github.dev/success",
-                "failure": "https://shiny-goggles-r4pr4vg9rgq3xxr7-3000.app.github.dev/failure",
-                "pending": "https://shiny-goggles-r4pr4vg9rgq3xxr7-3000.app.github.dev/pending",
+                "success": "https://ominous-train-jj5qv5q554rrc5p44-3000.app.github.dev/success",
+                "failure": "https://ominous-train-jj5qv5q554rrc5p44-3000.app.github.dev/failure",
+                "pending": "https://ominous-train-jj5qv5q554rrc5p44-3000.app.github.devv/pending",
 
             },
             "auto_return": "approved",

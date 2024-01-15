@@ -59,9 +59,7 @@ const MembershipCard = () => {
           </div>
           <div className="newTag">
             </div>
-            <button className="newButton1">
-            <div className="newTextContainer"><Product /></div>
-          </button>
+          <Product/>
         </div>
       </div>
     </div>
