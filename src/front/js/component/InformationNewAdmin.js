@@ -2,7 +2,7 @@ import "../../styles/InformationNewAdmin.css"
 import React, { useContext, useEffect, useRef, useState } from 'react';
 import { Context } from '../store/appContext';
 import { useNavigate } from 'react-router-dom';
-import SnackBarLogin from '../component/SnackBarLogin';
+import SnackBarLoginAdmin from "./SnackBarLoginAdmin";
 
 const InformationNewAdmin = () => {
     const navigate = useNavigate();
@@ -162,24 +162,28 @@ const InformationNewAdmin = () => {
             <div className="adminNewProperty1DefaultAlt">
                 <div className="adminNewCopyComponent">
                     <h1 className="adminNewTitle">
-                        <i class="fa-solid fa-user-tie"></i> Cuenta del administrador
+                        <i className="fa-solid fa-user-tie"></i> Cuenta del administrador
                     </h1>
                     <button id="newButton1" type="button" className="btn btn-primary" data-bs-toggle="modal" data-bs-target="#loginAdmin">
                         <div className="newTextContainer">
                             <div className="newCta1" >Iniciar sesión</div>
                         </div>
                     </button>
-                    <div class="modal fade" ref={modalRef} id="loginAdmin" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
-                        <div class="modal-dialog modal-dialog-centered">
-                            <div class="modal-content">
-                                <div class="modal-header">
-                                    <h5 class="modal-title" id="staticBackdropLabel">Inicie sesión por favor</h5>
+                    <div className="modal fade" ref={modalRef} id="loginAdmin" data-bs-backdrop="static" data-bs-keyboard="false" tabIndex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+                        <div className="modal-dialog modal-dialog-centered">
+                        
+                            <div className="modal-content">
+                            {loginSuccess ?
+                                        <SnackBarLoginAdmin type={snackBarType.success} ref={snackRef} message="Inicio Sesión como administrador!" /> :
+                                        <SnackBarLoginAdmin type={snackBarType.fail} ref={snackRef} message="Datos incorrectos, intente nuevamente" />
+                                        }
+                                <div className="modal-header">
+                                
+                                    <h5 className="modal-title" id="staticBackdropLabel">Inicie sesión por favor</h5>
                                     <button type="button" className="btn-close adminClose" data-bs-dismiss="modal" aria-label="Close"></button>
                                 </div>
-                                <div class="modal-body">
-                                    {loginSuccess ?
-                                        <SnackBarLogin type={snackBarType.success} ref={snackRef} message="Inicio Sesión como administrador!" /> :
-                                        <SnackBarLogin type={snackBarType.fail} ref={snackRef} message="Datos incorrectos, intente nuevamente" />}
+                                <div className="modal-body">
+                                   
                                     <div className="mb-3">
                                         <input
                                             onChange={(e) => setEmail(e.target.value)}
@@ -209,9 +213,9 @@ const InformationNewAdmin = () => {
                                     {clickedPassword && password.trim() === '' && <p className='errorMsg'>La contraseña es obligatoria</p>}
                                     <br></br>
                                 </div>
-                                <div class="modal-footer">
-                                    <button type="button" disabled={!checkLoginBotton} onClick={() => handlerLogOutAdmin()} class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
-                                    <button type="button" disabled={!checkLoginBotton} onClick={() => handlerLoginAdmin()} id="login-button" class="btn btn-primary" >Iniciar sesión</button>
+                                <div className="modal-footer">
+                                    <button type="button" disabled={!checkLoginBotton} onClick={() => handlerLogOutAdmin()} className="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+                                    <button type="button" disabled={!checkLoginBotton} onClick={() => handlerLoginAdmin()} id="login-button" className="btn btn-primary" >Iniciar sesión</button>
                                 </div>
                             </div>
                         </div>

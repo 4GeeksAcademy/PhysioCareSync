@@ -3,6 +3,8 @@ import { useNavigate, useParams } from 'react-router-dom';
 import { Context } from '../store/appContext';
 import '../../styles/NewProfessionalDetailView.css';
 import Loader from '../component/Loader';
+import SnackBarLogin from '../component/SnackBarLogin';
+
 
 const ViewPatientDetailAdmin = () => {
     const { actions, store } = useContext(Context);
@@ -11,10 +13,18 @@ const ViewPatientDetailAdmin = () => {
     const [error, setError] = useState(null);
     const [patient, setPatient] = useState(null);
     const [checkDeleteBotton, setCheckDeleteBotton] = useState(true)
+    const [deleteSuccess, setDeleteSuccess] = useState(false)
 
 
     const goToPatientView = useNavigate()
     const goToHome = useNavigate()
+
+    const modalRef = useRef(null)
+    const snackRef = useRef(null)
+    const snackBarType = {
+        fail: "fail",
+        success: "success",
+    }
 
     useEffect(() => {
         const fetchPatient = async () => {
@@ -30,18 +40,32 @@ const ViewPatientDetailAdmin = () => {
         };
 
         fetchPatient();
-        checkAccess();
 
     }, [actions, id]);
 
-    const handlerDeleteButton = (patientId) => {
-        setCheckDeleteBotton(false)
-        const deletingPatient = actions.deletePatient(patientId)
-        setTimeout(() => {
-            setCheckDeleteBotton(true)
-            goToPatientView("/patientViewAdmin")
-            window.location.reload()
-        }, 2000)
+    const handlerDeleteButton = async () => {
+        try {
+            setCheckDeleteBotton(false)
+            const deletingPatient = await actions.deletePatient(id)
+
+            if (deletingPatient && deletingPatient.ok) {
+                setDeleteSuccess(true)
+                snackRef.current.show()
+            } else if (deletingPatient && deletingPatient.error) {
+                snackRef.current.show()
+            } else {
+                console.error("Respuesta inesperada al borrar al paciente")
+            }
+
+            setTimeout(() => {
+                setCheckDeleteBotton(true)
+                goToPatientView("/patientViewAdmin")
+                window.location.reload()
+            }, 3000)
+        } catch (error) {
+            console.error("Hubo un error al borrar al paciente", error)
+        }
+
     }
 
 
@@ -55,28 +79,14 @@ const ViewPatientDetailAdmin = () => {
         }
     };
 
+    useEffect(() => {
+        checkAccess()
+    }, [])
+
 
     if (error) {
         return <p>Error: {error}</p>;
     }
-
-    // const openModal = (certificate) => {
-    //     setSelectedCertificate(certificate);
-    //     setModalIsOpen(true);
-    // };
-
-    // const closeModal = () => {
-    //     setSelectedCertificate(null);
-    //     setModalIsOpen(false);
-    // };
-
-    const modalRef = useRef(null)
-    const snackRef = useRef(null)
-    const snackBarType = {
-        fail: "fail",
-        success: "success",
-    }
-
 
     return (
         loading ? <Loader />
@@ -131,19 +141,19 @@ const ViewPatientDetailAdmin = () => {
                                     <h5 class="modal-titleAdmin" id="staticBackdropLabel">Estas a punto de eliminar al paciente!</h5>
                                     <button type="button" className="btn-close adminClose" data-bs-dismiss="modal" aria-label="Close"></button>
                                 </div>
+                                
                                 <div class="modal-bodyAdmin">
+                                {deleteSuccess ?
+                            <SnackBarLogin type={snackBarType.success} ref={snackRef} message="El usuario se ha borrado exitosamente" /> :
+                            <SnackBarLogin type={snackBarType.fail} ref={snackRef} message="No se ha podido borrar el usuario por un problema interno" />
+                        }
                                     <p className='bodyAdmin'>Al eliminar, el paciente debe de registrarse nuevamente ¿Estás seguro?</p>
-
-                                    {/* {DeletedSuccess ?
-                                        <SnackBarLogin type={snackBarType.success} ref={snackRef} message="Inicio Sesión como administrador!" /> :
-                                        null
-                                    } */}
                                 </div>
                                 <div class="modal-footer">
                                     <button type="button" disabled={!checkDeleteBotton} class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
                                     <button type="button" disabled={!checkDeleteBotton} onClick={() => handlerDeleteButton(id)} id="login-button" class="btn btn-primary" >Si, estoy seguro</button>
                                 </div>
-                            </div>
+                              </div>
                         </div>
                     </div>
                 </div>

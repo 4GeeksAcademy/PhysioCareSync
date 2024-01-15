@@ -47,7 +47,7 @@ const ViewPatientList = () => {
 
     const handleChangePage = useCallback((page) => {
         setPage(page)
-        navigate(`/patientView?page=${page}&limit=${limit}`)
+        navigate(`/patientViewAdmin?page=${page}&limit=${limit}`)
     }, [history, limit]);
 
     useEffect(() => {

@@ -1,4 +1,4 @@
-.snackbar{
+.snackbarAdmin{
     position: fixed;
     left: 50%;
     right: 50%;
@@ -11,11 +11,11 @@
 }
 
 
-.snackbar .symbol{
+.snackbarAdmin .symbol{
     flex: 20%;   
 }
 
-.snackbar .message{
+.snackbarAdmin .message{
     flex:80%;
     text-align:start;
     font-weight: bold;
@@ -37,7 +37,7 @@
         opacity: 0;
     }
     to{
-        bottom: 80%;
+        bottom: 65%;
         opacity: 1;
     }
 }
