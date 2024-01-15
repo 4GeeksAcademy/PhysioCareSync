@@ -117,4 +117,6 @@
   }
   
   /* Otros estilos específicos para tu formulario si es necesario */
-  
+  .adminContent{
+    margin: auto;
+  }

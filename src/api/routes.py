@@ -161,11 +161,8 @@ def signup_patient():
         
         password_hash=bcrypt.generate_password_hash(password).decode("utf-8")
         new_patient=Patient(first_name=first_name,last_name=last_name,email=email,password=password_hash)
-       
-
         db.session.add(new_patient)
         db.session.commit()
-        
         
         return jsonify ({"message":"Patient was created Succesfully!","patient_id":new_patient.id,"first_name": first_name,"last_name": last_name, "email":email}),200
 
@@ -173,10 +170,7 @@ def signup_patient():
         return jsonify({"error":"Error in patient creation " + str(e)}),400
 
 
-
-
-
-@api.route("signup_specialist",methods=["POST"])
+@api.route("/signup_specialist",methods=["POST"])
 def signup_specialist():
     try:
         first_name=request.json.get("first_name")
@@ -188,8 +182,6 @@ def signup_specialist():
         description=request.json.get("description")
         language=request.json.get("language")
 
-
-        
         if not first_name or not last_name or not email or not password:
             return jsonify ({"error":"You are missing information, check it out"}),400
 
@@ -205,10 +197,8 @@ def signup_specialist():
         new_specialist=Specialist(email=email,first_name=first_name,last_name=last_name,password=password_hash,is_physiotherapist=is_physiotherapist,is_nurse=is_nurse,description=description,language=language,is_authorized=is_authorized)
         db.session.add(new_specialist)
         db.session.commit()
-        existing_specialist_to_show=Specialist.query.filter_by(email=email).first()
 
-
-        return jsonify({"message":"The Specialist was created succesfully!","specialist_id":existing_specialist_to_show.serialize()}),200
+        return jsonify({"message":"The Specialist was created succesfully!","specialist_id":new_specialist.id,"first_name":first_name,"last_name":last_name,"email":email}),200
 
     except Exception as e: 
         return jsonify({"error": "Error in Specialist creation " + str(e)}),400
@@ -329,9 +319,9 @@ def create_preference():
             "back_urls": {
 
 
-                "success": "https://shiny-goggles-r4pr4vg9rgq3xxr7-3000.app.github.dev/success",
-                "failure": "https://shiny-goggles-r4pr4vg9rgq3xxr7-3000.app.github.dev/failure",
-                "pending": "https://shiny-goggles-r4pr4vg9rgq3xxr7-3000.app.github.dev/pending",
+                "success": "https://animated-doodle-7v9r5r7445pxcwppw-3000.app.github.dev/success",
+                "failure": "https://animated-doodle-7v9r5r7445pxcwppw-3000.app.github.dev/failure",
+                "pending": "https://animated-doodle-7v9r5r7445pxcwppw-3000.app.github.dev/pending",
 
             },
             "auto_return": "approved",
@@ -358,15 +348,16 @@ def delete_patient_by_id(patient_id):
         return jsonify({"error":"The Patient does not exist"})
 
 
-@api.route("/delete_specialist/<int:specialist_id>",methods=['DELETE'])
+@api.route("/delete_specialist/<int:specialist_id>", methods=['DELETE'])
 def delete_specialist_by_id(specialist_id):
-    specialist=Specialist.query.get(specialist_id)
+    specialist = Specialist.query.get(specialist_id)
     if specialist:
         db.session.delete(specialist)
         db.session.commit()
-        return jsonify({"message":"Specialist Deleted"})
+        return jsonify({"message": "Specialist Deleted", "ok": True})
     else:
-        return jsonify({"error":"The Specialist does not exist"})
+        return jsonify({"error": "The Specialist does not exist"}), 404
+
 
 
 @api.route("/get_information_patient/<int:patient_id>",methods=["GET"])
