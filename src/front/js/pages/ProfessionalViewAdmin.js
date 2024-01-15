@@ -110,7 +110,7 @@ const ProfessionalViewAdmin = () => {
             <h1 className="professional-view-title">Especialistas</h1>
             <div className="professional-view-list">
                 {store.loadingListSpecialist ?
-                    store.specialistsList.specialists.filter((specialist) => specialist.is_authorized).map((specialist) => (
+                    store.specialistsList.specialists.map((specialist) => (
                         (
                             < div key={specialist.id} className="professional-view-card" onClick={() => handleNavigate(specialist.id)}>
                                 <div className="profile-section">

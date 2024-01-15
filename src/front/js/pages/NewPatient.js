@@ -1,7 +1,7 @@
 import React, { useContext, useRef, useState } from 'react';
 import { Context } from '../store/appContext';
 import { Link, useNavigate } from 'react-router-dom';
-import zxcvbn from 'zxcvbn'; // Importa la biblioteca de fortaleza de contraseña
+import zxcvbn from 'zxcvbn'; 
 import '../../styles/NewPatient.css';
 import SnackBarLogin from '../component/SnackBarLogin';
 import Footer from '../component/footer';
@@ -15,7 +15,6 @@ const NewPatient = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [signupSuccess, setSignupSuccess] = useState(false)
-
 
   // Estados de dinamización
   const [clickedFirstName, setClickedFirstName] = useState(false);

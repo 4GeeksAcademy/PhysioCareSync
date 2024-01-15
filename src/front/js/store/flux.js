@@ -309,6 +309,28 @@ const getState = ({ getStore, getActions, setStore }) => {
 				}
 			},
 
+			createNewSpecialist: async (newSpecialist) => {
+				try {
+					const response = await fetch(API_URL + "/api/signup_specialist", {
+						method: "POST",
+						body: JSON.stringify(newSpecialist),
+						headers: {
+							"Content-Type": "application/json",
+						},
+					});
+
+					if (!response.ok) {
+						throw new Error("There was a problem with the function in flux");
+					}
+					const data = await response.json();
+					console.log("User created successfully,", data)
+					return data;
+					
+				} catch (error) {
+					console.error("There was an error trying to create the Specialist", error);
+				}
+			},
+
 			createNewPatient: async (newPatient) => {
 				try {
 					const response = await fetch(API_URL + "/api/signup_patient", {
@@ -419,47 +441,40 @@ const getState = ({ getStore, getActions, setStore }) => {
 			},
 
 			deleteSpecialist: async (specialistId) => {
-				const urlDelete = `api/delete_specialist/${specialistId}`
-
+				const urlDelete = `/api/delete_specialist/${specialistId}`;
+			
 				try {
-
 					const response = await fetch(API_URL + urlDelete, {
-
 						method: 'DELETE',
-
 						headers: {
-							'Content-Type': 'application/json'
-						}
-					})
-
+							'Content-Type': 'application/json',
+						},
+					});
+			
 					if (response.ok) {
-						const data = await response.json()
-						return data
+						const data = await response.json();
+						return data; 
+					} else {
+						console.error("There was an error with the query!");
+						return { error: "There was an error with the query" };
 					}
-					else {
-						console.error("there was an error with the query!")
-					}
-
-				}
-				catch (error) {
-					console.error("there was an error deleting the specialist", error)
-					return ({ error: "There was an error with the query" })
+				} catch (error) {
+					console.error("There was an error deleting the specialist", error);
+					return { error: "There was an error with the query" };
 				}
 			},
+			
 
 			deletePatient: async (patientId) => {
-				const urlDelete = `api/delete_patient/${patientId}`
+				const urlDelete = `/api/delete_patient/${patientId}`
 
 				try {
-
 					const response = await fetch(API_URL + urlDelete, {
-
 						method: 'DELETE',
-
 						headers: {
 							'Content-Type': 'application/json'
 						}
-					})
+					});
 
 					if (response.ok) {
 						const data = await response.json()
@@ -468,7 +483,6 @@ const getState = ({ getStore, getActions, setStore }) => {
 					else {
 						console.error("there was an error with the query!")
 					}
-
 				}
 				catch (error) {
 					console.error("there was an error deleting the specialist", error)
@@ -477,31 +491,6 @@ const getState = ({ getStore, getActions, setStore }) => {
 			},
 
 			// admin enf
-
-
-			createNewSpecialist: async (newSpecialist) => {
-				const store = getStore();
-				try {
-					const response = await fetch(API_URL + "/api/signup_specialist", {
-						method: "POST",
-						body: JSON.stringify(newSpecialist),
-						headers: {
-							"Content-Type": "application/json",
-						},
-					});
-
-					if (!response.ok) {
-						throw new Error("There was a problem with the function in flux");
-					}
-					const data = await response.json();
-					const updatedSpecialistsList = [...store.specialistsList, data];
-					setStore({ ...store, specialistsList: updatedSpecialistsList });
-					return data;
-				} catch (error) {
-					console.error("There was an error trying to create the Specialist", error);
-				}
-			},
-
 
 
 			setSpecialistInformation: (information) => {
