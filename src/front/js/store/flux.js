@@ -163,7 +163,7 @@ const getState = ({ getStore, getActions, setStore }) => {
 			loadPatientById: async (patientId) => {
 				console.log(patientId)
 				try {
-					const response = await fetch(API_URL + `api/get_information_patient/${patientId}`);
+					const response = await fetch(API_URL + `/api/get_information_patient/${patientId}`);
 
 					if (!response.ok) {
 						const errorMessage = `Error loading patient with ID ${patientId}. Status: ${response.status}`;
@@ -355,7 +355,7 @@ const getState = ({ getStore, getActions, setStore }) => {
 			createNewAdministrator: async () => {
 				const store = getStore();
 				try {
-					const response = await fetch(API_URL + "api/singup_admin", {
+					const response = await fetch(API_URL + "/api/singup_admin", {
 						method: "POST",
 						headers: {
 							"Content-Type": "application/json",

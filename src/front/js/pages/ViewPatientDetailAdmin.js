@@ -143,6 +143,10 @@ const ViewPatientDetailAdmin = () => {
                                 </div>
                                 
                                 <div class="modal-bodyAdmin">
+                                {deleteSuccess ?
+                            <SnackBarLogin type={snackBarType.success} ref={snackRef} message="El usuario se ha borrado exitosamente" /> :
+                            <SnackBarLogin type={snackBarType.fail} ref={snackRef} message="No se ha podido borrar el usuario por un problema interno" />
+                        }
                                     <p className='bodyAdmin'>Al eliminar, el paciente debe de registrarse nuevamente ¿Estás seguro?</p>
                                 </div>
                                 <div class="modal-footer">
@@ -151,10 +155,6 @@ const ViewPatientDetailAdmin = () => {
                                 </div>
                               </div>
                         </div>
-                        {deleteSuccess ?
-                            <SnackBarLogin type={snackBarType.success} ref={snackRef} message="El usuario se ha borrado exitosamente" /> :
-                            <SnackBarLogin type={snackBarType.fail} ref={snackRef} message="No se ha podido borrar el usuario por un problema interno" />
-                        }
                     </div>
                 </div>
             </div >

@@ -2,7 +2,7 @@ import "../../styles/InformationNewAdmin.css"
 import React, { useContext, useEffect, useRef, useState } from 'react';
 import { Context } from '../store/appContext';
 import { useNavigate } from 'react-router-dom';
-import SnackBarLogin from '../component/SnackBarLogin';
+import SnackBarLoginAdmin from "./SnackBarLoginAdmin";
 
 const InformationNewAdmin = () => {
     const navigate = useNavigate();
@@ -171,15 +171,19 @@ const InformationNewAdmin = () => {
                     </button>
                     <div className="modal fade" ref={modalRef} id="loginAdmin" data-bs-backdrop="static" data-bs-keyboard="false" tabIndex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
                         <div className="modal-dialog modal-dialog-centered">
+                        
                             <div className="modal-content">
+                            {loginSuccess ?
+                                        <SnackBarLoginAdmin type={snackBarType.success} ref={snackRef} message="Inicio Sesión como administrador!" /> :
+                                        <SnackBarLoginAdmin type={snackBarType.fail} ref={snackRef} message="Datos incorrectos, intente nuevamente" />
+                                        }
                                 <div className="modal-header">
+                                
                                     <h5 className="modal-title" id="staticBackdropLabel">Inicie sesión por favor</h5>
                                     <button type="button" className="btn-close adminClose" data-bs-dismiss="modal" aria-label="Close"></button>
                                 </div>
                                 <div className="modal-body">
-                                    {loginSuccess ?
-                                        <SnackBarLogin type={snackBarType.success} ref={snackRef} message="Inicio Sesión como administrador!" /> :
-                                        <SnackBarLogin type={snackBarType.fail} ref={snackRef} message="Datos incorrectos, intente nuevamente" />}
+                                   
                                     <div className="mb-3">
                                         <input
                                             onChange={(e) => setEmail(e.target.value)}
