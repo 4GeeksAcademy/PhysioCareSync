@@ -69,17 +69,22 @@ const ProfilePatient = () => {
               <h5>Información de la cuenta</h5>
               <p className='email-patient'>Correo electrónico: {store.informationPatient.email} </p>
               <p className='date-register-patient'> Fecha de registro en PhysioCareSync: {registerDate}</p>
-
+              <div className='container-profile-specialist'>
+              <button
+                className='edit-profile-button'
+                onClick={() => navigate('/edit/patient')}>
+                Editar el perfil
+              </button>
             </div>
-
-          </div>) :
-          (<div>
-            <h1>No puede acceder a la información porque no existe un inicio de sesión</h1>
-          </div>)
-      }
-
+          </div>
+        </div>
+      ) : (
+        <div>
+          <h1>No puede acceder a la información porque no existe un inicio de sesión</h1>
+        </div>
+      )}
     </div>
-  )
-}
+  );
+};
 
-export default ProfilePatient
+export default ProfilePatient;

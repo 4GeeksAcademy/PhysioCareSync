@@ -1,45 +1,39 @@
-/* Estilos para la barra de contraseña en NewSpecialist */
-.password-strength {
-    margin-top: 10px;
-  }
-  
-  .progress-strength {
-    width: 100%;
-    height: 8px;
-    border-radius: 5px;
-    overflow: hidden;
-    background-color: #eee;
-  }
-  
-  .progress-strength-bar {
-    height: 100%;
-    transition: background-color 0.3s ease;
-  }
-  
-  .password-feedback {
-    margin-top: 5px;
-    font-size: 14px;
-    color: #555;
-  }
-  
-  .progress-strength-0 {
-    background: #ff4d4d;
-  }
-  
-  .progress-strength-1 {
-    background: #ffa500;
-  }
-  
-  .progress-strength-2 {
-    background: #ffd700;
-  }
-  
-  .progress-strength-3 {
-    background: #9acd32;
-  }
-  
-  .progress-strength-4 {
-    background: #00cc66;
-  }
-  
-  
+.progress {
+  display: flex; /* Add display flex */
+  align-items: center; /* Align items center */
+  width: 100%;
+  height: 5px; /* Thinner bar */
+  margin-top: 8px; /* Match margin-top */
+  border-radius: 5px;
+  overflow: hidden;
+  background-color: #e0e0e0;
+}
+
+.progress::-webkit-progress-bar {
+  background-color: transparent; /* Match the first set */
+}
+
+.progress::-webkit-progress-value {
+  background-color: transparent; /* Match the first set */
+}
+
+.progress.password-strength-0::-webkit-progress-value,
+.progress.password-strength-1::-webkit-progress-value {
+  background-color: #e74c3c; /* Red for strength 0 and 1 */
+}
+
+.progress.password-strength-2::-webkit-progress-value {
+  background-color: #e67e22; /* Orange for strength 2 */
+}
+
+.progress.password-strength-3::-webkit-progress-value,
+.progress.password-strength-4::-webkit-progress-value {
+  background-color: #2ecc71; /* Green for strength 3 and 4 */
+}
+
+
+.password-feedback {
+  margin-left: 10px;
+  color: #6c757d;
+  font-size: 14px; /* Match font size */
+}
