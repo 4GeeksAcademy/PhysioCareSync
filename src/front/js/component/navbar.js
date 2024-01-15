@@ -122,14 +122,16 @@ export const Navbar = () => {
                     !tokenAuthentication ?
                         <NewUserBtn onClick={handleRegisterClick} ></NewUserBtn> :
                         (tokenPatient
-                            ? <ProfileDropdown imageProfile={store.informationPatient.img}>
+                            ? <ProfileDropdown imageProfile={store.informationPatient.img ? store.informationPatient.img : " https://res.cloudinary.com/dxgvkwunx/image/upload/v1703777652/PhysioCareSync/imagen_sin_todo_perfil_ajw2oh.jpg"}>
                                 <DropdownMenu />
                             </ProfileDropdown>
                             :
                             (
+
+
                                 tokenSpecialist ?
                                     (
-                                        <ProfileDropdown imageProfile={store.informationSpecialist.img}>
+                                        <ProfileDropdown imageProfile={store.informationSpecialist.img ? store.informationSpecialist.img : "https://res.cloudinary.com/dxgvkwunx/image/upload/v1703884900/PhysioCareSync/imagen_sin_fondo_enfermero_hoyzei.jpg"}>
                                             <DropdownMenu />
                                         </ProfileDropdown>
                                     )

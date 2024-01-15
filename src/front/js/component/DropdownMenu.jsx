@@ -53,7 +53,7 @@ const DropdownMenu = () => {
                 <DropdownItem className="container-language-dropdown" leftIcon={"Idioma"} rightIcon={<p className='container-language'><img className='dropdown-flag' src='https://norfipc.com/img/banderas/bandera-mexico.svg' />&nbsp;  <p className='language-abb'>ESP</p></p>}></DropdownItem>
                 <hr />
                 <DropdownItem className="container-image-dropdown"
-                    leftIcon={<img className='icon-dropdown-image' src={store.informationPatient.img} />}
+                    leftIcon={<img className='icon-dropdown-image' src={store.informationPatient.img ? store.informationPatient.img : " https://res.cloudinary.com/dxgvkwunx/image/upload/v1703777652/PhysioCareSync/imagen_sin_todo_perfil_ajw2oh.jpg"} />}
                 > <p className='name-specialist-dropdown'> {store.informationPatient.first_name} {store.informationPatient.last_name} </p></DropdownItem>
                 <hr />
                 <DropdownItem className="container-my-profile"
@@ -75,7 +75,7 @@ const DropdownMenu = () => {
                         <DropdownItem className="container-language-dropdown" leftIcon={"Idioma"} rightIcon={<p className='container-language'><img className='dropdown-flag' src='https://norfipc.com/img/banderas/bandera-mexico.svg' />&nbsp;  <p className='language-abb'>ESP</p></p>}></DropdownItem>
                         <hr />
                         <DropdownItem className="container-image-dropdown"
-                            leftIcon={<img className='icon-dropdown-image' src={store.informationSpecialist.img} />}
+                            leftIcon={<img className='icon-dropdown-image' src={store.informationSpecialist.img ? store.informationSpecialist.img : "https://res.cloudinary.com/dxgvkwunx/image/upload/v1703884900/PhysioCareSync/imagen_sin_fondo_enfermero_hoyzei.jpg"} />}
                         > <p className='name-specialist-dropdown'> {store.informationSpecialist.first_name} {store.informationSpecialist.last_name} </p></DropdownItem>
                         <hr />
                         <DropdownItem className="container-my-profile"

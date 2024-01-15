@@ -319,10 +319,10 @@ def create_preference():
             "back_urls": {
 
 
+                "success": "https://ominous-xylophone-x4v4wr5vwg6c6q99-3000.app.github.dev/success",
+                "failure": "https://ominous-train-jj5qv5q554rrc5p44-3000.app.github.dev/failure",
+                "pending": "https://ominous-train-jj5qv5q554rrc5p44-3000.app.github.devv/pending",
 
-                "success": "https://didactic-spoon-979q5q644xxjcxv9r-3000.app.github.dev/success",
-                "failure": "https://didactic-spoon-979q5q644xxjcxv9r-3000.app.github.dev/failure",
-                "pending": "https://didactic-spoon-979q5q644xxjcxv9r-3000.app.github.dev/pending",
 
             },
             "auto_return": "approved",

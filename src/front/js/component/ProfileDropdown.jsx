@@ -22,7 +22,6 @@ const ProfileDropdown = (props) => {
     else if (specialistId) {
         userId = specialistId
         user = "specialist"
-        console.log("deberia entrar aqui")
     }
     else if (adminId) {
         userId = adminId

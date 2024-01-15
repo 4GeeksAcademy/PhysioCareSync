@@ -79,7 +79,8 @@
 /* Estilos para certificados al final */
 
 .certification-specialist {
-    margin-bottom: 100px; /* Añade espacio entre los certificados */
+ /* Añade espacio entre los certificados */
+    text-align: center;
 }
 
 .certification-specialist img {
@@ -90,7 +91,9 @@
     object-fit: cover;
     box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
     transition: box-shadow 0.3s ease;
+    margin-top: 3%;
 }
+
 
 .certification-specialist img:hover {
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.3); /* Cambia la sombra al pasar el ratón */
