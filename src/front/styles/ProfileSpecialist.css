@@ -95,3 +95,30 @@
 .certification-specialist img:hover {
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.3); /* Cambia la sombra al pasar el ratón */
 }
+
+
+.edit-profile-button {
+    margin-top: 20px;
+}
+
+/* Add this CSS in your existing styles or create a new stylesheet */
+
+/* Add this CSS in your existing styles or create a new stylesheet */
+
+.edit-profile-button {
+    background-color: #5ad4a6;
+    color: white;
+    border: none;
+    padding: 12px 20px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+    border-radius: 5px;
+    transition: background-color 0.3s ease;
+    cursor: pointer;
+}
+
+.edit-profile-button:hover {
+    background-color: #51b356;
+}

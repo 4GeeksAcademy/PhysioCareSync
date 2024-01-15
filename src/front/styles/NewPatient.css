@@ -1,3 +1,52 @@
+.password-strength {
+  display: flex;
+  align-items: center;
+  margin-top: 8px;
+  font-size: 14px;
+}
+
+.progress-strength {
+  width: 100%; /* Full width */
+  height: 5px; /* Thinner bar */
+  border-radius: 5px;
+  background-color: #e0e0e0; /* Default color */
+  appearance: none;
+  -webkit-appearance: none;
+}
+
+/* Color ranges for password strength */
+.progress-strength-0 {
+  background-color: #e74c3c; /* Red */
+}
+
+.progress-strength-1 {
+  background-color: #e67e22; /* Orange */
+}
+
+.progress-strength-2 {
+  background-color: #f1c40f; /* Yellow */
+}
+
+.progress-strength-3,
+.progress-strength-4 {
+  background-color: #2ecc71; /* Green */
+}
+
+/* Remove extra styling */
+.progress-strength::-webkit-progress-bar {
+  background-color: transparent;
+}
+
+.progress-strength::-webkit-progress-value {
+  background-color: transparent;
+}
+
+.password-feedback {
+  margin-left: 10px;
+  color: #6c757d; /* Align with text color */
+}
+
+
 .patientForm {
     display: flex;
     flex-direction: column;
@@ -43,50 +92,3 @@ align-items: center;
     justify-content: center;
     color: white;
 }
-
-
-
-.password-strength {
-    margin-top: 10px;
-  }
-  
-  .progress-strength {
-    width: 100%;
-    height: 8px;
-    border-radius: 5px;
-    overflow: hidden;
-    background-color: #eee;
-  }
-  
-  .progress-strength-bar {
-    height: 100%;
-    transition: background-color 0.3s ease; /* Corregido a background-color para la transición de color */
-}
-
-  
-  .password-feedback {
-    margin-top: 5px;
-    font-size: 14px;
-    color: #555;
-  }
-  
-  /* Cambié los colores de fondo directamente aquí, para simplificar */
-  .progress-strength-0 {
-    background: #ff4d4d;
-  }
-  
-  .progress-strength-1 {
-    background: #ffa500;
-  }
-  
-  .progress-strength-2 {
-    background: #ffd700;
-  }
-  
-  .progress-strength-3 {
-    background: #9acd32;
-  }
-  
-  .progress-strength-4 {
-    background: #00cc66;
-  }
