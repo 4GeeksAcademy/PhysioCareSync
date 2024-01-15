@@ -141,6 +141,7 @@ const ViewPatientDetailAdmin = () => {
                                     <h5 class="modal-titleAdmin" id="staticBackdropLabel">Estas a punto de eliminar al paciente!</h5>
                                     <button type="button" className="btn-close adminClose" data-bs-dismiss="modal" aria-label="Close"></button>
                                 </div>
+                                
                                 <div class="modal-bodyAdmin">
                                     <p className='bodyAdmin'>Al eliminar, el paciente debe de registrarse nuevamente ¿Estás seguro?</p>
                                 </div>
@@ -148,7 +149,7 @@ const ViewPatientDetailAdmin = () => {
                                     <button type="button" disabled={!checkDeleteBotton} class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
                                     <button type="button" disabled={!checkDeleteBotton} onClick={() => handlerDeleteButton(id)} id="login-button" class="btn btn-primary" >Si, estoy seguro</button>
                                 </div>
-                            </div>
+                              </div>
                         </div>
                         {deleteSuccess ?
                             <SnackBarLogin type={snackBarType.success} ref={snackRef} message="El usuario se ha borrado exitosamente" /> :
