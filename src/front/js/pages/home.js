@@ -13,6 +13,7 @@ import Footer from "../component/footer.js";
 export const Home = () => {
   const navigate = useNavigate();  // Inicializa useNavigate
   const { actions, store } = useContext(Context)
+  
 
   const handleLoginClick = () => {
     console.log("Botón de iniciar sesión clicado");
@@ -76,6 +77,7 @@ export const Home = () => {
 
 
   return (
+
     <div className="mushoChoiceDrivenUserExpe">
       <section className="typefullSize">
         <div className="copyContainer">

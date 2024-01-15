@@ -329,7 +329,7 @@ def create_preference():
             "back_urls": {
 
 
-                "success": "https://ominous-train-jj5qv5q554rrc5p44-3000.app.github.dev/success",
+                "success": "https://ominous-xylophone-x4v4wr5vwg6c6q99-3000.app.github.dev/success",
                 "failure": "https://ominous-train-jj5qv5q554rrc5p44-3000.app.github.dev/failure",
                 "pending": "https://ominous-train-jj5qv5q554rrc5p44-3000.app.github.devv/pending",
 
