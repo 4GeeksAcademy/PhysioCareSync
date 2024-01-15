@@ -77,9 +77,7 @@
     pointer-events: none; 
 
 }
-/* EditPatient.css */
 
-/* Estilos para el PhoneInput */
 .PhoneInput {
     width: 100%;
     margin-bottom: 20px; /* Añade un margen inferior de 20px (puedes ajustarlo según sea necesario) */
@@ -120,3 +118,42 @@
   .adminContent{
     margin: auto;
   }
+
+  /* Estilos para pantallas de hasta 600px de ancho */
+@media (max-width: 600px) {
+  .container-edit-patient {
+    max-width: 100%;
+    margin: 5% auto;
+  }
+  .form-edit-patient {
+    border: none;
+  }
+  .label-edit-patient {
+    font-size: 14px;
+  }
+  .input-edit-patient {
+    font-size: 14px;
+  }
+  .button-edit-patient {
+    font-size: 14px;
+    padding: 10px;
+  }
+  .PhoneInput {
+    margin-bottom: 10px;
+  }
+}
+
+/* Estilos para pantallas de hasta 400px de ancho */
+@media (max-width: 400px) {
+  .label-edit-patient {
+    font-size: 12px;
+  }
+  .input-edit-patient {
+    font-size: 12px;
+    padding: 8px;
+  }
+  .button-edit-patient {
+    font-size: 12px;
+    padding: 8px;
+  }
+}

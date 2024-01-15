@@ -319,9 +319,9 @@ def create_preference():
             "back_urls": {
 
 
-                "success": "https://refactored-journey-wr7959vjjgx4c5p5j-3000.app.github.dev/success",
-                "failure": "https://refactored-journey-wr7959vjjgx4c5p5j-3000.app.github.dev/failure",
-                "pending": "https://refactored-journey-wr7959vjjgx4c5p5j-3000.app.github.dev/pending",
+                "success": "https://vigilant-engine-pjppv5999xjh6x9j-3000.app.github.dev/success",
+                "failure": "https://vigilant-engine-pjppv5999xjh6x9j-3000.app.github.dev/failure",
+                "pending": "https://vigilant-engine-pjppv5999xjh6x9j-3000.app.github.dev/pending",
 
 
             },

@@ -13,6 +13,7 @@ import Footer from "../component/footer.js";
 export const Home = () => {
   const navigate = useNavigate();  // Inicializa useNavigate
   const { actions, store } = useContext(Context)
+
   
 
   const handleLoginClick = () => {
@@ -25,8 +26,9 @@ export const Home = () => {
 
   const handleSignUpClick = () => {
     console.log("Botón de registrarse clicado");
-    navigate('/edit/specialist');  // Redirige a la página EditSpecialist
+    navigate('/signup/newSpecialist');
   };
+  
 
 
   //steps in order to get the information in the navbar of specialist
@@ -108,13 +110,12 @@ export const Home = () => {
                   Atención médica a tu alcance en tres sencillos pasos.
                 </div>
               </div>
-              <button className="ctaButton1" onClick={handleLearnMoreClick}>
-                <div className="textContainer">
-                  <b className="howItWorks2">Aprende más</b>
-                </div>
+              <button className="ctaButton1" onClick={() => navigate('/LearnPage')}>
+             <div className="textContainer">
+             <b className="howItWorks2">Aprende más</b>
+             </div>
               </button>
             </div>
-            <img className="imageDalle" alt="" src="" />
           </div>
         </div>
         <div className="stepsWrapper">
@@ -156,7 +157,6 @@ export const Home = () => {
             <div className="copy">
               <h1 className="heading1">"¡Regístrate como Especialista Ahora!"</h1>
             </div>
-            <NewUserBtn></NewUserBtn>
             <button className="buttonCombo" onClick={handleSignUpClick}>
               <div className="button2">
                 <div className="textContainer">

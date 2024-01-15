@@ -49,7 +49,20 @@
     margin-bottom: 10px;
   }
   
-  /* Estilos adicionales si es necesario */
+ 
   
-  /* ... (otros estilos) ... */
-  
+.container-profile-patient {
+  padding: 30px;
+}
+
+@media (max-width: 768px) {
+  .container-profile-patient {
+    padding: 20px;
+  }
+}
+
+@media (max-width: 576px) {
+  .container-profile-patient {
+    padding: 10px;
+  }
+}

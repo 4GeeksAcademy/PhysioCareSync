@@ -37,7 +37,7 @@ import ViewPatientList from "./pages/ViewPatientList.js";
 import ProfessionalViewAdmin from "./pages/ProfessionalViewAdmin.js";
 import ProfessionalDetailViewAdmin from "./pages/ProfessionalDetailViewAdmin.js";
 import ViewPatientDetailAdmin from "./pages/ViewPatientDetailAdmin.js";
-
+import LearnPage from "./pages/LearnPage.js";
 
 //create your first component
 const Layout = () => {
@@ -82,6 +82,7 @@ const Layout = () => {
                         <Route element={<ProfessionalDetailView />} path="/professional-view/:id" />
                         <Route element={<ProfessionalDetailViewAdmin />} path="/professionalViewAdmin/detail/:id" />
                         <Route element={<ViewPatientDetailAdmin />} path="/patientViewAdmin/detail/:id" />
+                        <Route element={<LearnPage />} path="/LearnPage" />
                         <Route element={<h1>Not found!</h1>} />
                     </Routes>
                 </ScrollToTop>

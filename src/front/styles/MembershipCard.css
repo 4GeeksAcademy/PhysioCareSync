@@ -127,3 +127,17 @@
     background-color: #218e53;
   }
   
+  .joinNowButton {
+    background-color: #4CAF50; /* Color de fondo */
+    color: #fff; /* Color del texto */
+    padding: 10px 20px; /* Espaciado interno */
+    font-size: 16px; /* Tamaño de fuente */
+    border: none; /* Sin borde */
+    border-radius: 4px; /* Bordes redondeados */
+    cursor: pointer; /* Cursor de puntero al pasar el ratón */
+    transition: background-color 0.3s ease; /* Transición suave en el cambio de color de fondo */
+  }
+  
+  .joinNowButton:hover {
+    background-color: #45a049; /* Color de fondo al pasar el ratón */
+  }

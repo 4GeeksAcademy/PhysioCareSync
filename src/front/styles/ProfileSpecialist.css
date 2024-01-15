@@ -125,3 +125,38 @@
 .edit-profile-button:hover {
     background-color: #51b356;
 }
+
+
+@media (max-width: 600px) {
+    .container-profile-specialist {
+        padding: 20px;
+    }
+    .image-specialist {
+        width: 200px;
+        height: 200px;
+    }
+    .name-specialist {
+        font-size: 20px;
+    }
+    .isphysiotherapist-specialist {
+        font-size: 16px;
+    }
+}
+
+
+@media (max-width: 400px) {
+    .container-profile-specialist {
+        padding: 10px;
+    }
+    .image-specialist {
+        width: 150px;
+        height: 150px;
+    }
+    .name-specialist {
+        font-size: 18px;
+    }
+    .isphysiotherapist-specialist {
+        font-size: 14px;
+    }
+}
+
