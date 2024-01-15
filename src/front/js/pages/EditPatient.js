@@ -5,6 +5,8 @@ import { useNavigate } from 'react-router-dom';
 import PhoneInput from 'react-phone-number-input';
 import 'react-phone-number-input/style.css';
 import Loader from '../component/Loader';
+import SnackBarLogin from '../component/SnackBarLogin'
+
 
 const EditPatient = () => {
     const [formInformationPatient, setInformationPatient] = useState({});
@@ -17,6 +19,13 @@ const EditPatient = () => {
     const [savingChanges, setSavingChanges] = useState(false);
     const isMounted = useRef(true);
     const [loading, setLoading] = useState(true)
+    const [editSuccess, setEditSuccess] = useState(false)
+
+    const snackRef = useRef(null)
+    const snackBarType = {
+        fail: "fail",
+        success: "success"
+    }
 
     const handleEditInformation = (nameValue, value) => {
         setInformationPatient({ ...formInformationPatient, [nameValue]: value });
@@ -84,7 +93,15 @@ const EditPatient = () => {
             finalPatientForm[key] = value;
         });
 
-        await actions.editPatient(finalPatientForm, patientId);
+        const result = await actions.editPatient(finalPatientForm, patientId);
+        if (result.patient) {
+            setEditSuccess(true)
+            snackRef.current.show()
+        } else if (result.error) {
+            console.log("Error al actualizar los datos de usuario")
+            snackRef.current.show()
+        }
+
         await actions.editImagePatient(formImg, patientId);
 
         if (isMounted.current && formRef.current) {
@@ -124,6 +141,9 @@ const EditPatient = () => {
         loading ? <Loader />
             :
             <div>
+            {editSuccess ?
+            <SnackBarLogin type={snackBarType.success} ref={snackRef} message="Tu perfil se ha actualizado correctamente" /> :
+          <SnackBarLogin type={snackBarType.fail} ref={snackRef} message="Hubo un error al actualizar tu perfil" />}
                 <div className='container-edit-patient'>
                     <form
                         id="contact-form" className='form-edit-patient'
