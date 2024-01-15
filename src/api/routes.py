@@ -343,7 +343,7 @@ def delete_patient_by_id(patient_id):
     if patient:
         db.session.delete(patient)
         db.session.commit()
-        return jsonify({"message":"Patient Deleted"})
+        return jsonify({"message":"Patient Deleted", "ok": True})
     else:
         return jsonify({"error":"The Patient does not exist"})
 

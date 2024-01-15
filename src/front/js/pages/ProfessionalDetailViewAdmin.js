@@ -50,7 +50,7 @@ const NewProfessionalDetailViewAdmin = () => {
         try {
             setCheckDeleteBotton(false)
             const deletingSpecialist = await actions.deleteSpecialist(id)
-    
+
             if (deletingSpecialist && deletingSpecialist.ok) {
                 setDeleteSuccess(true)
                 snackRef.current.show()
@@ -59,17 +59,17 @@ const NewProfessionalDetailViewAdmin = () => {
             } else {
                 console.error("Respuesta inesperada al borrar al especialista:", deletingSpecialist);
             }
-    
+
             setTimeout(() => {
                 setCheckDeleteBotton(true)
                 goToProfesionalView("/professionalViewAdmin")
                 window.location.reload()
             }, 3000);
         } catch (error) {
-            console.log("Hubo un error al borrar al paciente", error);
+            console.log("Hubo un error al borrar al especialista", error);
         }
     };
-    
+
 
 
 
@@ -196,7 +196,7 @@ const NewProfessionalDetailViewAdmin = () => {
                                         <h5 className="modal-titleAdmin" id="staticBackdropLabel">Estas a punto de eliminar al especialista!</h5>
                                         <button type="button" className="btn-close adminClose" data-bs-dismiss="modal" aria-label="Close"></button>
                                     </div>
-                                    
+
                                     <div className="modal-bodyAdmin">
                                         <p className='bodyAdmin'>Al eliminar el especialista debe de registrarse nuevamente y realizar un nuevo pago para poder ser visible para los pacientes ¿Estás seguro?</p>
                                     </div>
@@ -207,11 +207,11 @@ const NewProfessionalDetailViewAdmin = () => {
                                 </div>
                             </div>
                             {deleteSuccess ?
-                                    <SnackBarLogin type={snackBarType.success} ref={snackRef} message="El usuario se ha borrado exitosamente" /> :
-                                    <SnackBarLogin type={snackBarType.fail} ref={snackRef} message="No se ha podido borrar el usuario por un problema interno" />
-                                    }
+                                <SnackBarLogin type={snackBarType.success} ref={snackRef} message="El usuario se ha borrado exitosamente" /> :
+                                <SnackBarLogin type={snackBarType.fail} ref={snackRef} message="No se ha podido borrar el usuario por un problema interno" />
+                            }
                         </div>
-                       
+
                     </div>
                 </div >
             </div>

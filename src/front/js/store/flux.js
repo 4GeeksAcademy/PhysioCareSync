@@ -469,15 +469,12 @@ const getState = ({ getStore, getActions, setStore }) => {
 				const urlDelete = `/api/delete_patient/${patientId}`
 
 				try {
-
 					const response = await fetch(API_URL + urlDelete, {
-
 						method: 'DELETE',
-
 						headers: {
 							'Content-Type': 'application/json'
 						}
-					})
+					});
 
 					if (response.ok) {
 						const data = await response.json()
@@ -486,7 +483,6 @@ const getState = ({ getStore, getActions, setStore }) => {
 					else {
 						console.error("there was an error with the query!")
 					}
-
 				}
 				catch (error) {
 					console.error("there was an error deleting the specialist", error)
