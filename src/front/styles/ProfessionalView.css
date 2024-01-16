@@ -193,3 +193,28 @@ body {
         background-color: hsl(0, 0%, 7%)
     }
 }
+
+
+@media (max-width: 600px) {
+    .profile-section {
+        flex-direction: column;
+        align-items: center;
+    }
+    .profile-image {
+        width: 80px;
+        height: 80px;
+        margin-right: 0;
+        margin-bottom: 16px;
+    }
+    .name-section {
+        text-align: center;
+    }
+}
+
+
+@media (max-width: 400px) {
+    .profile-image {
+        width: 60px;
+        height: 60px;
+    }
+}

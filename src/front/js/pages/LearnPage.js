@@ -1,15 +1,14 @@
 import React from 'react';
-import MembershipCard from '../component/MembershipCard.js';
+import MembershipCardLearn from '../component/MemberShipCardLearn'; // Asegúrate de proporcionar la ruta correcta
 import '../../styles/PaymentPage.css';
 import { FaCheckCircle } from 'react-icons/fa';
-import Footer from '../component/footer.js';
 
 const PaymentPage = () => {
   return (
     <div className="paymentPageContainer">
       <div className="paymentContentContainer">
         <div className="paymentInfoContainer">
-          <MembershipCard />
+          <MembershipCardLearn />
           <div className="paymentTextContainer">
             <header className="paymentHeader">
               <h1>Únete a nuestra plataforma de especialistas en fisioterapia y enfermería</h1>

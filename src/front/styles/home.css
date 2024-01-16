@@ -1,16 +1,30 @@
 
 
 
-.navLabel {
-  line-height: 160%;
-  font-weight: 600;
+.bubbleContainer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px;
+  background-color: #3498db; /* Adjust as needed */
 }
+
+.navLinks,
+.navLinks1 {
+  display: flex;
+  align-items: center;
+}
+
+.navLink {
+  margin-right: 10px;
+}
+
 
 .navLink {
   background-color: transparent;
   border: none;
   border-radius: 8px;
-  padding: 12px 18px;
+  padding: 8px 10px;
   cursor: pointer;
   font-size: var(--font-size-sm);
   font-weight: 600;
@@ -22,6 +36,39 @@
   font-family: 'Inter', sans-serif;
   outline: none;
 }
+
+.navLink:hover {
+  background-color: #2ecc71;
+  color: #fff;
+}
+
+/* Media queries for responsiveness */
+@media only screen and (max-width: 768px) {
+  .bubbleContainer {
+      flex-direction: column;
+      align-items: stretch;
+  }
+
+  .navLinks,
+  .navLinks1 {
+      margin-top: 3px;
+  }
+
+  .navLink {
+      margin: 5px 0;
+  }
+
+  .brandname {
+      display: none; 
+  }
+}
+
+.heartbeatIcon {
+  margin-right: 20px; 
+}
+
+
+
 
 
 .nav-item{
@@ -214,6 +261,36 @@
   font-family: 'Inter', sans-serif;
   outline: none;
 }
+
+
+@media only screen and (max-width: 768px) {
+  .dropdown {
+    width: 80%; 
+    top: 30px; 
+    transform: translateX(-50%); 
+  }
+
+  .menu-item {
+    height: 20px; 
+    padding: 1rem; 
+    font-size: 14px; 
+  }
+
+  .icon-dropdown-image {
+    width: 30px; 
+    height: 30px; 
+    padding: 3px; 
+    margin-left: -1rem; 
+  }
+
+  .name-specialist-dropdown {
+    font-size: 18px; 
+    margin-left: 1rem; 
+  }
+
+
+}
+
 
 /* profile patient Styles */
 
@@ -564,9 +641,7 @@
 }
 
 
-.navLink {
-  tabindex: 0;
-}
+
 
 .navLink[aria-label] {
   display: inline-block;
@@ -1147,3 +1222,65 @@
 
 
 
+
+@media only screen and (max-width: 768px) {
+  .heading {
+    font-size: 34px; 
+  }
+
+  .subheading {
+    font-size: 18px; 
+  }
+}
+
+/* Ajustes para dispositivos de pantalla pequeña */
+@media only screen and (max-width: 768px) {
+  .imageContainerIcon {
+    max-width: 100%; /* Ajustar el ancho máximo al 100% */
+    height: auto; /* Ajustar la altura automática */
+  }
+}
+
+/* Ajustes para dispositivos de pantalla pequeña */
+@media only screen and (max-width: 768px) {
+  .howItWorks {
+    font-size: 24px; /* Reducir el tamaño del encabezado */
+  }
+
+  .howItWorks1 {
+    font-size: 16px; /* Reducir el tamaño del texto */
+  }
+}
+/* Ajustes para dispositivos de pantalla pequeña */
+@media only screen and (max-width: 768px) {
+  .stepsWrapper {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+  }
+
+  .step {
+    text-align: center;
+  }
+
+  .featureTitle {
+    font-size: 18px;
+    margin-top: 10px;
+  }
+
+  .stepDescription {
+    font-size: 14px;
+  }
+}
+
+
+/* Estilos base */
+
+/* Reglas de medios para pantallas más pequeñas */
+@media only screen and (max-width: 600px) {
+  .heading1 {
+    font-size: 24px; /* Reducir tamaño del encabezado para pantallas pequeñas */
+  }
+
+  /* Agrega más reglas de medios según sea necesario para otros estilos */
+}

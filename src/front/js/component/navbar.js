@@ -76,15 +76,10 @@ export const Navbar = () => {
                         null
                     )
                 }
-
-
+    
                 {
                     !tokenAuthentication ?
-                        (
-                            <button className="navLink" onClick={handleServiciosClick}>
-                                <div className="navLabel">Servicios</div>
-                            </button>
-                        )
+                        null
                         :
                         (
                             tokenAdmin ?
@@ -92,25 +87,18 @@ export const Navbar = () => {
                                     <button className="navLink" onClick={handlerPatientClick}>
                                         <div className="navLabel">Pacientes</div>
                                     </button>
-
+    
                                 )
                                 :
-
+    
                                 (
                                     null
                                 )
-
-
-
-
                         )
                 }
                 <button className="navLink" onClick={tokenAdmin ? handleProfesionalesAdminClick : handleProfesionalesClick}>
                     <div className="navLabel">Profesionales</div>
                 </button>
-
-
-
             </div >
             <div className="navLinks1">
                 {
@@ -127,8 +115,6 @@ export const Navbar = () => {
                             </ProfileDropdown>
                             :
                             (
-
-
                                 tokenSpecialist ?
                                     (
                                         <ProfileDropdown imageProfile={store.informationSpecialist.img ? store.informationSpecialist.img : "https://res.cloudinary.com/dxgvkwunx/image/upload/v1703884900/PhysioCareSync/imagen_sin_fondo_enfermero_hoyzei.jpg"}>
@@ -148,20 +134,18 @@ export const Navbar = () => {
                                                 <LogInBtn onClick={handleLoginClick}></LogInBtn>
                                                 <NewUserBtn onClick={handleRegisterClick} ></NewUserBtn>
                                             </>
-
                                         )
-
+    
                             )
                         )
-
+    
                 }
-
             </div>
             <div className="brand">
-                <FontAwesomeIcon icon={faHeartbeat} />
-                <div className="brandname">PhysioCareSync</div>
-            </div>
+         <FontAwesomeIcon icon={faHeartbeat} className="heartbeatIcon" />
+         <div className="brandname">PhysioCareSync</div>
+         </div>
         </div >
     );
-};
-
+    };
+    

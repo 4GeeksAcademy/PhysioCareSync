@@ -29,7 +29,7 @@
 
 .progress-strength-3,
 .progress-strength-4 {
-  background-color: #2ecc71; /* Green */
+  background-color: #2ecc71;
 }
 
 /* Remove extra styling */
@@ -43,52 +43,62 @@
 
 .password-feedback {
   margin-left: 10px;
-  color: #6c757d; /* Align with text color */
+  color: #6c757d; 
 }
-
 
 .patientForm {
-    display: flex;
-    flex-direction: column;
-    margin: auto;
-    width: 60%;
-    background-color: rgba(0, 0, 0, 0.801);
-    margin-top: 5%;
-    border-radius: 25px;
-    padding: 20px;
+  display: flex;
+  flex-direction: column;
+  margin: auto;
+  width: 95%; /* Ajusta según tus necesidades */
+  background-color: rgba(0, 0, 0, 0.801);
+  margin-top: 5%;
+  border-radius: 25px;
+  padding: 20px;
 }
 
-.form-control{
-    width: 95%;
-    margin: auto;
-    background-color: rgb(68, 68, 68);
-    border: none;
+.form-control {
+  width: 100%;
+  margin: auto;
+  background-color: rgb(68, 68, 68);
+  border: none;
 }
 
-.title{
-display: flex;
-margin: auto;
-color: white;
-flex-direction: column;
-align-items: center;
+.title {
+  display: flex;
+  margin: auto;
+  color: white;
+  flex-direction: column;
+  align-items: center;
 }
 
-.createNewBtn{
-    margin: auto;
+.createNewBtn {
+  margin: auto;
 }
 
-.exitBtn{
-    margin-left: 50px;
+.exitBtn {
+  margin-left: 50px;
 }
 
-.errorMsg{
-    margin-left: 2.5%;
-    color: yellow;
-    margin-bottom: -10px;
+.errorMsg {
+  margin-left: 2.5%;
+  color: yellow;
+  margin-bottom: -10px;
 }
 
-.speciality{
-    display: flex;
-    justify-content: center;
-    color: white;
+.speciality {
+  display: flex;
+  justify-content: center;
+  color: white;
+}
+
+
+@media only screen and (max-width: 768px) {
+  .patientForm {
+    width: 100%;
+  }
+  
+  .exitBtn {
+    margin-left: 0;
+  }
 }

@@ -1,0 +1,53 @@
+/* Estilos para el contenedor de los botones */
+.text-center {
+    text-align: center;
+    margin-top: 5rem;
+    display: flex; /* Utilizar flexbox para alinear los botones en línea */
+    justify-content: center; /* Centrar los botones horizontalmente */
+    gap: 3px; /* Espacio entre los botones */
+  }
+  
+  /* Ajustes para dispositivos de pantalla pequeña */
+  @media only screen and (max-width: 768px) {
+    .text-center {
+      margin-top: 3rem;
+    }
+  }
+  
+  /* Ajustes para dispositivos de pantalla pequeña */
+@media only screen and (max-width: 414px) {
+    .text-center {
+      margin-top: 2rem;
+      font-size: 0.9em; /* Reducir el tamaño del texto */
+    }
+  }
+  
+  /* Estilos para los botones */
+button {
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 16px;
+    transition: background-color 0.3s ease, color 0.3s ease;
+  }
+  
+  button:hover {
+    background-color: #f0f0f0; /* Cambiar el color de fondo al pasar el mouse */
+    color: #000; /* Cambiar el color del texto al pasar el mouse */
+  }
+  
+  /* Estilos para el botón 'Registrate como paciente' */
+  .btn-outline-info {
+    background-color: transparent;
+    color: #3498db; /* Color de texto azul */
+    border: 2px solid #3498db; /* Borde azul */
+  }
+  
+  /* Estilos para el botón 'Registrate como Especialista' */
+  .btn-outline-success {
+    background-color: transparent;
+    color: #2ecc71; /* Color de texto verde */
+    border: 2px solid #2ecc71; /* Borde verde */
+  }
+  
