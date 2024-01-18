@@ -108,6 +108,7 @@ const getState = ({ getStore, getActions, setStore }) => {
 				}
 			},
 
+			
 			loadAllPatient: async (page, limit) => {
 				const store = getStore();
 				if (store.loadingAllPatient) {
@@ -325,7 +326,7 @@ const getState = ({ getStore, getActions, setStore }) => {
 					const data = await response.json();
 					console.log("User created successfully,", data)
 					return data;
-					
+
 				} catch (error) {
 					console.error("There was an error trying to create the Specialist", error);
 				}
@@ -442,7 +443,7 @@ const getState = ({ getStore, getActions, setStore }) => {
 
 			deleteSpecialist: async (specialistId) => {
 				const urlDelete = `/api/delete_specialist/${specialistId}`;
-			
+
 				try {
 					const response = await fetch(API_URL + urlDelete, {
 						method: 'DELETE',
@@ -450,10 +451,10 @@ const getState = ({ getStore, getActions, setStore }) => {
 							'Content-Type': 'application/json',
 						},
 					});
-			
+
 					if (response.ok) {
 						const data = await response.json();
-						return data; 
+						return data;
 					} else {
 						console.error("There was an error with the query!");
 						return { error: "There was an error with the query" };
@@ -463,7 +464,7 @@ const getState = ({ getStore, getActions, setStore }) => {
 					return { error: "There was an error with the query" };
 				}
 			},
-			
+
 
 			deletePatient: async (patientId) => {
 				const urlDelete = `/api/delete_patient/${patientId}`
