@@ -18,9 +18,6 @@ export const Navbar = () => {
 
     };
 
-    const handleServiciosClick = () => {
-
-    };
 
     const handleProfesionalesClick = () => {
 
@@ -76,7 +73,7 @@ export const Navbar = () => {
                         null
                     )
                 }
-    
+
                 {
                     !tokenAuthentication ?
                         null
@@ -87,18 +84,26 @@ export const Navbar = () => {
                                     <button className="navLink" onClick={handlerPatientClick}>
                                         <div className="navLabel">Pacientes</div>
                                     </button>
-    
+
                                 )
                                 :
-    
+
                                 (
                                     null
                                 )
                         )
                 }
-                <button className="navLink" onClick={tokenAdmin ? handleProfesionalesAdminClick : handleProfesionalesClick}>
-                    <div className="navLabel">Profesionales</div>
-                </button>
+
+                {
+                    tokenAuthentication
+                        ?
+                        <button className="navLink" onClick={tokenAdmin ? handleProfesionalesAdminClick : handleProfesionalesClick}>
+                            <div className="navLabel">Profesionales</div>
+                        </button>
+                        :
+                        null
+                }
+
             </div >
             <div className="navLinks1">
                 {
@@ -135,17 +140,16 @@ export const Navbar = () => {
                                                 <NewUserBtn onClick={handleRegisterClick} ></NewUserBtn>
                                             </>
                                         )
-    
+
                             )
                         )
-    
+
                 }
             </div>
             <div className="brand">
-         <FontAwesomeIcon icon={faHeartbeat} className="heartbeatIcon" />
-         <div className="brandname">PhysioCareSync</div>
-         </div>
+                <FontAwesomeIcon icon={faHeartbeat} className="heartbeatIcon" />
+                <div className="brandname">PhysioCareSync</div>
+            </div>
         </div >
     );
-    };
-    
+};

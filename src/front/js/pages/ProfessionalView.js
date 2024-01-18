@@ -43,6 +43,7 @@ const ProfessionalView = () => {
     )
 
   }
+  console.log(store.specialistsList)
 
   const handleChangePage = useCallback((page) => {
     setPage(page)
@@ -140,7 +141,7 @@ const ProfessionalView = () => {
 
           )) :
           (
-            store.specialistsList === undefined ? null :
+            store.specialistsList === undefined || store.specialistsList.length === 0 ? null :
               (Array.from({ length: 10 }).map((_, index) => < SkeletonLoading key={index} />))
           )
 

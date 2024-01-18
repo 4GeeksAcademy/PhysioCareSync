@@ -319,9 +319,9 @@ def create_preference():
             "back_urls": {
 
 
-                "success": "https://vigilant-engine-pjppv5999xjh6x9j-3000.app.github.dev/success",
-                "failure": "https://vigilant-engine-pjppv5999xjh6x9j-3000.app.github.dev/failure",
-                "pending": "https://vigilant-engine-pjppv5999xjh6x9j-3000.app.github.dev/pending",
+                "success": "https://miniature-potato-7xpx97vppww3rxgv-3000.app.github.dev/success",
+                "failure": "https://miniature-potato-7xpx97vppww3rxgv-3000.app.github.dev/failure",
+                "pending": "https://miniature-potato-7xpx97vppww3rxgv-3000.app.github.dev/pending",
 
 
             },
@@ -603,7 +603,6 @@ def get_all_specialists():
 
     except Exception as e:
         return jsonify({"error": str(e)}), 500
-
 
 
 
